@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limbus - Gerador de Termos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb', /* blue-600 */
+                        secondary: '#475569', /* slate-600 */
+                        dark: '#0f172a', /* slate-900 */
+                        light: '#f8fafc', /* slate-50 */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Main Scripts (Sequential) -->
+    <script src="js/utils.js" defer></script>
+    <script src="js/store.js" defer></script>
+    <script src="js/ui.js" defer></script>
+    <script src="js/print.js" defer></script>
+    <script src="js/views.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-dark text-white flex flex-col h-full shadow-xl z-20 print:hidden transition-all duration-300">
+        <div class="p-6 border-b border-slate-800">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <i data-lucide="file-text" class="text-primary"></i>
+                <span class="tracking-tight">Limbus</span>
+            </h1>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2">
+            <a href="#" data-view="dashboard"
+                class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors active">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Início</span>
+            </a>
+            <a href="#" data-view="funcionarios"
+                class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <i data-lucide="users"></i>
+                <span>Funcionários</span>
+            </a>
+            <div class="pt-4 mt-4 border-t border-slate-800">
+                <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cadastros Base</p>
+                <a href="#" data-view="empresas"
+                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="building-2"></i>
+                    <span>Empresas (CNPJ)</span>
+                </a>
+                <a href="#" data-view="equipamentos"
+                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="laptop"></i>
+                    <span>Equipamentos</span>
+                </a>
+            </div>
+        </nav>
+        <div class="p-4 border-t border-slate-800 text-xs text-slate-500 text-center flex flex-col items-center gap-2">
+            <span>Limbus V 1.0.0</span>
+            <button onclick="showInfoModal()"
+                class="text-primary hover:text-blue-400 font-medium transition-colors">Saiba Mais</button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main
+        class="flex-1 flex flex-col h-full relative overflow-y-auto bg-slate-50 print:bg-white print:overflow-visible">
+        <!-- Top Header Container -->
+        <header
+            class="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between shadow-sm sticky top-0 z-10 print:hidden">
+            <h2 id="page-title" class="text-2xl font-bold text-slate-800">Início</h2>
+            <div id="header-actions"></div>
+        </header>
+
+        <!-- Dynamic Content Container -->
+        <div id="content-area" class="flex-1 p-8 print:p-0">
+            <!-- As telas serão renderizadas aqui via JS -->
+            <div class="flex items-center justify-center h-full text-slate-400">
+                <i data-lucide="loader-2" class="animate-spin w-8 h-8"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Container for generic forms -->
+    <div id="modal-container"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden items-center justify-center print:hidden">
+        <div id="modal-content"
+            class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all translate-y-4 opacity-0 scale-95">
+            <!-- Modal Body -->
+        </div>
+    </div>
+
+    <!-- Termo Document Container (Hidden globally until Print Mode) -->
+    <div id="termo-print-area" class="hidden print:block w-full max-w-[210mm] mx-auto bg-white p-8 pb-16">
+        <!-- Document content will be injected here -->
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+/* Global Reset and Print Styles */
+@media print {
+    @page { margin: 15mm; }
+    body {
+        margin: 0;
+        background-color: white !important;
+        height: auto;
+        overflow: visible;
+        display: block;
+    }
+    
+    .print\:hidden {
+        display: none !important;
+    }
+
+    .print\:block {
+        display: block !important;
+    }
+    
+    .print\:bg-white {
+        background-color: white !important;
+    }
+    
+    .print\:p-0 {
+        padding: 0 !important;
+    }
+    
+    .print\:overflow-visible {
+        overflow: visible !important;
+    }
+
+    #content-area {
+        display: none !important;
+    }
+
+    /* Formatting for the document */
+    #termo-print-area {
+        font-family: 'Arial', sans-serif, 'Times New Roman', Times, serif;
+        color: black !important;
+        font-size: 11pt;
+        line-height: 1.5;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Animations for modal */
+.modal-enter {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-leave {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.95);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Nav styling */
+.nav-btn.active {
+    background-color: #1e293b; /* slate-800 */
+    color: white;
+    border-left: 4px solid #3b82f6; /* blue-500 */
+}
