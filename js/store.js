@@ -3,7 +3,8 @@
 const STORAGE_KEYS = {
     EMPRESAS: 'gt_empresas',
     EQUIPAMENTOS: 'gt_equipamentos',
-    FUNCIONARIOS: 'gt_funcionarios'
+    FUNCIONARIOS: 'gt_funcionarios',
+    HISTORICO: 'gt_historico'
 };
 
 // --- Funções Auxiliares ---
@@ -21,13 +22,16 @@ const initializeStore = () => {
     }
     if (!localStorage.getItem(STORAGE_KEYS.EQUIPAMENTOS)) {
         setData(STORAGE_KEYS.EQUIPAMENTOS, [
-            { id: generateId(), descricao: 'Notebook', modeloMarca: 'Dell Inspiron 15' },
-            { id: generateId(), descricao: 'Mouse sem fio', modeloMarca: 'Logitech M280' },
-            { id: generateId(), descricao: 'Headset', modeloMarca: 'JBL Quantum 100' }
+            { id: generateId(), descricao: 'Notebook', modeloMarca: 'Dell Inspiron 15', status: 'DISPONIVEL', funcionarioId: null },
+            { id: generateId(), descricao: 'Mouse sem fio', modeloMarca: 'Logitech M280', status: 'DISPONIVEL', funcionarioId: null },
+            { id: generateId(), descricao: 'Headset', modeloMarca: 'JBL Quantum 100', status: 'DISPONIVEL', funcionarioId: null }
         ]);
     }
     if (!localStorage.getItem(STORAGE_KEYS.FUNCIONARIOS)) {
         setData(STORAGE_KEYS.FUNCIONARIOS, []);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.HISTORICO)) {
+        setData(STORAGE_KEYS.HISTORICO, []);
     }
 };
 
@@ -65,9 +69,9 @@ const editEmpresa = (id, empresa) => updateItem(STORAGE_KEYS.EMPRESAS, id, empre
 const removeEmpresa = (id) => deleteItem(STORAGE_KEYS.EMPRESAS, id);
 
 // --- Equipamentos ---
-const getEquipamentos = () => getData(STORAGE_KEYS.EQUIPAMENTOS);
+const getEquipamentos = () => getData(STORAGE_KEYS.EQUIPAMENTOS).map(e => ({ status: 'DISPONIVEL', funcionarioId: null, ...e })); // Retrocompatibility for old data
 const getEquipamentoById = (id) => getEquipamentos().find(e => e.id === id);
-const addEquipamento = (equipamento) => createItem(STORAGE_KEYS.EQUIPAMENTOS, equipamento);
+const addEquipamento = (equipamento) => createItem(STORAGE_KEYS.EQUIPAMENTOS, { ...equipamento, status: 'DISPONIVEL', funcionarioId: null });
 const editEquipamento = (id, equipamento) => updateItem(STORAGE_KEYS.EQUIPAMENTOS, id, equipamento);
 const removeEquipamento = (id) => deleteItem(STORAGE_KEYS.EQUIPAMENTOS, id);
 
@@ -77,3 +81,16 @@ const getFuncionarioById = (id) => getFuncionarios().find(f => f.id === id);
 const addFuncionario = (funcionario) => createItem(STORAGE_KEYS.FUNCIONARIOS, funcionario);
 const editFuncionario = (id, funcionario) => updateItem(STORAGE_KEYS.FUNCIONARIOS, id, funcionario);
 const removeFuncionario = (id) => deleteItem(STORAGE_KEYS.FUNCIONARIOS, id);
+
+// --- Histórico ---
+const getHistorico = () => getData(STORAGE_KEYS.HISTORICO);
+const addHistorico = (historicoData) => {
+    // historicoData should have: tipo (ENTREGA, DEVOLUCAO, ALOCACAO_MANUAL), funcionarioId, equipamentoId, data (ISO string)
+    return createItem(STORAGE_KEYS.HISTORICO, {
+        ...historicoData,
+        timestamp: new Date().toISOString()
+    });
+};
+const clearHistorico = () => {
+    setData(STORAGE_KEYS.HISTORICO, []);
+};

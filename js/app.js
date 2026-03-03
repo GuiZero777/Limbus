@@ -14,7 +14,8 @@ const views = {
     'empresas': { title: 'Gestão de Empresas', render: renderEmpresas },
     'equipamentos': { title: 'Gestão de Equipamentos', render: renderEquipamentos },
     'funcionarios': { title: 'Funcionários', render: renderFuncionarios },
-    'gerador_termo': { title: 'Emissão de Termo', render: renderGeradorTermo }
+    'gerador_termo': { title: 'Emissão de Termo', render: renderGeradorTermo },
+    'historico': { title: 'Histórico Geral', render: renderHistoricoGeral }
 };
 
 const navigate = (viewName, params = {}) => {
