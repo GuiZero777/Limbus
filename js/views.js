@@ -1033,6 +1033,53 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     if (filters.end) {
         historico = historico.filter(h => h.data <= filters.end);
     }
+
+    // --- Agrupar Entregas Simultâneas ---
+    const agrupadoHistorico = [];
+    let currentGroup = null;
+
+    historico.forEach(h => {
+        // Se for entrega (via gerador de termo) podemos tentar agrupar
+        // Agrupa se: mesmo funcionario, tipo (ENTREGA) e timestamp exato
+        if (h.tipo === 'ENTREGA') {
+            if (!currentGroup) {
+                currentGroup = {
+                    tipo: 'ENTREGA_AGRUPADA',
+                    funcionarioId: h.funcionarioId,
+                    data: h.data,
+                    timestamp: h.timestamp,
+                    equipamentosIds: [h.equipamentoId]
+                };
+            } else if (
+                currentGroup.funcionarioId === h.funcionarioId &&
+                currentGroup.timestamp === h.timestamp
+            ) {
+                currentGroup.equipamentosIds.push(h.equipamentoId);
+            } else {
+                agrupadoHistorico.push(currentGroup);
+                currentGroup = {
+                    tipo: 'ENTREGA_AGRUPADA',
+                    funcionarioId: h.funcionarioId,
+                    data: h.data,
+                    timestamp: h.timestamp,
+                    equipamentosIds: [h.equipamentoId]
+                };
+            }
+        } else {
+            // Se não é ENTREGA, salva qualquer grupo aberto de entrega e insere o comum
+            if (currentGroup) {
+                agrupadoHistorico.push(currentGroup);
+                currentGroup = null;
+            }
+            agrupadoHistorico.push(h);
+        }
+    });
+
+    if (currentGroup) {
+        agrupadoHistorico.push(currentGroup);
+    }
+    // ------------------------------------
+
     const equipamentos = getEquipamentos();
     const funcionarios = getFuncionarios();
 
@@ -1053,8 +1100,10 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                 <title>Histórico de Movimentações - Limbus</title>
                 <style>
                     body { font-family: Arial, sans-serif; padding: 40px; color: #000; }
-                    h2 { text-align: center; margin-bottom: 5px; }
-                    p { text-align: center; color: #555; margin-bottom: 30px; font-size: 14px; }
+                    .print-header { text-align: center; margin-bottom: 30px; }
+                    .print-header h1 { font-size: 14px; text-transform: uppercase; color: #64748b; letter-spacing: 1px; margin: 0 0 15px 0; font-weight: normal; }
+                    .print-header h2 { font-size: 22px; margin: 0 0 5px 0; }
+                    .print-header p { color: #555; font-size: 14px; margin: 0; }
                     table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
                     th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
                     th { background-color: #f8fafc; font-weight: bold; text-transform: uppercase; font-size: 11px; }
@@ -1062,12 +1111,16 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                     .badge.entrega { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
                     .badge.alocacao { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
                     .badge.devolucao { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
-                    @media print { body { padding: 0; margin: 1cm; } }
+                    @page { margin: 0; }
+                    @media print { body { padding: 0; margin: 1.5cm; } }
                 </style>
             </head>
             <body onload="window.print()">
-                <h2>Histórico Geral de Movimentações</h2>
-                <p>Relatório completo de entregas e devoluções de equipamentos.</p>
+                <div class="print-header">
+                    <h1>Limbus</h1>
+                    <h2>Histórico Geral de Movimentações</h2>
+                    <p>Relatório completo de entregas e devoluções de equipamentos.</p>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -1078,19 +1131,19 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        ${historico.length === 0 ? '<tr><td colspan="4" style="text-align:center;">Nenhum evento registrado.</td></tr>' : ''}
-                        ${historico.map(h => {
+                        ${agrupadoHistorico.length === 0 ? '<tr><td colspan="4" style="text-align:center;">Nenhum evento registrado.</td></tr>' : ''}
+                        ${agrupadoHistorico.map(h => {
                 const fnc = funcionarios.find(f => f.id === h.funcionarioId) || { nome: 'Func. Excluído' };
                 const dataStr = formatInputDate(h.data);
                 const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 let badgeClass = '', badgeLabel = '';
-                if (h.tipo === 'ENTREGA') { badgeClass = 'entrega'; badgeLabel = 'Entrega'; }
+                if (h.tipo === 'ENTREGA' || h.tipo === 'ENTREGA_AGRUPADA') { badgeClass = 'entrega'; badgeLabel = 'Entrega'; }
                 else if (h.tipo === 'ALOCACAO_MANUAL') { badgeClass = 'alocacao'; badgeLabel = 'Alocação Manual'; }
                 else if (h.tipo === 'DEVOLUCAO' || h.tipo === 'DEVOLUCAO_COMPLETA') { badgeClass = 'devolucao'; badgeLabel = 'Devolução'; }
 
                 let eqpContent = '';
-                if (h.tipo === 'DEVOLUCAO_COMPLETA' && h.equipamentosIds) {
+                if ((h.tipo === 'DEVOLUCAO_COMPLETA' || h.tipo === 'ENTREGA_AGRUPADA') && h.equipamentosIds) {
                     const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
                     eqpContent = eqps.map(eq => `<strong>${eq.descricao}</strong><br><span style="color:#666; font-size:11px;">${eq.modeloMarca}</span>`).join('<div style="margin: 5px 0; border-top: 1px dotted #ccc;"></div>');
                 } else {
@@ -1131,20 +1184,20 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                 <tbody>
     `;
 
-    if (historico.length === 0) {
+    if (agrupadoHistorico.length === 0) {
         tableHTML += `<tr><td colspan="4" class="py-12 text-center text-slate-500">
             <i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-300 mb-3"></i>
             Nenhum evento registrado no histórico ainda.
         </td></tr>`;
     } else {
-        historico.forEach(h => {
+        agrupadoHistorico.forEach(h => {
             const fnc = funcionarios.find(f => f.id === h.funcionarioId) || { nome: 'Func. Excluído' };
 
             const dataStr = formatInputDate(h.data);
             const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
             let badge = '';
-            if (h.tipo === 'ENTREGA') {
+            if (h.tipo === 'ENTREGA' || h.tipo === 'ENTREGA_AGRUPADA') {
                 badge = `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800"><i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i> Entrega</span>`;
             } else if (h.tipo === 'ALOCACAO_MANUAL') {
                 badge = `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded text-xs font-semibold bg-blue-100 text-blue-800"><i data-lucide="user-check" class="w-3.5 h-3.5"></i> Alocação Manual</span>`;
@@ -1153,7 +1206,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             }
 
             let eqpContent = '';
-            if (h.tipo === 'DEVOLUCAO_COMPLETA' && h.equipamentosIds) {
+            if ((h.tipo === 'DEVOLUCAO_COMPLETA' || h.tipo === 'ENTREGA_AGRUPADA') && h.equipamentosIds) {
                 const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
                 eqpContent = eqps.map(eq => `<span class="block text-slate-800 font-medium">${eq.descricao}</span><span class="block text-xs text-slate-500">${eq.modeloMarca}</span>`).join('<div class="my-2 border-t border-slate-100"></div>');
             } else {
