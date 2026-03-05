@@ -35,9 +35,9 @@ const hideModal = () => {
 const showInfoModal = () => {
     const html = `
         <div class="p-8 text-center">
-            <h3 class="text-2xl font-bold text-slate-800 mb-6">Sobre o <span class="text-primary">Limbus</span></h3>
-            <p class="text-slate-600 mb-2 text-lg">Criador: <strong class="text-slate-800">Guilherme Bardalho</strong></p>
-            <p class="text-slate-600 mb-8 text-lg">Email para contato: <a href="mailto:guilhermevb2019@Outlook.com" class="text-primary hover:underline font-medium">guilhermevb2019@Outlook.com</a></p>
+            <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-6">Sobre o <span class="text-primary dark:text-blue-400">Limbus</span></h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-2 text-lg">Criador: <strong class="text-slate-800 dark:text-slate-200">Guilherme Bardalho</strong></p>
+            <p class="text-slate-600 dark:text-slate-400 mb-8 text-lg">Email para contato: <a href="mailto:guilhermevb2019@Outlook.com" class="text-primary dark:text-blue-400 hover:underline font-medium">guilhermevb2019@Outlook.com</a></p>
             <button onclick="hideModal()" class="bg-primary hover:bg-blue-700 text-white px-8 py-2.5 rounded-lg font-medium transition-colors shadow-sm">Fechar</button>
         </div>
     `;
