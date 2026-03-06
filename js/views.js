@@ -581,11 +581,11 @@ window.renderFuncionarioPerfil = (id) => {
                 const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equipamento Excluído', modeloMarca: '' });
                 eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} múltiplos itens:</p>
                               <div class="mt-1 space-y-1 pl-2 border-l-2 border-slate-200 dark:border-slate-700">
-                                ${eqps.map(eq => `<div><span class="font-bold text-slate-900">${eq.descricao}</span> <span class="text-xs text-slate-500 dark:text-slate-400">(${eq.modeloMarca})</span></div>`).join('')}
+                                ${eqps.map(eq => `<div><span class="font-bold text-slate-900 dark:text-slate-100">${eq.descricao}</span> <span class="text-xs text-slate-500 dark:text-slate-400">(${eq.modeloMarca})</span></div>`).join('')}
                               </div>`;
             } else {
                 const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { descricao: 'Equipamento Excluído', modeloMarca: '' };
-                eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} <span class="font-bold text-slate-900">${eqp.descricao}</span></p>
+                eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} <span class="font-bold text-slate-900 dark:text-slate-100">${eqp.descricao}</span></p>
                               <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${eqp.modeloMarca}</p>`;
             }
 
