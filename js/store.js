@@ -26,6 +26,18 @@ const initializeStore = () => {
             { id: generateId(), descricao: 'Mouse sem fio', modeloMarca: 'Logitech M280', status: 'DISPONIVEL', funcionarioId: null },
             { id: generateId(), descricao: 'Headset', modeloMarca: 'JBL Quantum 100', status: 'DISPONIVEL', funcionarioId: null }
         ]);
+    } else {
+        // Migrate old equipment data that doesn't have status/funcionarioId
+        const eqps = getData(STORAGE_KEYS.EQUIPAMENTOS);
+        let migrated = false;
+        const updatedEqps = eqps.map(e => {
+            if (e.status === undefined) {
+                migrated = true;
+                return { ...e, status: 'DISPONIVEL', funcionarioId: null };
+            }
+            return e;
+        });
+        if (migrated) setData(STORAGE_KEYS.EQUIPAMENTOS, updatedEqps);
     }
     if (!localStorage.getItem(STORAGE_KEYS.FUNCIONARIOS)) {
         setData(STORAGE_KEYS.FUNCIONARIOS, []);
@@ -69,7 +81,7 @@ const editEmpresa = (id, empresa) => updateItem(STORAGE_KEYS.EMPRESAS, id, empre
 const removeEmpresa = (id) => deleteItem(STORAGE_KEYS.EMPRESAS, id);
 
 // --- Equipamentos ---
-const getEquipamentos = () => getData(STORAGE_KEYS.EQUIPAMENTOS).map(e => ({ status: 'DISPONIVEL', funcionarioId: null, ...e })); // Retrocompatibility for old data
+const getEquipamentos = () => getData(STORAGE_KEYS.EQUIPAMENTOS);
 const getEquipamentoById = (id) => getEquipamentos().find(e => e.id === id);
 const addEquipamento = (equipamento) => createItem(STORAGE_KEYS.EQUIPAMENTOS, { ...equipamento, status: 'DISPONIVEL', funcionarioId: null });
 const editEquipamento = (id, equipamento) => updateItem(STORAGE_KEYS.EQUIPAMENTOS, id, equipamento);
