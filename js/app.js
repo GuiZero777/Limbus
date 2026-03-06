@@ -10,12 +10,76 @@ let currentView = 'dashboard';
 let viewParams = {};
 
 const views = {
-    'dashboard': { title: 'Início', render: renderDashboard },
-    'empresas': { title: 'Gestão de Empresas', render: renderEmpresas },
-    'equipamentos': { title: 'Gestão de Equipamentos', render: renderEquipamentos },
-    'funcionarios': { title: 'Funcionários', render: renderFuncionarios },
-    'gerador_termo': { title: 'Emissão de Termo', render: renderGeradorTermo },
-    'historico': { title: 'Histórico Geral', render: renderHistoricoGeral }
+    'dashboard': { title: 'Início', breadcrumbs: ['Início'], render: renderDashboard },
+    'empresas': { title: 'Gestão de Empresas', breadcrumbs: ['Início', 'Cadastros', 'Empresas'], render: renderEmpresas },
+    'equipamentos': { title: 'Gestão de Equipamentos', breadcrumbs: ['Início', 'Cadastros', 'Equipamentos'], render: renderEquipamentos },
+    'funcionarios': { title: 'Funcionários', breadcrumbs: ['Início', 'Funcionários'], render: renderFuncionarios },
+    'gerador_termo': { title: 'Emissão de Termo', breadcrumbs: ['Início', 'Termos', 'Gerador'], render: renderGeradorTermo },
+    'historico': { title: 'Histórico Geral', breadcrumbs: ['Início', 'Cadastros', 'Histórico'], render: renderHistoricoGeral }
+};
+
+// Dark Mode handling
+const themeToggleBtn = document.getElementById('theme-toggle');
+const htmlEl = document.documentElement;
+
+const getPreferredTheme = () => {
+    if (localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
+const applyTheme = (theme) => {
+    if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }
+};
+
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlEl.classList.contains('dark') ? 'dark' : 'light';
+        applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+}
+applyTheme(getPreferredTheme());
+
+const renderBreadcrumbs = (viewDef, params) => {
+    const breadcrumbEl = document.getElementById('breadcrumb');
+    if (!breadcrumbEl || !viewDef.breadcrumbs) return;
+
+    // Se estiver no dashboard principal, oculta as migalhas pra ficar mais limpo
+    if (currentView === 'dashboard') {
+        breadcrumbEl.classList.add('hidden');
+        breadcrumbEl.classList.remove('flex');
+        return;
+    }
+
+    breadcrumbEl.classList.remove('hidden');
+    breadcrumbEl.classList.add('flex');
+
+    let crumbs = [...viewDef.breadcrumbs];
+
+    // Complementos dinâmicos baseados no tipo de view que abrir por app.js/views.js
+    // Exemplo: se abrir gerador de termo de um func especifico
+    if (currentView === 'gerador_termo' && params.funcId) {
+        const funcionarios = getFuncionarios ? getFuncionarios() : [];
+        const func = funcionarios.find(f => f.id === params.funcId);
+        if (func) {
+            crumbs.push(func.nome.split(' ')[0]);
+        }
+    }
+
+    breadcrumbEl.innerHTML = crumbs.map((crumb, idx) => {
+        const isLast = idx === crumbs.length - 1;
+        return `
+            <span class="${isLast ? 'text-slate-700 dark:text-slate-300 font-semibold' : ''}">${crumb}</span>
+            ${!isLast ? '<i data-lucide="chevron-right" class="w-3 h-3 text-slate-400"></i>' : ''}
+        `;
+    }).join('');
 };
 
 const navigate = (viewName, params = {}) => {
@@ -24,8 +88,9 @@ const navigate = (viewName, params = {}) => {
     currentView = viewName;
     viewParams = params;
 
-    // Update Title
+    // Update Title & Breadcrumbs
     pageTitle.textContent = views[viewName].title;
+    renderBreadcrumbs(views[viewName], params);
 
     // Update Nav Activity
     navBtns.forEach(btn => {

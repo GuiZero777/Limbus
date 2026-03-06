@@ -1,6 +1,9 @@
 /* Global Reset and Print Styles */
 @media print {
-    @page { margin: 15mm; }
+    @page {
+        margin: 15mm;
+    }
+
     body {
         margin: 0;
         background-color: white !important;
@@ -8,7 +11,7 @@
         overflow: visible;
         display: block;
     }
-    
+
     .print\:hidden {
         display: none !important;
     }
@@ -16,15 +19,15 @@
     .print\:block {
         display: block !important;
     }
-    
+
     .print\:bg-white {
         background-color: white !important;
     }
-    
+
     .print\:p-0 {
         padding: 0 !important;
     }
-    
+
     .print\:overflow-visible {
         overflow: visible !important;
     }
@@ -61,7 +64,29 @@
 
 /* Custom Nav styling */
 .nav-btn.active {
-    background-color: #1e293b; /* slate-800 */
-    color: white;
-    border-left: 4px solid #3b82f6; /* blue-500 */
+    background-color: #f1f5f9;
+    /* slate-100 */
+    color: #0f172a;
+    /* slate-900 */
+    font-weight: 600;
+}
+
+.dark .nav-btn.active {
+    background-color: #1e293b;
+    /* slate-800 */
+    color: #f8fafc;
+    /* slate-50 */
+}
+
+.nav-btn.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    width: 4px;
+    background-color: #2563eb;
+    /* primary blue */
+    border-radius: 0 4px 4px 0;
 }
