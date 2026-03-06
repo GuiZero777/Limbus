@@ -1,108 +1,188 @@
 // js/store.js
+// ---------------------------------------------------------
+// NOVA VERSÃO: Integrando com o Backend Node.js
+// ---------------------------------------------------------
 
-const STORAGE_KEYS = {
-    EMPRESAS: 'gt_empresas',
-    EQUIPAMENTOS: 'gt_equipamentos',
-    FUNCIONARIOS: 'gt_funcionarios',
-    HISTORICO: 'gt_historico'
+const API_URL = 'http://localhost:3000/api';
+
+// --- Estado Global na Memória ---
+// Usamos uma cache local para manter as buscas rápidas, mas sempre sincronizadas com a API
+const StoreState = {
+    empresas: [],
+    equipamentos: [],
+    funcionarios: [],
+    historico: []
 };
 
-// --- Funções Auxiliares ---
-const generateId = () => crypto.randomUUID();
-
-const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
-const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
-
-// --- Inicialização com dados de exemplo (se vazio) ---
-const initializeStore = () => {
-    if (!localStorage.getItem(STORAGE_KEYS.EMPRESAS)) {
-        setData(STORAGE_KEYS.EMPRESAS, [
-            { id: generateId(), nome: 'Empresa Exemplo LTDA', cnpj: '00.000.000/0001-00', cidade: 'Palhoça', uf: 'SC' }
+// --- Inicialização ---
+const initializeStore = async () => {
+    try {
+        const [empRes, equipRes, funcRes, histRes] = await Promise.all([
+            fetch(`${API_URL}/empresas`),
+            fetch(`${API_URL}/equipamentos`),
+            fetch(`${API_URL}/funcionarios`),
+            fetch(`${API_URL}/historico`)
         ]);
-    }
-    if (!localStorage.getItem(STORAGE_KEYS.EQUIPAMENTOS)) {
-        setData(STORAGE_KEYS.EQUIPAMENTOS, [
-            { id: generateId(), descricao: 'Notebook', modeloMarca: 'Dell Inspiron 15', status: 'DISPONIVEL', funcionarioId: null },
-            { id: generateId(), descricao: 'Mouse sem fio', modeloMarca: 'Logitech M280', status: 'DISPONIVEL', funcionarioId: null },
-            { id: generateId(), descricao: 'Headset', modeloMarca: 'JBL Quantum 100', status: 'DISPONIVEL', funcionarioId: null }
-        ]);
-    } else {
-        // Migrate old equipment data that doesn't have status/funcionarioId
-        const eqps = getData(STORAGE_KEYS.EQUIPAMENTOS);
-        let migrated = false;
-        const updatedEqps = eqps.map(e => {
-            if (e.status === undefined) {
-                migrated = true;
-                return { ...e, status: 'DISPONIVEL', funcionarioId: null };
-            }
-            return e;
-        });
-        if (migrated) setData(STORAGE_KEYS.EQUIPAMENTOS, updatedEqps);
-    }
-    if (!localStorage.getItem(STORAGE_KEYS.FUNCIONARIOS)) {
-        setData(STORAGE_KEYS.FUNCIONARIOS, []);
-    }
-    if (!localStorage.getItem(STORAGE_KEYS.HISTORICO)) {
-        setData(STORAGE_KEYS.HISTORICO, []);
-    }
-};
 
-// --- Operações CRUD Genéricas ---
-const createItem = (key, item) => {
-    const data = getData(key);
-    const newItem = { ...item, id: generateId() };
-    data.push(newItem);
-    setData(key, data);
-    return newItem;
-};
+        StoreState.empresas = await empRes.json();
+        StoreState.equipamentos = await equipRes.json();
+        StoreState.funcionarios = await funcRes.json();
+        StoreState.historico = await histRes.json();
 
-const updateItem = (key, id, updatedFields) => {
-    const data = getData(key);
-    const index = data.findIndex(item => item.id === id);
-    if (index !== -1) {
-        data[index] = { ...data[index], ...updatedFields };
-        setData(key, data);
-        return data[index];
+        console.log('Dados carregados com sucesso do Backend.');
+    } catch (err) {
+        console.error('Falha ao inicializar o banco de dados do Backend. Verifique se o servidor Node.js está rodando na porta 3000.', err);
+        alert('O servidor de banco de dados não está respondendo. Verifique se o backend está rodando!');
     }
-    return null;
-};
-
-const deleteItem = (key, id) => {
-    const data = getData(key);
-    const filtered = data.filter(item => item.id !== id);
-    setData(key, filtered);
 };
 
 // --- Empresas ---
-const getEmpresas = () => getData(STORAGE_KEYS.EMPRESAS);
-const getEmpresaById = (id) => getEmpresas().find(e => e.id === id);
-const addEmpresa = (empresa) => createItem(STORAGE_KEYS.EMPRESAS, empresa);
-const editEmpresa = (id, empresa) => updateItem(STORAGE_KEYS.EMPRESAS, id, empresa);
-const removeEmpresa = (id) => deleteItem(STORAGE_KEYS.EMPRESAS, id);
+const getEmpresas = () => StoreState.empresas;
+const getEmpresaById = (id) => StoreState.empresas.find(e => e.id === id);
+
+const addEmpresa = async (empresa) => {
+    try {
+        const res = await fetch(`${API_URL}/empresas`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(empresa)
+        });
+        const saved = await res.json();
+        StoreState.empresas.push(saved);
+        return saved;
+    } catch (err) {
+        console.error('Falha ao adicionar empresa', err);
+    }
+};
+
+const removeEmpresa = async (id) => {
+    try {
+        await fetch(`${API_URL}/empresas/${id}`, { method: 'DELETE' });
+        StoreState.empresas = StoreState.empresas.filter(e => e.id !== id);
+    } catch (err) {
+        console.error('Falha ao remover empresa', err);
+    }
+};
+
 
 // --- Equipamentos ---
-const getEquipamentos = () => getData(STORAGE_KEYS.EQUIPAMENTOS);
-const getEquipamentoById = (id) => getEquipamentos().find(e => e.id === id);
-const addEquipamento = (equipamento) => createItem(STORAGE_KEYS.EQUIPAMENTOS, { ...equipamento, status: 'DISPONIVEL', funcionarioId: null });
-const editEquipamento = (id, equipamento) => updateItem(STORAGE_KEYS.EQUIPAMENTOS, id, equipamento);
-const removeEquipamento = (id) => deleteItem(STORAGE_KEYS.EQUIPAMENTOS, id);
+const getEquipamentos = () => StoreState.equipamentos;
+const getEquipamentoById = (id) => StoreState.equipamentos.find(e => e.id === id);
+
+const addEquipamento = async (equipamento) => {
+    try {
+        const res = await fetch(`${API_URL}/equipamentos`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(equipamento)
+        });
+        const saved = await res.json();
+        StoreState.equipamentos.push(saved);
+        return saved;
+    } catch (err) {
+        console.error('Falha ao adicionar equipamento', err);
+    }
+};
+
+const editEquipamento = async (id, equipamentoUpdateData) => {
+    try {
+        const res = await fetch(`${API_URL}/equipamentos/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(equipamentoUpdateData)
+        });
+        const saved = await res.json();
+        // Update Local Cache
+        const idx = StoreState.equipamentos.findIndex(e => e.id === id);
+        if (idx !== -1) {
+            StoreState.equipamentos[idx] = { ...StoreState.equipamentos[idx], ...saved };
+        }
+    } catch (err) {
+        console.error('Falha ao atualizar equipamento', err);
+    }
+};
+
+const removeEquipamento = async (id) => {
+    try {
+        await fetch(`${API_URL}/equipamentos/${id}`, { method: 'DELETE' });
+        StoreState.equipamentos = StoreState.equipamentos.filter(e => e.id !== id);
+    } catch (err) {
+        console.error('Falha ao remover equipamento', err);
+    }
+};
+
 
 // --- Funcionários ---
-const getFuncionarios = () => getData(STORAGE_KEYS.FUNCIONARIOS);
-const getFuncionarioById = (id) => getFuncionarios().find(f => f.id === id);
-const addFuncionario = (funcionario) => createItem(STORAGE_KEYS.FUNCIONARIOS, funcionario);
-const editFuncionario = (id, funcionario) => updateItem(STORAGE_KEYS.FUNCIONARIOS, id, funcionario);
-const removeFuncionario = (id) => deleteItem(STORAGE_KEYS.FUNCIONARIOS, id);
+const getFuncionarios = () => StoreState.funcionarios;
+const getFuncionarioById = (id) => StoreState.funcionarios.find(f => f.id === id);
+
+const addFuncionario = async (funcionario) => {
+    try {
+        const res = await fetch(`${API_URL}/funcionarios`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(funcionario)
+        });
+        const saved = await res.json();
+        StoreState.funcionarios.push(saved);
+        return saved;
+    } catch (err) {
+        console.error('Falha ao adicionar funcionário', err);
+    }
+};
+
+const removeFuncionario = async (id) => {
+    try {
+        await fetch(`${API_URL}/funcionarios/${id}`, { method: 'DELETE' });
+        StoreState.funcionarios = StoreState.funcionarios.filter(f => f.id !== id);
+        
+        // Em um banco puramente SQL haveria ON DELETE CASCADE nas tabelas filhas (que fizemos), 
+        // Mas a cache do histórico também precisa ser limpa aqui no frontend se quisermos consistência sem reload
+        StoreState.historico = StoreState.historico.filter(h => h.funcionarioId !== id);
+        
+        // Também desvincular equipamentos que estavam na mão dele localmente
+        StoreState.equipamentos.forEach(eq => {
+            if(eq.funcionarioId === id) {
+                eq.status = 'DISPONIVEL';
+                eq.funcionarioId = null;
+            }
+        });
+
+    } catch (err) {
+        console.error('Falha ao remover funcionário', err);
+    }
+};
+
 
 // --- Histórico ---
-const getHistorico = () => getData(STORAGE_KEYS.HISTORICO);
-const addHistorico = (historicoData) => {
-    // historicoData should have: tipo (ENTREGA, DEVOLUCAO, ALOCACAO_MANUAL), funcionarioId, equipamentoId, data (ISO string)
-    return createItem(STORAGE_KEYS.HISTORICO, {
-        ...historicoData,
-        timestamp: new Date().toISOString()
-    });
+const getHistorico = () => StoreState.historico;
+
+const addHistorico = async (historicoData) => {
+    try {
+        const res = await fetch(`${API_URL}/historico`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(historicoData)
+        });
+        const saved = await res.json();
+        
+        // Parse the returned array if it exists as our server returns untouched JSON on POST bodies typically
+        if(typeof saved.equipamentosIds === 'string' && saved.equipamentosIds) {
+             saved.equipamentosIds = JSON.parse(saved.equipamentosIds);
+        }
+
+        StoreState.historico.push(saved);
+        return saved;
+    } catch (err) {
+        console.error('Falha ao adicionar histórico', err);
+    }
 };
-const clearHistorico = () => {
-    setData(STORAGE_KEYS.HISTORICO, []);
+
+const clearHistorico = async () => {
+    try {
+        await fetch(`${API_URL}/historico`, { method: 'DELETE' });
+        StoreState.historico = [];
+    } catch (err) {
+        console.error('Falha ao limpar histórico', err);
+    }
 };

@@ -124,8 +124,8 @@ const setupNavigation = () => {
     });
 };
 
-const init = () => {
-    initializeStore();
+const init = async () => {
+    await initializeStore();
     setupNavigation();
     navigate('dashboard');
 };

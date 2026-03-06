@@ -112,10 +112,10 @@ const renderEmpresas = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-empresa').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 if (confirm('Tem certeza que deseja remover esta empresa?')) {
-                    removeEmpresa(id);
+                    await removeEmpresa(id);
                     renderTable();
                 }
             });
@@ -157,10 +157,10 @@ const renderEmpresas = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-empresa').addEventListener('submit', (e) => {
+        document.getElementById('form-empresa').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addEmpresa({
+            await addEmpresa({
                 nome: formData.get('nome'),
                 cnpj: formData.get('cnpj'),
                 cidade: formData.get('cidade'),
@@ -280,7 +280,7 @@ const renderEquipamentos = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-equip').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 const eqp = getEquipamentoById(id);
                 if (eqp.status === 'EM_USO') {
@@ -288,7 +288,7 @@ const renderEquipamentos = (container, headerActions) => {
                     return;
                 }
                 if (confirm('Tem certeza que deseja remover este equipamento?')) {
-                    removeEquipamento(id);
+                    await removeEquipamento(id);
                     renderTable(document.getElementById('search-equip')?.value || '');
                 }
             });
@@ -352,7 +352,7 @@ const renderEquipamentos = (container, headerActions) => {
                     }
                 });
 
-                document.getElementById('form-alocar').addEventListener('submit', (ev) => {
+                document.getElementById('form-alocar').addEventListener('submit', async (ev) => {
                     ev.preventDefault();
                     const formData = new FormData(ev.target);
                     const fId = formData.get('funcionarioId');
@@ -365,10 +365,10 @@ const renderEquipamentos = (container, headerActions) => {
                     }
 
                     // 1. Change Status
-                    editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
+                    await editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
 
                     // 2. Add History Log
-                    addHistorico({
+                    await addHistorico({
                         tipo: 'ALOCACAO_MANUAL',
                         funcionarioId: fId,
                         equipamentoId: eqId,
@@ -412,10 +412,10 @@ const renderEquipamentos = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-equipamento').addEventListener('submit', (e) => {
+        document.getElementById('form-equipamento').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addEquipamento({
+            await addEquipamento({
                 descricao: formData.get('descricao'),
                 modeloMarca: formData.get('modeloMarca')
             });
@@ -495,10 +495,10 @@ const renderFuncionarios = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-func').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 if (confirm('Remover funcionário? Isso não apagará termos já gerados ou impressos, mas o removerá da base.')) {
-                    removeFuncionario(id);
+                    await removeFuncionario(id);
                     renderTable();
                 }
             });
@@ -526,7 +526,7 @@ const renderFuncionarios = (container, headerActions) => {
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Data de Admissão</label>
-                        <input type="date" name="dataAdmissao" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none text-slate-700 dark:text-slate-200">
+                        <input type="date" name="dataAdmissao" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
@@ -538,10 +538,10 @@ const renderFuncionarios = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-func').addEventListener('submit', (e) => {
+        document.getElementById('form-func').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addFuncionario({
+            await addFuncionario({
                 nome: formData.get('nome'),
                 funcao: formData.get('funcao'),
                 dataAdmissao: formData.get('dataAdmissao')
@@ -676,16 +676,16 @@ window.renderFuncionarioPerfil = (id) => {
 
     // Eventos de Devolução
     document.querySelectorAll('.btn-devolver').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
             const eqpId = e.currentTarget.dataset.eqpid;
             const eqp = getEquipamentoById(eqpId);
 
             if (confirm(`Confirmar devolução de ${eqp.descricao}? O equipamento ficará disponível no estoque.`)) {
                 // 1. Atualizar status do equipamento
-                editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
+                await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
 
                 // 2. Registrar no histórico
-                addHistorico({
+                await addHistorico({
                     tipo: 'DEVOLUCAO',
                     funcionarioId: id,
                     equipamentoId: eqpId,
@@ -707,18 +707,18 @@ window.renderFuncionarioPerfil = (id) => {
 
     const btnDevolverTodos = document.getElementById('btn-devolver-todos');
     if (btnDevolverTodos) {
-        btnDevolverTodos.addEventListener('click', () => {
+        btnDevolverTodos.addEventListener('click', async () => {
             if (confirm('Confirmar devolução COMPLETA de todos os equipamentos em posse deste funcionário?')) {
                 const todayStrInput = new Date().toISOString().split('T')[0];
                 const dataRealStr = formatInputDate(todayStrInput);
                 const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 // 1. Atualizar e Histórico
-                equipamentosEmPosse.forEach(eqp => {
-                    editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
-                });
+                for (const eqp of equipamentosEmPosse) {
+                    await editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
+                }
 
-                addHistorico({
+                await addHistorico({
                     tipo: 'DEVOLUCAO_COMPLETA',
                     funcionarioId: id,
                     equipamentosIds: equipamentosEmPosse.map(e => e.id),
@@ -957,7 +957,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
         }, 300));
     }
 
-    document.getElementById('form-gerar-termo').addEventListener('submit', (e) => {
+    document.getElementById('form-gerar-termo').addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
@@ -978,21 +978,21 @@ const renderGeradorTermo = (container, headerActions, params) => {
         // Update Equipment states to 'EM_USO' and add Handover History Log
         const todayStr = new Date().toISOString().split('T')[0];
 
-        equipamentosObjArray.forEach(eqp => {
+        for (const eqp of equipamentosObjArray) {
             // Update equipment
-            editEquipamento(eqp.id, {
+            await editEquipamento(eqp.id, {
                 status: 'EM_USO',
                 funcionarioId: funcionario.id
             });
 
             // Add history
-            addHistorico({
+            await addHistorico({
                 tipo: 'ENTREGA',
                 funcionarioId: funcionario.id,
                 equipamentoId: eqp.id,
                 data: todayStr
             });
-        });
+        }
 
         // Redirect back to employees page after small delay to let print open safely
         setTimeout(() => {
@@ -1259,9 +1259,9 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     endInput?.addEventListener('change', updateFilters);
 
     // Apagar Histórico Event
-    document.getElementById('btn-clear-historico')?.addEventListener('click', () => {
+    document.getElementById('btn-clear-historico')?.addEventListener('click', async () => {
         if (confirm('Tem certeza absoluta que deseja APAGAR TODO O HISTÓRICO? Esta ação não pode ser desfeita.')) {
-            clearHistorico();
+            await clearHistorico();
             renderHistoricoGeral(container, headerActions);
         }
     });
