@@ -33,3 +33,11 @@ const formatInputDate = (htmlDate) => {
     const [year, month, day] = htmlDate.split('-');
     return `${day}/${month}/${year}`;
 };
+
+const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+    };
+};

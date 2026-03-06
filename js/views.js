@@ -385,7 +385,7 @@ const renderEquipamentos = (container, headerActions) => {
 
     renderTable();
 
-    document.getElementById('search-equip')?.addEventListener('input', renderTable);
+    document.getElementById('search-equip')?.addEventListener('input', debounce(renderTable, 300));
     document.getElementById('filter-status-equip')?.addEventListener('change', renderTable);
     document.getElementById('sort-equip')?.addEventListener('change', renderTable);
 
@@ -507,9 +507,9 @@ const renderFuncionarios = (container, headerActions) => {
 
     renderTable();
 
-    document.getElementById('search-func').addEventListener('input', (e) => {
+    document.getElementById('search-func').addEventListener('input', debounce((e) => {
         renderTable(e.target.value);
-    });
+    }, 300));
 
     document.getElementById('btn-add-func').addEventListener('click', () => {
         const formHTML = `
@@ -948,13 +948,13 @@ const renderGeradorTermo = (container, headerActions, params) => {
 
     const searchInput = document.getElementById('search-termo-eqp');
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', debounce((e) => {
             const term = e.target.value.toLowerCase();
             document.querySelectorAll('.eqp-item').forEach(item => {
                 const text = item.querySelector('.eqp-item-text').textContent.toLowerCase();
                 item.style.display = text.includes(term) ? '' : 'none';
             });
-        });
+        }, 300));
     }
 
     document.getElementById('form-gerar-termo').addEventListener('submit', (e) => {
