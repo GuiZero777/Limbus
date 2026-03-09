@@ -153,6 +153,42 @@ const removeFuncionario = async (id) => {
     }
 };
 
+const bulkAddFuncionarios = async (funcionariosArray) => {
+    try {
+        const res = await fetch(`${API_URL}/funcionarios/bulk`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ funcionarios: funcionariosArray })
+        });
+        const data = await res.json();
+        if (data.inserted) {
+            StoreState.funcionarios.push(...data.inserted);
+        }
+        return data;
+    } catch (err) {
+        console.error('Falha ao importar funcionários em lote', err);
+        return { inserted: [], count: 0 };
+    }
+};
+
+const editFuncionario = async (id, updateData) => {
+    try {
+        const res = await fetch(`${API_URL}/funcionarios/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateData)
+        });
+        const saved = await res.json();
+        const idx = StoreState.funcionarios.findIndex(f => f.id === id);
+        if (idx !== -1) {
+            StoreState.funcionarios[idx] = { ...StoreState.funcionarios[idx], ...saved };
+        }
+        return saved;
+    } catch (err) {
+        console.error('Falha ao editar funcionário', err);
+    }
+};
+
 
 // --- Histórico ---
 const getHistorico = () => StoreState.historico;
@@ -175,6 +211,15 @@ const addHistorico = async (historicoData) => {
         return saved;
     } catch (err) {
         console.error('Falha ao adicionar histórico', err);
+    }
+};
+
+const removeHistoricoEntry = async (id) => {
+    try {
+        await fetch(`${API_URL}/historico/${id}`, { method: 'DELETE' });
+        StoreState.historico = StoreState.historico.filter(h => h.id !== id);
+    } catch (err) {
+        console.error('Falha ao remover entrada do histórico', err);
     }
 };
 

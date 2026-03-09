@@ -68,6 +68,52 @@ app.post('/api/funcionarios', async (req, res) => {
     }
 });
 
+app.post('/api/funcionarios/bulk', async (req, res) => {
+    try {
+        const db = await getDbConnection();
+        const { funcionarios } = req.body;
+
+        if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
+            return res.status(400).json({ error: 'Array de funcionários vazio ou inválido.' });
+        }
+
+        const inserted = [];
+
+        await db.run('BEGIN TRANSACTION');
+        try {
+            for (const func of funcionarios) {
+                const id = generateId();
+                const { nome, funcao, dataAdmissao } = func;
+                if (!nome || !funcao || !dataAdmissao) continue; // Pular linhas incompletas
+                await db.run(
+                    'INSERT INTO funcionarios (id, nome, funcao, dataAdmissao) VALUES (?, ?, ?, ?)',
+                    [id, nome.trim(), funcao.trim(), dataAdmissao]
+                );
+                inserted.push({ id, nome: nome.trim(), funcao: funcao.trim(), dataAdmissao });
+            }
+            await db.run('COMMIT');
+        } catch (txErr) {
+            await db.run('ROLLBACK');
+            throw txErr;
+        }
+
+        res.status(201).json({ inserted, count: inserted.length });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/funcionarios/:id', async (req, res) => {
+    try {
+        const db = await getDbConnection();
+        const { nome, funcao, dataAdmissao } = req.body;
+        await db.run('UPDATE funcionarios SET nome = ?, funcao = ?, dataAdmissao = ? WHERE id = ?', [nome, funcao, dataAdmissao, req.params.id]);
+        res.json({ id: req.params.id, nome, funcao, dataAdmissao });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.delete('/api/funcionarios/:id', async (req, res) => {
     try {
         const db = await getDbConnection();
@@ -160,6 +206,17 @@ app.post('/api/historico', async (req, res) => {
                       [id, tipo, funcionarioId, equipamentoId || null, stringifiedIds, data, timestamp]);
                       
         res.status(201).json({ id, tipo, funcionarioId, equipamentoId, equipamentosIds, data, timestamp });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.delete('/api/historico/:id', async (req, res) => {
+    // Apagar uma entrada específica do histórico
+    try {
+        const db = await getDbConnection();
+        await db.run('DELETE FROM historico WHERE id = ?', [req.params.id]);
+        res.status(204).send();
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
