@@ -112,10 +112,10 @@ const renderEmpresas = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-empresa').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 if (confirm('Tem certeza que deseja remover esta empresa?')) {
-                    removeEmpresa(id);
+                    await removeEmpresa(id);
                     renderTable();
                 }
             });
@@ -127,7 +127,7 @@ const renderEmpresas = (container, headerActions) => {
     document.getElementById('btn-add-empresa').addEventListener('click', () => {
         const formHTML = `
             <div class="p-6">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Adicionar Empresa</h3>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4">Adicionar Empresarrr</h3>
                 <form id="form-empresa" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Nome / Razão Social</label>
@@ -157,10 +157,10 @@ const renderEmpresas = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-empresa').addEventListener('submit', (e) => {
+        document.getElementById('form-empresa').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addEmpresa({
+            await addEmpresa({
                 nome: formData.get('nome'),
                 cnpj: formData.get('cnpj'),
                 cidade: formData.get('cidade'),
@@ -280,7 +280,7 @@ const renderEquipamentos = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-equip').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 const eqp = getEquipamentoById(id);
                 if (eqp.status === 'EM_USO') {
@@ -288,7 +288,7 @@ const renderEquipamentos = (container, headerActions) => {
                     return;
                 }
                 if (confirm('Tem certeza que deseja remover este equipamento?')) {
-                    removeEquipamento(id);
+                    await removeEquipamento(id);
                     renderTable(document.getElementById('search-equip')?.value || '');
                 }
             });
@@ -352,7 +352,7 @@ const renderEquipamentos = (container, headerActions) => {
                     }
                 });
 
-                document.getElementById('form-alocar').addEventListener('submit', (ev) => {
+                document.getElementById('form-alocar').addEventListener('submit', async (ev) => {
                     ev.preventDefault();
                     const formData = new FormData(ev.target);
                     const fId = formData.get('funcionarioId');
@@ -365,10 +365,10 @@ const renderEquipamentos = (container, headerActions) => {
                     }
 
                     // 1. Change Status
-                    editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
+                    await editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
 
                     // 2. Add History Log
-                    addHistorico({
+                    await addHistorico({
                         tipo: 'ALOCACAO_MANUAL',
                         funcionarioId: fId,
                         equipamentoId: eqId,
@@ -412,10 +412,10 @@ const renderEquipamentos = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-equipamento').addEventListener('submit', (e) => {
+        document.getElementById('form-equipamento').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addEquipamento({
+            await addEquipamento({
                 descricao: formData.get('descricao'),
                 modeloMarca: formData.get('modeloMarca')
             });
@@ -434,6 +434,10 @@ const renderFuncionarios = (container, headerActions) => {
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
                 <input type="text" id="search-func" placeholder="Buscar funcionário..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-64 lg:w-80 dark:text-slate-100 dark:bg-slate-900">
             </div>
+            <button id="btn-import-planilha" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                Importar Planilha
+            </button>
             <button id="btn-add-func" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
                 <i data-lucide="user-plus" class="w-4 h-4"></i>
                 Novo Funcionário
@@ -480,6 +484,9 @@ const renderFuncionarios = (container, headerActions) => {
                             <button onclick="navigate('gerador_termo', { funcId: '${f.id}' })" class="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1">
                                 <i data-lucide="file-text" class="w-4 h-4"></i> Gerar Termo
                             </button>
+                            <button data-id="${f.id}" class="btn-edit-func text-slate-500 hover:text-blue-600 p-1.5 rounded-md hover:bg-blue-50 transition-colors" title="Editar">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </button>
                             <button data-id="${f.id}" class="btn-delete-func text-red-500 hover:text-red-700 p-1.5 rounded-md hover:bg-red-50 transition-colors" title="Remover">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
@@ -495,12 +502,60 @@ const renderFuncionarios = (container, headerActions) => {
         if (window.lucide) window.lucide.createIcons();
 
         document.querySelectorAll('.btn-delete-func').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
                 if (confirm('Remover funcionário? Isso não apagará termos já gerados ou impressos, mas o removerá da base.')) {
-                    removeFuncionario(id);
+                    await removeFuncionario(id);
                     renderTable();
                 }
+            });
+        });
+
+        // Botões de Editar
+        document.querySelectorAll('.btn-edit-func').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.dataset.id;
+                const func = getFuncionarioById(id);
+                if (!func) return;
+
+                const formHTML = `
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Editar Funcionário</h3>
+                        <form id="form-edit-func" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Nome Completo</label>
+                                <input type="text" name="nome" required value="${func.nome}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Função / Cargo</label>
+                                <input type="text" name="funcao" required value="${func.funcao}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Data de Admissão</label>
+                                <input type="date" name="dataAdmissao" required value="${func.dataAdmissao}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                            </div>
+                            <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
+                                <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
+                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Salvar Alterações</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                showModal(formHTML);
+
+                document.getElementById('form-edit-func').addEventListener('submit', async (ev) => {
+                    ev.preventDefault();
+                    const formData = new FormData(ev.target);
+                    await editFuncionario(id, {
+                        nome: formData.get('nome'),
+                        funcao: formData.get('funcao'),
+                        dataAdmissao: formData.get('dataAdmissao')
+                    });
+                    hideModal();
+                    renderTable(document.getElementById('search-func')?.value || '');
+                });
+                document.querySelector('.btn-cancel').addEventListener('click', hideModal);
             });
         });
     };
@@ -526,7 +581,7 @@ const renderFuncionarios = (container, headerActions) => {
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Data de Admissão</label>
-                        <input type="date" name="dataAdmissao" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none text-slate-700 dark:text-slate-200">
+                        <input type="date" name="dataAdmissao" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
@@ -538,10 +593,10 @@ const renderFuncionarios = (container, headerActions) => {
 
         showModal(formHTML);
 
-        document.getElementById('form-func').addEventListener('submit', (e) => {
+        document.getElementById('form-func').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            addFuncionario({
+            await addFuncionario({
                 nome: formData.get('nome'),
                 funcao: formData.get('funcao'),
                 dataAdmissao: formData.get('dataAdmissao')
@@ -550,6 +605,318 @@ const renderFuncionarios = (container, headerActions) => {
             renderTable(document.getElementById('search-func')?.value || '');
         });
         document.querySelector('.btn-cancel').addEventListener('click', hideModal);
+    });
+
+    // --- Importar Planilha ---
+    document.getElementById('btn-import-planilha').addEventListener('click', () => {
+        const modalHTML = `
+            <div class="p-6 max-h-[85vh] flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Importar Planilha</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Importe funcionários de um arquivo Excel (.xlsx, .xls) ou CSV.</p>
+                    </div>
+                    <button onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:text-slate-300 p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- Etapa 1: Upload -->
+                <div id="import-step-upload">
+                    <div id="dropzone" class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-12 text-center cursor-pointer hover:border-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all">
+                        <i data-lucide="upload-cloud" class="w-12 h-12 text-slate-400 mx-auto mb-4"></i>
+                        <p class="text-slate-700 dark:text-slate-200 font-medium mb-1">Arraste seu arquivo aqui</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">ou clique para selecionar</p>
+                        <p class="text-xs text-slate-400 mt-3">Formatos aceitos: .xlsx, .xls, .csv</p>
+                        <input type="file" id="file-input-planilha" accept=".xlsx,.xls,.csv" class="hidden">
+                    </div>
+                    <div id="import-error" class="hidden mt-4 bg-red-50 text-red-700 p-3 rounded-lg text-sm border border-red-200"></div>
+                </div>
+
+                <!-- Etapa 2: Preview -->
+                <div id="import-step-preview" class="hidden flex flex-col flex-1 overflow-hidden">
+                    <div id="import-file-info" class="bg-emerald-50 text-emerald-800 p-3 rounded-lg mb-4 text-sm border border-emerald-200 flex items-center gap-2">
+                        <i data-lucide="file-check" class="w-4 h-4"></i>
+                        <span id="import-file-name"></span>
+                    </div>
+                    <div id="import-sheets-container" class="overflow-y-auto flex-1 space-y-3 mb-4"></div>
+                    <div id="import-summary" class="bg-blue-50 text-blue-800 p-3 rounded-lg text-sm border border-blue-200 mb-4">
+                        <span id="import-total-count"></span>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <button id="btn-import-back" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">Voltar</button>
+                        <button id="btn-import-confirm" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Importar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Etapa 3: Resultado -->
+                <div id="import-step-result" class="hidden text-center py-8">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2" id="import-result-title"></h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6" id="import-result-desc"></p>
+                    <button onclick="hideModal()" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors shadow-sm">Fechar</button>
+                </div>
+            </div>
+        `;
+
+        showModal(modalHTML);
+        if (window.lucide) window.lucide.createIcons();
+
+        // --- Estado do Import ---
+        let parsedSheets = []; // [ { name, data: [{ nome, funcao, dataAdmissao }] } ]
+
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input-planilha');
+        const errorDiv = document.getElementById('import-error');
+
+        // Converter serial de data do Excel para string YYYY-MM-DD
+        const excelDateToString = (serial) => {
+            if (!serial) return '';
+            // Se já for string no formato de data, tentar converter
+            if (typeof serial === 'string') {
+                // Formato DD/MM/YYYY
+                const parts = serial.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+                if (parts) return `${parts[3]}-${parts[2]}-${parts[1]}`;
+                // Formato YYYY-MM-DD (já está ok)
+                if (/^\d{4}-\d{2}-\d{2}$/.test(serial)) return serial;
+                return serial;
+            }
+            // Serial numérico do Excel
+            if (typeof serial === 'number') {
+                const utcDays = Math.floor(serial - 25569);
+                const utcValue = utcDays * 86400;
+                const date = new Date(utcValue * 1000);
+                const yyyy = date.getUTCFullYear();
+                const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
+                const dd = String(date.getUTCDate()).padStart(2, '0');
+                return `${yyyy}-${mm}-${dd}`;
+            }
+            return '';
+        };
+
+        // Encontrar índice da coluna pelo cabeçalho (case insensitive, aceita variantes)
+        const findColumnIndex = (headers, ...keywords) => {
+            return headers.findIndex(h => {
+                if (!h) return false;
+                const normalized = String(h).trim().toUpperCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+                return keywords.some(kw => normalized.includes(kw));
+            });
+        };
+
+        const processFile = (file) => {
+            errorDiv.classList.add('hidden');
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    parsedSheets = [];
+
+                    workbook.SheetNames.forEach(sheetName => {
+                        const sheet = workbook.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+
+                        if (jsonData.length < 2) return; // Precisa de cabeçalho + pelo menos 1 linha
+
+                        // Detectar linha do cabeçalho (procurar "NOME" nas primeiras 5 linhas)
+                        let headerRowIdx = -1;
+                        for (let i = 0; i < Math.min(5, jsonData.length); i++) {
+                            const row = jsonData[i];
+                            const hasNome = row.some(cell => {
+                                const val = String(cell).trim().toUpperCase()
+                                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                                return val === 'NOME';
+                            });
+                            if (hasNome) {
+                                headerRowIdx = i;
+                                break;
+                            }
+                        }
+
+                        if (headerRowIdx === -1) return; // Sem cabeçalho detectável
+
+                        const headers = jsonData[headerRowIdx];
+                        const nomeIdx = findColumnIndex(headers, 'NOME');
+                        const setorIdx = findColumnIndex(headers, 'SETOR', 'FUNCAO', 'CARGO', 'DEPARTAMENTO');
+                        const admissaoIdx = findColumnIndex(headers, 'ADMISSAO', 'DATA', 'ADMISSÃO');
+
+                        if (nomeIdx === -1) return; // Coluna NOME é obrigatória
+
+                        const rows = jsonData.slice(headerRowIdx + 1);
+                        const employees = [];
+
+                        rows.forEach(row => {
+                            const nome = row[nomeIdx] ? String(row[nomeIdx]).trim() : '';
+                            if (!nome) return; // Pular linhas sem nome
+
+                            const funcao = setorIdx !== -1 && row[setorIdx] ? String(row[setorIdx]).trim() : 'Não Informado';
+                            const dataRaw = admissaoIdx !== -1 ? row[admissaoIdx] : '';
+                            const dataAdmissao = excelDateToString(dataRaw) || new Date().toISOString().split('T')[0];
+
+                            employees.push({ nome, funcao, dataAdmissao });
+                        });
+
+                        if (employees.length > 0) {
+                            parsedSheets.push({ name: sheetName, data: employees, selected: true });
+                        }
+                    });
+
+                    if (parsedSheets.length === 0) {
+                        errorDiv.textContent = 'Não foi possível encontrar dados válidos. Verifique se a planilha possui colunas NOME, ADMISSÃO e SETOR.';
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+
+                    showPreview(file.name);
+                } catch (err) {
+                    console.error('Erro ao processar planilha:', err);
+                    errorDiv.textContent = 'Erro ao ler o arquivo. Verifique se é um Excel válido.';
+                    errorDiv.classList.remove('hidden');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        const showPreview = (fileName) => {
+            document.getElementById('import-step-upload').classList.add('hidden');
+            document.getElementById('import-step-preview').classList.remove('hidden');
+            document.getElementById('import-file-name').textContent = fileName;
+
+            renderSheetsPreview();
+        };
+
+        const renderSheetsPreview = () => {
+            const container = document.getElementById('import-sheets-container');
+            const existingNames = getFuncionarios().map(f => f.nome.trim().toUpperCase());
+
+            container.innerHTML = parsedSheets.map((sheet, idx) => {
+                const newCount = sheet.data.filter(e => !existingNames.includes(e.nome.toUpperCase())).length;
+                const dupCount = sheet.data.length - newCount;
+                const previewNames = sheet.data.slice(0, 4).map(e => e.nome).join(', ');
+                const moreCount = sheet.data.length - 4;
+
+                return `
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-lg p-4 ${sheet.selected ? 'bg-emerald-50/50 dark:bg-emerald-900/10 border-emerald-300 dark:border-emerald-700' : 'bg-white dark:bg-slate-800 opacity-60'}">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" data-sheet-idx="${idx}" class="sheet-checkbox mt-1 w-4 h-4 text-emerald-600 border-slate-300 dark:border-slate-600 rounded focus:ring-emerald-500" ${sheet.selected ? 'checked' : ''}>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-semibold text-slate-800 dark:text-slate-100">${sheet.name}</span>
+                                    <span class="text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full">${sheet.data.length} registros</span>
+                                    ${dupCount > 0 ? `<span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">${dupCount} já cadastrados</span>` : ''}
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">${previewNames}${moreCount > 0 ? ` e mais ${moreCount}...` : ''}</p>
+                            </div>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+
+            updateImportCount();
+
+            container.querySelectorAll('.sheet-checkbox').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const idx = parseInt(e.target.dataset.sheetIdx);
+                    parsedSheets[idx].selected = e.target.checked;
+                    renderSheetsPreview();
+                });
+            });
+        };
+
+        const updateImportCount = () => {
+            const existingNames = getFuncionarios().map(f => f.nome.trim().toUpperCase());
+            let totalNew = 0;
+            parsedSheets.forEach(sheet => {
+                if (sheet.selected) {
+                    totalNew += sheet.data.filter(e => !existingNames.includes(e.nome.toUpperCase())).length;
+                }
+            });
+            document.getElementById('import-total-count').innerHTML = `<strong>${totalNew}</strong> novos funcionários serão importados (duplicados serão ignorados).`;
+            const btnConfirm = document.getElementById('btn-import-confirm');
+            if (totalNew === 0) {
+                btnConfirm.disabled = true;
+                btnConfirm.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnConfirm.disabled = false;
+                btnConfirm.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        };
+
+        // --- Event: Dropzone ---
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-primary', 'bg-blue-50', 'dark:bg-blue-900/20');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-primary', 'bg-blue-50', 'dark:bg-blue-900/20');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-primary', 'bg-blue-50', 'dark:bg-blue-900/20');
+            const file = e.dataTransfer.files[0];
+            if (file) processFile(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) processFile(file);
+        });
+
+        // --- Event: Voltar ---
+        document.getElementById('btn-import-back')?.addEventListener('click', () => {
+            document.getElementById('import-step-preview').classList.add('hidden');
+            document.getElementById('import-step-upload').classList.remove('hidden');
+            parsedSheets = [];
+        });
+
+        // --- Event: Confirmar Import ---
+        document.getElementById('btn-import-confirm')?.addEventListener('click', async () => {
+            const existingNames = getFuncionarios().map(f => f.nome.trim().toUpperCase());
+            const toImport = [];
+
+            parsedSheets.forEach(sheet => {
+                if (!sheet.selected) return;
+                sheet.data.forEach(emp => {
+                    if (!existingNames.includes(emp.nome.toUpperCase())) {
+                        toImport.push(emp);
+                        // Adicionar ao set para evitar duplicados entre abas
+                        existingNames.push(emp.nome.toUpperCase());
+                    }
+                });
+            });
+
+            if (toImport.length === 0) {
+                alert('Nenhum funcionário novo para importar.');
+                return;
+            }
+
+            // Desabilitar botão durante import
+            const btnConfirm = document.getElementById('btn-import-confirm');
+            btnConfirm.disabled = true;
+            btnConfirm.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Importando...';
+            if (window.lucide) window.lucide.createIcons();
+
+            const result = await bulkAddFuncionarios(toImport);
+
+            // Mostrar resultado
+            document.getElementById('import-step-preview').classList.add('hidden');
+            document.getElementById('import-step-result').classList.remove('hidden');
+            document.getElementById('import-result-title').textContent = `${result.count} funcionários importados!`;
+            document.getElementById('import-result-desc').textContent = `Os funcionários foram adicionados ao sistema com sucesso.`;
+            if (window.lucide) window.lucide.createIcons();
+
+            // Atualizar tabela por trás do modal
+            renderTable(document.getElementById('search-func')?.value || '');
+        });
     });
 };
 
@@ -577,7 +944,7 @@ window.renderFuncionarioPerfil = (id) => {
             }
 
             let eqpContent = '';
-            if (h.tipo === 'DEVOLUCAO_COMPLETA' && h.equipamentosIds) {
+            if (h.equipamentosIds && h.equipamentosIds.length > 0) {
                 const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equipamento Excluído', modeloMarca: '' });
                 eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} múltiplos itens:</p>
                               <div class="mt-1 space-y-1 pl-2 border-l-2 border-slate-200 dark:border-slate-700">
@@ -676,16 +1043,16 @@ window.renderFuncionarioPerfil = (id) => {
 
     // Eventos de Devolução
     document.querySelectorAll('.btn-devolver').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
             const eqpId = e.currentTarget.dataset.eqpid;
             const eqp = getEquipamentoById(eqpId);
 
             if (confirm(`Confirmar devolução de ${eqp.descricao}? O equipamento ficará disponível no estoque.`)) {
                 // 1. Atualizar status do equipamento
-                editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
+                await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
 
                 // 2. Registrar no histórico
-                addHistorico({
+                await addHistorico({
                     tipo: 'DEVOLUCAO',
                     funcionarioId: id,
                     equipamentoId: eqpId,
@@ -707,18 +1074,18 @@ window.renderFuncionarioPerfil = (id) => {
 
     const btnDevolverTodos = document.getElementById('btn-devolver-todos');
     if (btnDevolverTodos) {
-        btnDevolverTodos.addEventListener('click', () => {
+        btnDevolverTodos.addEventListener('click', async () => {
             if (confirm('Confirmar devolução COMPLETA de todos os equipamentos em posse deste funcionário?')) {
                 const todayStrInput = new Date().toISOString().split('T')[0];
                 const dataRealStr = formatInputDate(todayStrInput);
                 const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 // 1. Atualizar e Histórico
-                equipamentosEmPosse.forEach(eqp => {
-                    editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
-                });
+                for (const eqp of equipamentosEmPosse) {
+                    await editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
+                }
 
-                addHistorico({
+                await addHistorico({
                     tipo: 'DEVOLUCAO_COMPLETA',
                     funcionarioId: id,
                     equipamentosIds: equipamentosEmPosse.map(e => e.id),
@@ -957,7 +1324,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
         }, 300));
     }
 
-    document.getElementById('form-gerar-termo').addEventListener('submit', (e) => {
+    document.getElementById('form-gerar-termo').addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
@@ -978,20 +1345,19 @@ const renderGeradorTermo = (container, headerActions, params) => {
         // Update Equipment states to 'EM_USO' and add Handover History Log
         const todayStr = new Date().toISOString().split('T')[0];
 
-        equipamentosObjArray.forEach(eqp => {
-            // Update equipment
-            editEquipamento(eqp.id, {
+        for (const eqp of equipamentosObjArray) {
+            await editEquipamento(eqp.id, {
                 status: 'EM_USO',
                 funcionarioId: funcionario.id
             });
+        }
 
-            // Add history
-            addHistorico({
-                tipo: 'ENTREGA',
-                funcionarioId: funcionario.id,
-                equipamentoId: eqp.id,
-                data: todayStr
-            });
+        // Registrar UMA única entrada no histórico com todos os equipamentos do termo
+        await addHistorico({
+            tipo: 'ENTREGA',
+            funcionarioId: funcionario.id,
+            equipamentosIds: eqpsIds,
+            data: todayStr
         });
 
         // Redirect back to employees page after small delay to let print open safely
@@ -1034,54 +1400,12 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
         historico = historico.filter(h => h.data <= filters.end);
     }
 
-    // --- Agrupar Entregas Simultâneas ---
-    const agrupadoHistorico = [];
-    let currentGroup = null;
-
-    historico.forEach(h => {
-        // Se for entrega (via gerador de termo) podemos tentar agrupar
-        // Agrupa se: mesmo funcionario, tipo (ENTREGA) e timestamp exato
-        if (h.tipo === 'ENTREGA') {
-            if (!currentGroup) {
-                currentGroup = {
-                    tipo: 'ENTREGA_AGRUPADA',
-                    funcionarioId: h.funcionarioId,
-                    data: h.data,
-                    timestamp: h.timestamp,
-                    equipamentosIds: [h.equipamentoId]
-                };
-            } else if (
-                currentGroup.funcionarioId === h.funcionarioId &&
-                currentGroup.timestamp === h.timestamp
-            ) {
-                currentGroup.equipamentosIds.push(h.equipamentoId);
-            } else {
-                agrupadoHistorico.push(currentGroup);
-                currentGroup = {
-                    tipo: 'ENTREGA_AGRUPADA',
-                    funcionarioId: h.funcionarioId,
-                    data: h.data,
-                    timestamp: h.timestamp,
-                    equipamentosIds: [h.equipamentoId]
-                };
-            }
-        } else {
-            // Se não é ENTREGA, salva qualquer grupo aberto de entrega e insere o comum
-            if (currentGroup) {
-                agrupadoHistorico.push(currentGroup);
-                currentGroup = null;
-            }
-            agrupadoHistorico.push(h);
-        }
-    });
-
-    if (currentGroup) {
-        agrupadoHistorico.push(currentGroup);
-    }
-    // ------------------------------------
+    // Histórico já vem com os dados corretos do banco (sem necessidade de agrupamento)
 
     const equipamentos = getEquipamentos();
     const funcionarios = getFuncionarios();
+    // Usar o histórico diretamente, já que cada entrada representa uma ação real
+    const agrupadoHistorico = historico;
 
     // Event for printing
     setTimeout(() => {
@@ -1138,12 +1462,12 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                 const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 let badgeClass = '', badgeLabel = '';
-                if (h.tipo === 'ENTREGA' || h.tipo === 'ENTREGA_AGRUPADA') { badgeClass = 'entrega'; badgeLabel = 'Entrega'; }
+                if (h.tipo === 'ENTREGA') { badgeClass = 'entrega'; badgeLabel = 'Entrega'; }
                 else if (h.tipo === 'ALOCACAO_MANUAL') { badgeClass = 'alocacao'; badgeLabel = 'Alocação Manual'; }
                 else if (h.tipo === 'DEVOLUCAO' || h.tipo === 'DEVOLUCAO_COMPLETA') { badgeClass = 'devolucao'; badgeLabel = 'Devolução'; }
 
                 let eqpContent = '';
-                if ((h.tipo === 'DEVOLUCAO_COMPLETA' || h.tipo === 'ENTREGA_AGRUPADA') && h.equipamentosIds) {
+                if (h.equipamentosIds && h.equipamentosIds.length > 0) {
                     const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
                     eqpContent = eqps.map(eq => `<strong>${eq.descricao}</strong><br><span style="color:#666; font-size:11px;">${eq.modeloMarca}</span>`).join('<div style="margin: 5px 0; border-top: 1px dotted #ccc;"></div>');
                 } else {
@@ -1179,13 +1503,14 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                         <th class="py-3 px-6 font-semibold">Tipo de Evento</th>
                         <th class="py-3 px-6 font-semibold">Funcionário</th>
                         <th class="py-3 px-6 font-semibold">Equipamento</th>
+                        <th class="py-3 px-6 font-semibold text-right w-16"></th>
                     </tr>
                 </thead>
                 <tbody>
     `;
 
     if (agrupadoHistorico.length === 0) {
-        tableHTML += `<tr><td colspan="4" class="py-12 text-center text-slate-500 dark:text-slate-400">
+        tableHTML += `<tr><td colspan="5" class="py-12 text-center text-slate-500 dark:text-slate-400">
             <i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-300 mb-3"></i>
             Nenhum evento registrado no histórico ainda.
         </td></tr>`;
@@ -1197,7 +1522,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
             let badge = '';
-            if (h.tipo === 'ENTREGA' || h.tipo === 'ENTREGA_AGRUPADA') {
+            if (h.tipo === 'ENTREGA') {
                 badge = `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800"><i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i> Entrega</span>`;
             } else if (h.tipo === 'ALOCACAO_MANUAL') {
                 badge = `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded text-xs font-semibold bg-blue-100 text-blue-800"><i data-lucide="user-check" class="w-3.5 h-3.5"></i> Alocação Manual</span>`;
@@ -1206,13 +1531,17 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             }
 
             let eqpContent = '';
-            if ((h.tipo === 'DEVOLUCAO_COMPLETA' || h.tipo === 'ENTREGA_AGRUPADA') && h.equipamentosIds) {
+            if (h.equipamentosIds && h.equipamentosIds.length > 0) {
                 const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
                 eqpContent = eqps.map(eq => `<span class="block text-slate-800 dark:text-slate-100 font-medium">${eq.descricao}</span><span class="block text-xs text-slate-500 dark:text-slate-400">${eq.modeloMarca}</span>`).join('<div class="my-2 border-t border-slate-100"></div>');
             } else {
                 const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { descricao: 'Equip. Excluído', modeloMarca: '' };
                 eqpContent = `<span class="block text-slate-800 dark:text-slate-100 font-medium">${eqp.descricao}</span><span class="block text-xs text-slate-500 dark:text-slate-400">${eqp.modeloMarca}</span>`;
             }
+
+            // ID para deletar
+            const deleteIds = h.id ? [h.id] : [];
+            const deleteDataAttr = deleteIds.length > 0 ? `data-ids='${JSON.stringify(deleteIds)}'` : '';
 
             tableHTML += `
                 <tr class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
@@ -1224,6 +1553,11 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                     <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">${fnc.nome}</td>
                     <td class="py-4 px-6">
                         ${eqpContent}
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <button ${deleteDataAttr} class="btn-delete-hist text-slate-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Remover esta entrada">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
                     </td>
                 </tr>
              `;
@@ -1258,10 +1592,29 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     startInput?.addEventListener('change', updateFilters);
     endInput?.addEventListener('change', updateFilters);
 
+    // Remover entrada individual do Histórico
+    document.querySelectorAll('.btn-delete-hist').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const idsStr = e.currentTarget.dataset.ids;
+            if (!idsStr) return;
+            const ids = JSON.parse(idsStr);
+
+            if (confirm('Remover esta entrada do histórico?')) {
+                for (const id of ids) {
+                    await removeHistoricoEntry(id);
+                }
+                renderHistoricoGeral(container, headerActions, {
+                    start: startInput?.value || '',
+                    end: endInput?.value || ''
+                });
+            }
+        });
+    });
+
     // Apagar Histórico Event
-    document.getElementById('btn-clear-historico')?.addEventListener('click', () => {
+    document.getElementById('btn-clear-historico')?.addEventListener('click', async () => {
         if (confirm('Tem certeza absoluta que deseja APAGAR TODO O HISTÓRICO? Esta ação não pode ser desfeita.')) {
-            clearHistorico();
+            await clearHistorico();
             renderHistoricoGeral(container, headerActions);
         }
     });
