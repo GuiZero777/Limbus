@@ -1,0 +1,13 @@
+{
+  "name": "limbus",
+  "version": "1.0.0",
+  "description": "Limbus - Sistema de gestão de termos de equipamentos",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && npx nodemon server.js"
+  },
+  "author": "Guizero777",
+  "license": "ISC"
+}
