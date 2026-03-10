@@ -101,10 +101,15 @@ const navigate = (viewName, params = {}) => {
         }
     });
 
-    // Render View
+    // Render View with transition
+    contentArea.classList.remove('view-fade-in');
     contentArea.innerHTML = '';
     const HeaderActionsArea = document.getElementById('header-actions');
     HeaderActionsArea.innerHTML = '';
+
+    // Force reflow to restart animation
+    void contentArea.offsetWidth;
+    contentArea.classList.add('view-fade-in');
 
     views[viewName].render(contentArea, HeaderActionsArea, params);
 

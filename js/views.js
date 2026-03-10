@@ -8,64 +8,111 @@ const renderDashboard = (container, headerActions) => {
     const eqps = equipamentos.length;
     const eqpsEmUso = equipamentos.filter(e => e.status === 'EM_USO').length;
     const eqpsDisponiveis = eqps - eqpsEmUso;
+    const usagePercent = eqps > 0 ? Math.round((eqpsEmUso / eqps) * 100) : 0;
+
+    // Recent activity
+    const historico = getHistorico().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
+    const funcionarios = getFuncionarios();
+
+    const activityHTML = historico.length === 0
+        ? '<p class="text-sm text-slate-400 dark:text-slate-500 py-4 text-center">Nenhuma atividade recente.</p>'
+        : historico.map(h => {
+            const fnc = funcionarios.find(f => f.id === h.funcionarioId) || { nome: 'Desconhecido' };
+            const dataStr = formatInputDate(h.data);
+            let dotColor = '', label = '';
+            if (h.tipo === 'ENTREGA' || h.tipo === 'ALOCACAO_MANUAL') { dotColor = 'bg-emerald-500'; label = 'Entrega'; }
+            else { dotColor = 'bg-amber-500'; label = 'Devolução'; }
+            const eqpCount = h.equipamentosIds?.length || 1;
+            return `
+                <div class="activity-item">
+                    <span class="activity-dot ${dotColor}"></span>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-slate-700 dark:text-slate-200 truncate"><strong>${fnc.nome.split(' ')[0]}</strong> — ${label} (${eqpCount} item${eqpCount > 1 ? 's' : ''})</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">${dataStr}</p>
+                    </div>
+                </div>`;
+        }).join('');
 
     container.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="flex items-center gap-4 text-emerald-600 mb-2">
-                    <i data-lucide="users" class="w-8 h-8"></i>
-                    <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-200">Funcionários</h3>
+            <div class="stat-card stagger-1" style="opacity:0; animation: fade-in-up 0.4s ease forwards 0ms">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="card-icon card-icon-green"><i data-lucide="users" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Funcionários</h3>
                 </div>
-                <p class="text-3xl font-bold text-slate-800 dark:text-slate-100">${fncs}</p>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Cadastrados no sistema</p>
-                <button onclick="navigate('funcionarios')" class="mt-4 text-sm text-primary hover:underline font-medium">Ver todos &rarr;</button>
+                <p class="text-4xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">${fncs}</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Cadastrados no sistema</p>
+                <button onclick="navigate('funcionarios')" class="mt-4 text-sm text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
+                    Ver todos <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                </button>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="flex items-center gap-4 text-blue-600 mb-2">
-                    <i data-lucide="building-2" class="w-8 h-8"></i>
-                    <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-200">Empresas</h3>
+            <div class="stat-card stagger-2" style="opacity:0; animation: fade-in-up 0.4s ease forwards 80ms">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="card-icon card-icon-blue"><i data-lucide="building-2" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Empresas</h3>
                 </div>
-                <p class="text-3xl font-bold text-slate-800 dark:text-slate-100">${emps}</p>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">CNPJs geradores</p>
-                <button onclick="navigate('empresas')" class="mt-4 text-sm text-primary hover:underline font-medium">Gerenciar &rarr;</button>
+                <p class="text-4xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">${emps}</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">CNPJs geradores</p>
+                <button onclick="navigate('empresas')" class="mt-4 text-sm text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
+                    Gerenciar <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                </button>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="flex items-center gap-4 text-violet-600 mb-2">
-                    <i data-lucide="laptop" class="w-8 h-8"></i>
-                    <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-200">Equipamentos</h3>
+            <div class="stat-card stagger-3" style="opacity:0; animation: fade-in-up 0.4s ease forwards 160ms">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="card-icon card-icon-violet"><i data-lucide="laptop" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Equipamentos</h3>
                 </div>
-                <div class="flex gap-4 mt-2">
+                <div class="flex gap-6 mb-3">
                     <div>
-                        <p class="text-3xl font-bold text-slate-800 dark:text-slate-100">${eqpsDisponiveis}</p>
+                        <p class="text-4xl font-extrabold text-slate-800 dark:text-slate-100">${eqpsDisponiveis}</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mt-1">Disponíveis</p>
                     </div>
-                    <div class="border-l border-slate-200 dark:border-slate-700 pl-4">
-                        <p class="text-3xl font-bold text-slate-800 dark:text-slate-100">${eqpsEmUso}</p>
+                    <div class="border-l border-slate-200 dark:border-slate-700 pl-6">
+                        <p class="text-4xl font-extrabold text-slate-800 dark:text-slate-100">${eqpsEmUso}</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mt-1">Em Uso</p>
                     </div>
                 </div>
-                <button onclick="navigate('equipamentos')" class="mt-4 text-sm text-primary hover:underline font-medium">Gerenciar &rarr;</button>
+                ${eqps > 0 ? `
+                <div class="mt-2">
+                    <div class="flex justify-between text-xs text-slate-400 dark:text-slate-500 mb-1">
+                        <span>Utilização</span><span>${usagePercent}%</span>
+                    </div>
+                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width: ${usagePercent}%"></div></div>
+                </div>` : ''}
+                <button onclick="navigate('equipamentos')" class="mt-4 text-sm text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
+                    Gerenciar <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                </button>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 text-center">
-            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <i data-lucide="file-plus-2" class="w-8 h-8"></i>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" style="opacity:0; animation: fade-in-up 0.4s ease forwards 240ms">
+            <div class="bg-white dark:bg-slate-800/50 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700/50">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="activity" class="w-5 h-5 text-indigo-500"></i>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Atividade Recente</h3>
+                </div>
+                ${activityHTML}
+                ${historico.length > 0 ? `<button onclick="navigate('historico')" class="mt-3 text-sm text-indigo-500 hover:text-indigo-400 font-semibold transition-colors">Ver histórico completo →</button>` : ''}
             </div>
-            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">Novo Termo Rápido</h3>
-            <p class="text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">Vá até a aba de funcionários para selecionar para quem você deseja gerar um novo termo de responsabilidade de equipamentos.</p>
-            <button onclick="navigate('funcionarios')" class="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
-                <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
-                Ir para Funcionários
-            </button>
+
+            <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700/50 text-center flex flex-col items-center justify-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/20">
+                    <i data-lucide="file-plus-2" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">Novo Termo Rápido</h3>
+                <p class="text-slate-500 dark:text-slate-400 mb-6 max-w-sm text-sm">Selecione um funcionário para gerar um novo termo de responsabilidade de equipamentos.</p>
+                <button onclick="navigate('funcionarios')" class="btn-primary px-6 py-3 text-base">
+                    <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+                    Ir para Funcionários
+                </button>
+            </div>
         </div>
     `;
 };
-
 // --- Empresas ---
 const renderEmpresas = (container, headerActions) => {
     headerActions.innerHTML = `
-        <button id="btn-add-empresa" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+        <button id="btn-add-empresa" class="btn-primary">
             <i data-lucide="plus" class="w-4 h-4"></i>
             Nova Empresa
         </button>
@@ -114,8 +161,10 @@ const renderEmpresas = (container, headerActions) => {
         document.querySelectorAll('.btn-delete-empresa').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
-                if (confirm('Tem certeza que deseja remover esta empresa?')) {
+                const ok = await showConfirm('Tem certeza que deseja remover esta empresa?', { title: 'Remover empresa', type: 'danger', confirmText: 'Remover' });
+                if (ok) {
                     await removeEmpresa(id);
+                    showToast('Empresa removida com sucesso.', 'success');
                     renderTable();
                 }
             });
@@ -127,7 +176,7 @@ const renderEmpresas = (container, headerActions) => {
     document.getElementById('btn-add-empresa').addEventListener('click', () => {
         const formHTML = `
             <div class="p-6">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4">Adicionar Empresarrr</h3>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4">Adicionar Empresa</h3>
                 <form id="form-empresa" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Nome / Razão Social</label>
@@ -149,7 +198,7 @@ const renderEmpresas = (container, headerActions) => {
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
-                        <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Salvar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -191,7 +240,7 @@ const renderEquipamentos = (container, headerActions) => {
                 <option value="AZ">Ordem Alfabética (A-Z)</option>
                 <option value="ZA">Ordem Alfabética (Z-A)</option>
             </select>
-            <button id="btn-add-equipamento" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2 ml-auto">
+            <button id="btn-add-equipamento" class="btn-primary">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 Novo Equipamento
             </button>
@@ -284,11 +333,13 @@ const renderEquipamentos = (container, headerActions) => {
                 const id = e.currentTarget.dataset.id;
                 const eqp = getEquipamentoById(id);
                 if (eqp.status === 'EM_USO') {
-                    alert('Não é possível remover um equipamento que está atualmente em uso. Devolva-o primeiro no perfil do funcionário.');
+                    showToast('Não é possível remover um equipamento em uso. Devolva-o primeiro no perfil do funcionário.', 'warning');
                     return;
                 }
-                if (confirm('Tem certeza que deseja remover este equipamento?')) {
+                const ok = await showConfirm('Tem certeza que deseja remover este equipamento?', { title: 'Remover equipamento', type: 'danger', confirmText: 'Remover' });
+                if (ok) {
                     await removeEquipamento(id);
+                    showToast('Equipamento removido com sucesso.', 'success');
                     renderTable(document.getElementById('search-equip')?.value || '');
                 }
             });
@@ -302,7 +353,7 @@ const renderEquipamentos = (container, headerActions) => {
                 const funcionarios = getFuncionarios();
 
                 if (funcionarios.length === 0) {
-                    alert('Cadastre um funcionário primeiro para poder alocar o equipamento.');
+                    showToast('Cadastre um funcionário primeiro para poder alocar o equipamento.', 'warning');
                     return;
                 }
 
@@ -333,7 +384,7 @@ const renderEquipamentos = (container, headerActions) => {
                             </div>
                             <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                                 <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
-                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Confirmar Alocação</button>
+                                <button type="submit" class="btn-primary">Confirmar Alocação</button>
                             </div>
                         </form>
                     </div>
@@ -360,7 +411,7 @@ const renderEquipamentos = (container, headerActions) => {
                     const dataEntrega = formData.get('dataEntrega');
 
                     if (!fId) {
-                        alert('Selecione um funcionário da lista.');
+                        showToast('Selecione um funcionário da lista.', 'warning');
                         return;
                     }
 
@@ -404,7 +455,7 @@ const renderEquipamentos = (container, headerActions) => {
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
-                        <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Salvar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -438,7 +489,7 @@ const renderFuncionarios = (container, headerActions) => {
                 <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
                 Importar Planilha
             </button>
-            <button id="btn-add-func" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+            <button id="btn-add-func" class="btn-primary">
                 <i data-lucide="user-plus" class="w-4 h-4"></i>
                 Novo Funcionário
             </button>
@@ -504,8 +555,10 @@ const renderFuncionarios = (container, headerActions) => {
         document.querySelectorAll('.btn-delete-func').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const id = e.currentTarget.dataset.id;
-                if (confirm('Remover funcionário? Isso não apagará termos já gerados ou impressos, mas o removerá da base.')) {
+                const ok = await showConfirm('Remover funcionário? Isso não apagará termos já gerados, mas o removerá da base.', { title: 'Remover funcionário', type: 'danger', confirmText: 'Remover' });
+                if (ok) {
                     await removeFuncionario(id);
+                    showToast('Funcionário removido com sucesso.', 'success');
                     renderTable();
                 }
             });
@@ -536,7 +589,7 @@ const renderFuncionarios = (container, headerActions) => {
                             </div>
                             <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                                 <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
-                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Salvar Alterações</button>
+                                <button type="submit" class="btn-primary">Salvar Alterações</button>
                             </div>
                         </form>
                     </div>
@@ -585,7 +638,7 @@ const renderFuncionarios = (container, headerActions) => {
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
-                        <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">Salvar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -657,7 +710,7 @@ const renderFuncionarios = (container, headerActions) => {
                     </div>
                     <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2" id="import-result-title"></h4>
                     <p class="text-sm text-slate-500 dark:text-slate-400 mb-6" id="import-result-desc"></p>
-                    <button onclick="hideModal()" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors shadow-sm">Fechar</button>
+                    <button onclick="hideModal()" class="btn-primary">Fechar</button>
                 </div>
             </div>
         `;
@@ -895,7 +948,7 @@ const renderFuncionarios = (container, headerActions) => {
             });
 
             if (toImport.length === 0) {
-                alert('Nenhum funcionário novo para importar.');
+                showToast('Nenhum funcionário novo para importar.', 'warning');
                 return;
             }
 
@@ -1047,7 +1100,8 @@ window.renderFuncionarioPerfil = (id) => {
             const eqpId = e.currentTarget.dataset.eqpid;
             const eqp = getEquipamentoById(eqpId);
 
-            if (confirm(`Confirmar devolução de ${eqp.descricao}? O equipamento ficará disponível no estoque.`)) {
+            const ok = await showConfirm(`Confirmar devolução de ${eqp.descricao}? O equipamento ficará disponível no estoque.`, { title: 'Devolver equipamento', confirmText: 'Devolver' });
+            if (ok) {
                 // 1. Atualizar status do equipamento
                 await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
 
@@ -1075,7 +1129,8 @@ window.renderFuncionarioPerfil = (id) => {
     const btnDevolverTodos = document.getElementById('btn-devolver-todos');
     if (btnDevolverTodos) {
         btnDevolverTodos.addEventListener('click', async () => {
-            if (confirm('Confirmar devolução COMPLETA de todos os equipamentos em posse deste funcionário?')) {
+            const okAll = await showConfirm('Confirmar devolução COMPLETA de todos os equipamentos em posse deste funcionário?', { title: 'Devolução completa', type: 'danger', confirmText: 'Devolver Todos' });
+            if (okAll) {
                 const todayStrInput = new Date().toISOString().split('T')[0];
                 const dataRealStr = formatInputDate(todayStrInput);
                 const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -1167,7 +1222,7 @@ window.renderFuncionarioPerfil = (id) => {
                     printWindow.document.write(html);
                     printWindow.document.close();
                 } else {
-                    alert('Os equipamentos foram devolvidos, mas não foi possível abrir o Recibo (pop-up bloqueado).');
+                    showToast('Equipamentos devolvidos, mas não foi possível abrir o Recibo (pop-up bloqueado).', 'warning');
                 }
 
                 // 3. Atualizar a tela
@@ -1193,7 +1248,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
 
     const funcionario = getFuncionarioById(funcionarioId);
     if (!funcionario) {
-        alert('Funcionário não encontrado');
+        showToast('Funcionário não encontrado.', 'error');
         navigate('funcionarios');
         return;
     }
@@ -1300,7 +1355,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
                             </div>
 
                             <div class="pt-6 border-t border-slate-200 dark:border-slate-700 flex justify-end">
-                                <button type="submit" id="btn-gerar" class="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg flex items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed" ${(empresas.length === 0 || equipamentosDB.length === 0) ? 'disabled' : ''}>
+                                <button type="submit" id="btn-gerar" class="btn-primary text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg flex items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed" ${(empresas.length === 0 || equipamentosDB.length === 0) ? 'disabled' : ''}>
                                     <i data-lucide="printer" class="w-5 h-5"></i>
                                     Imprimir / Salvar PDF
                                 </button>
@@ -1332,7 +1387,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
         const eqpsIds = formData.getAll('equipamentos');
 
         if (eqpsIds.length === 0) {
-            alert('Selecione pelo menos 1 equipamento.');
+            showToast('Selecione pelo menos 1 equipamento.', 'warning');
             return;
         }
 
@@ -1412,7 +1467,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
         document.getElementById('btn-print-historico')?.addEventListener('click', () => {
             const printWindow = window.open('', '_blank');
             if (!printWindow) {
-                alert('Por favor, permita pop-ups para imprimir o relatório.');
+                showToast('Por favor, permita pop-ups para imprimir o relatório.', 'warning');
                 return;
             }
 
@@ -1599,7 +1654,8 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             if (!idsStr) return;
             const ids = JSON.parse(idsStr);
 
-            if (confirm('Remover esta entrada do histórico?')) {
+            const ok = await showConfirm('Remover esta entrada do histórico?', { title: 'Remover entrada', type: 'danger', confirmText: 'Remover' });
+            if (ok) {
                 for (const id of ids) {
                     await removeHistoricoEntry(id);
                 }
@@ -1613,7 +1669,8 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
     // Apagar Histórico Event
     document.getElementById('btn-clear-historico')?.addEventListener('click', async () => {
-        if (confirm('Tem certeza absoluta que deseja APAGAR TODO O HISTÓRICO? Esta ação não pode ser desfeita.')) {
+        const ok = await showConfirm('Tem certeza absoluta que deseja APAGAR TODO O HISTÓRICO? Esta ação não pode ser desfeita.', { title: 'Apagar todo histórico', type: 'danger', confirmText: 'Apagar Tudo' });
+        if (ok) {
             await clearHistorico();
             renderHistoricoGeral(container, headerActions);
         }
