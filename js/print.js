@@ -1,6 +1,8 @@
 // js/print.js
 
-const generateAndPrintTermo = (funcionario, empresa, equipamentos) => {
+const generateAndPrintTermo = (funcionario, empresa, equipamentos, dataEntrega) => {
+    // Use provided delivery date or fall back to admission date
+    const dataEquipamento = dataEntrega || funcionario.dataAdmissao;
     // Determine today's date
     const today = new Date();
 
@@ -197,7 +199,7 @@ const generateAndPrintTermo = (funcionario, empresa, equipamentos) => {
                     <tr>
                         <td>${eq.descricao}</td>
                         <td>${eq.modeloMarca}</td>
-                        <td><strong>${formatInputDate(funcionario.dataAdmissao)}</strong></td>
+                        <td><strong>${formatInputDate(dataEquipamento)}</strong></td>
                         <td></td>
                     </tr>
                 `).join('')}

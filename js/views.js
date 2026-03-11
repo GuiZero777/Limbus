@@ -1354,6 +1354,13 @@ const renderGeradorTermo = (container, headerActions, params) => {
         }
                             </div>
 
+                            <!-- Data de Entrega -->
+                            <div class="mb-8">
+                                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">4. Data de Entrega</h4>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Informe a data real de entrega dos equipamentos. Por padrão, é a data de admissão.</p>
+                                <input type="date" name="dataEntrega" id="input-data-entrega" value="${funcionario.dataAdmissao}" required class="w-full sm:w-64 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                            </div>
+
                             <div class="pt-6 border-t border-slate-200 dark:border-slate-700 flex justify-end">
                                 <button type="submit" id="btn-gerar" class="btn-primary text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg flex items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed" ${(empresas.length === 0 || equipamentosDB.length === 0) ? 'disabled' : ''}>
                                     <i data-lucide="printer" class="w-5 h-5"></i>
@@ -1393,13 +1400,12 @@ const renderGeradorTermo = (container, headerActions, params) => {
 
         const empresaObj = getEmpresaById(empresaId);
         const equipamentosObjArray = eqpsIds.map(id => equipamentosDB.find(eq => eq.id === id));
+        const dataEntrega = formData.get('dataEntrega');
 
-        // Generate the print document
-        generateAndPrintTermo(funcionario, empresaObj, equipamentosObjArray);
+        // Generate the print document with the custom delivery date
+        generateAndPrintTermo(funcionario, empresaObj, equipamentosObjArray, dataEntrega);
 
         // Update Equipment states to 'EM_USO' and add Handover History Log
-        const todayStr = new Date().toISOString().split('T')[0];
-
         for (const eqp of equipamentosObjArray) {
             await editEquipamento(eqp.id, {
                 status: 'EM_USO',
@@ -1412,7 +1418,7 @@ const renderGeradorTermo = (container, headerActions, params) => {
             tipo: 'ENTREGA',
             funcionarioId: funcionario.id,
             equipamentosIds: eqpsIds,
-            data: todayStr
+            data: dataEntrega
         });
 
         // Redirect back to employees page after small delay to let print open safely
