@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { getDbConnection } = require('./database');
 const crypto = require('crypto');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve o frontend estático a partir da raiz do projeto
 app.use(express.static(path.join(__dirname, '..')));
 
 const generateId = () => crypto.randomUUID();
@@ -22,10 +24,9 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const UF_REGEX   = /^[A-Z]{2}$/;
 const CNPJ_REGEX = /^\d{14}$/;
 
-const TIPOS_HISTORICO_VALIDOS = ['ENTREGA', 'DEVOLUCAO', 'DEVOLUCAO_COMPLETA', 'ALOCACAO_MANUAL'];
+const TIPOS_HISTORICO_VALIDOS    = ['ENTREGA', 'DEVOLUCAO', 'DEVOLUCAO_COMPLETA', 'ALOCACAO_MANUAL'];
 const STATUS_EQUIPAMENTO_VALIDOS = ['DISPONIVEL', 'EM_USO'];
 
-// Retorna a string limpa ou lança erro se inválida
 const str = (val, campo, { max = 255, min = 1 } = {}) => {
     if (val === null || val === undefined || typeof val !== 'string') {
         throw new ValidationError(`Campo obrigatório ausente: ${campo}`);
@@ -69,7 +70,6 @@ const uf = (val) => {
     return v;
 };
 
-// Classe de erro de validação para distinguir de erros internos
 class ValidationError extends Error {
     constructor(message) {
         super(message);
@@ -77,7 +77,6 @@ class ValidationError extends Error {
     }
 }
 
-// Middleware: captura erros e decide status code
 const handle = (fn) => async (req, res) => {
     try {
         await fn(req, res);
@@ -96,8 +95,7 @@ const handle = (fn) => async (req, res) => {
 
 app.get('/api/empresas', handle(async (req, res) => {
     const db = await getDbConnection();
-    const empresas = await db.all('SELECT * FROM empresas');
-    res.json(empresas);
+    res.json(await db.all('SELECT * FROM empresas'));
 }));
 
 app.post('/api/empresas', handle(async (req, res) => {
@@ -107,8 +105,6 @@ app.post('/api/empresas', handle(async (req, res) => {
     const ufV    = uf(req.body.uf);
 
     const db = await getDbConnection();
-
-    // Impede CNPJ duplicado
     const existing = await db.get('SELECT id FROM empresas WHERE cnpj = ?', [cnpjV]);
     if (existing) throw new ValidationError('Já existe uma empresa cadastrada com este CNPJ');
 
@@ -133,13 +129,12 @@ app.delete('/api/empresas/:id', handle(async (req, res) => {
 
 app.get('/api/funcionarios', handle(async (req, res) => {
     const db = await getDbConnection();
-    const funcionarios = await db.all('SELECT * FROM funcionarios');
-    res.json(funcionarios);
+    res.json(await db.all('SELECT * FROM funcionarios'));
 }));
 
 app.post('/api/funcionarios', handle(async (req, res) => {
-    const nome         = str(req.body.nome,         'nome',         { max: 150 });
-    const funcao       = str(req.body.funcao,        'funcao',       { max: 100 });
+    const nome         = str(req.body.nome,         'nome',   { max: 150 });
+    const funcao       = str(req.body.funcao,        'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao, 'dataAdmissao');
 
     const db = await getDbConnection();
@@ -153,7 +148,6 @@ app.post('/api/funcionarios', handle(async (req, res) => {
 
 app.post('/api/funcionarios/bulk', handle(async (req, res) => {
     const { funcionarios } = req.body;
-
     if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
         throw new ValidationError('Array de funcionários vazio ou inválido');
     }
@@ -167,13 +161,10 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
     await db.run('BEGIN TRANSACTION');
     try {
         for (const func of funcionarios) {
-            // Pular silenciosamente linhas sem nome (comportamento esperado na importação)
             if (!func.nome || !String(func.nome).trim()) continue;
-
-            const nome         = str(func.nome,         'nome',         { max: 150 });
+            const nome         = str(func.nome,                      'nome',   { max: 150 });
             const funcao       = str(func.funcao || 'Não Informado', 'funcao', { max: 100 });
-            const dataAdmissao = date(func.dataAdmissao, 'dataAdmissao');
-
+            const dataAdmissao = date(func.dataAdmissao,             'dataAdmissao');
             const id = generateId();
             await db.run(
                 'INSERT INTO funcionarios (id, nome, funcao, dataAdmissao) VALUES (?, ?, ?, ?)',
@@ -192,12 +183,11 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
 
 app.put('/api/funcionarios/:id', handle(async (req, res) => {
     const id           = uuid(req.params.id,          'id');
-    const nome         = str(req.body.nome,            'nome',         { max: 150 });
-    const funcao       = str(req.body.funcao,           'funcao',       { max: 100 });
+    const nome         = str(req.body.nome,            'nome',   { max: 150 });
+    const funcao       = str(req.body.funcao,           'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao,   'dataAdmissao');
 
     const db = await getDbConnection();
-
     const existing = await db.get('SELECT id FROM funcionarios WHERE id = ?', [id]);
     if (!existing) throw new ValidationError('Funcionário não encontrado');
 
@@ -221,13 +211,12 @@ app.delete('/api/funcionarios/:id', handle(async (req, res) => {
 
 app.get('/api/equipamentos', handle(async (req, res) => {
     const db = await getDbConnection();
-    const equipamentos = await db.all('SELECT * FROM equipamentos');
-    res.json(equipamentos);
+    res.json(await db.all('SELECT * FROM equipamentos'));
 }));
 
 app.post('/api/equipamentos', handle(async (req, res) => {
-    const descricao    = str(req.body.descricao,    'descricao',    { max: 150 });
-    const modeloMarca  = str(req.body.modeloMarca,  'modeloMarca',  { max: 100 });
+    const descricao   = str(req.body.descricao,   'descricao',   { max: 150 });
+    const modeloMarca = str(req.body.modeloMarca, 'modeloMarca', { max: 100 });
 
     const db = await getDbConnection();
     const id = generateId();
@@ -239,22 +228,18 @@ app.post('/api/equipamentos', handle(async (req, res) => {
 }));
 
 app.put('/api/equipamentos/:id', handle(async (req, res) => {
-    const id      = uuid(req.params.id,   'id');
-    const status  = oneOf(req.body.status, 'status', STATUS_EQUIPAMENTO_VALIDOS);
+    const id     = uuid(req.params.id,    'id');
+    const status = oneOf(req.body.status, 'status', STATUS_EQUIPAMENTO_VALIDOS);
 
-    // funcionarioId é opcional (null na devolução)
     let funcionarioId = req.body.funcionarioId ?? null;
     if (funcionarioId !== null) {
         funcionarioId = uuid(funcionarioId, 'funcionarioId');
-
-        // Verifica se o funcionário existe
         const db = await getDbConnection();
         const func = await db.get('SELECT id FROM funcionarios WHERE id = ?', [funcionarioId]);
         if (!func) throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
     }
 
     const db = await getDbConnection();
-
     const existing = await db.get('SELECT id FROM equipamentos WHERE id = ?', [id]);
     if (!existing) throw new ValidationError('Equipamento não encontrado');
 
@@ -290,18 +275,16 @@ app.get('/api/historico', handle(async (req, res) => {
 }));
 
 app.post('/api/historico', handle(async (req, res) => {
-    const tipo          = oneOf(req.body.tipo,          'tipo',          TIPOS_HISTORICO_VALIDOS);
-    const funcionarioId = uuid(req.body.funcionarioId,  'funcionarioId');
-    const dataVal       = date(req.body.data,            'data');
+    const tipo          = oneOf(req.body.tipo,         'tipo',         TIPOS_HISTORICO_VALIDOS);
+    const funcionarioId = uuid(req.body.funcionarioId, 'funcionarioId');
+    const dataVal       = date(req.body.data,           'data');
 
-    // equipamentoId e equipamentosIds são mutuamente exclusivos e opcionais
     let equipamentoId   = req.body.equipamentoId  ?? null;
     let equipamentosIds = req.body.equipamentosIds ?? null;
 
     if (equipamentoId !== null) {
         equipamentoId = uuid(equipamentoId, 'equipamentoId');
     }
-
     if (equipamentosIds !== null) {
         if (!Array.isArray(equipamentosIds)) throw new ValidationError('equipamentosIds deve ser um array');
         if (equipamentosIds.length > 100)    throw new ValidationError('equipamentosIds excede o limite de 100 itens');
@@ -309,13 +292,11 @@ app.post('/api/historico', handle(async (req, res) => {
     }
 
     const db = await getDbConnection();
-
-    // Verifica se o funcionário existe
     const func = await db.get('SELECT id FROM funcionarios WHERE id = ?', [funcionarioId]);
     if (!func) throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
 
-    const id        = generateId();
-    const timestamp = new Date().toISOString();
+    const id             = generateId();
+    const timestamp      = new Date().toISOString();
     const stringifiedIds = equipamentosIds ? JSON.stringify(equipamentosIds) : null;
 
     await db.run(
@@ -323,7 +304,6 @@ app.post('/api/historico', handle(async (req, res) => {
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [id, tipo, funcionarioId, equipamentoId, stringifiedIds, dataVal, timestamp]
     );
-
     res.status(201).json({ id, tipo, funcionarioId, equipamentoId, equipamentosIds, data: dataVal, timestamp });
 }));
 
@@ -346,8 +326,9 @@ app.delete('/api/historico', handle(async (req, res) => {
 
 getDbConnection().then(() => {
     app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
+        console.log(`Limbus rodando em http://localhost:${PORT}`);
     });
 }).catch(err => {
     console.error('Falha ao inicializar o banco de dados:', err);
+    process.exit(1);
 });

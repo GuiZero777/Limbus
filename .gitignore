@@ -1,21 +1,6 @@
-# Dependencies
 node_modules/
-
-# Database
+backend/node_modules/
 *.sqlite
-
-# OS files
-Thumbs.db
-Desktop.ini
+backend/.env
 .DS_Store
-
-# Debug/temp scripts
-check_dark.js
-
-# IDE
-.vscode/
-.idea/
-
-# Logs
-*.log
-npm-debug.log*
+Thumbs.db

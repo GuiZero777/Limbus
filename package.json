@@ -1,13 +1,12 @@
 {
   "name": "limbus",
   "version": "1.0.0",
-  "description": "Limbus - Sistema de gestão de termos de equipamentos",
-  "private": true,
+  "description": "Sistema de gestão de termos de equipamentos EPI/TI",
   "scripts": {
+    "start": "node backend/server.js",
     "install:backend": "cd backend && npm install",
-    "start": "cd backend && node server.js",
-    "dev": "cd backend && npx nodemon server.js"
+    "setup": "npm run install:backend && npm start"
   },
-  "author": "Guizero777",
+  "author": "Guilherme Bardalho",
   "license": "ISC"
 }
