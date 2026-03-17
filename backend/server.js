@@ -5,7 +5,6 @@ const { getDbConnection } = require('./database');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -321,14 +320,20 @@ app.delete('/api/historico', handle(async (req, res) => {
 }));
 
 // =============================================================
-// START
+// EXPORT — separado do listen para permitir testes com Supertest
 // =============================================================
 
-getDbConnection().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Limbus rodando em http://localhost:${PORT}`);
+module.exports = app;
+
+// Só sobe o servidor se executado diretamente (node server.js)
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    getDbConnection().then(() => {
+        app.listen(PORT, () => {
+            console.log(`Limbus rodando em http://localhost:${PORT}`);
+        });
+    }).catch(err => {
+        console.error('Falha ao inicializar o banco de dados:', err);
+        process.exit(1);
     });
-}).catch(err => {
-    console.error('Falha ao inicializar o banco de dados:', err);
-    process.exit(1);
-});
+}

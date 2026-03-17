@@ -1,14 +1,15 @@
 {
-  "name": "backend",
+  "name": "limbus-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API Limbus — Node.js + Express + SQLite",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand --forceExit",
+    "test:watch": "jest --watch --runInBand"
   },
   "keywords": [],
-  "author": "",
+  "author": "Guilherme Bardalho",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -16,5 +17,13 @@
     "express": "^5.2.1",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
   }
 }

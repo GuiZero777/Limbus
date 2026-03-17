@@ -2,7 +2,10 @@ const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'database.sqlite');
+// Em ambiente de teste usa banco em memória isolado, nunca o arquivo real
+const dbPath = process.env.NODE_ENV === 'test'
+    ? ':memory:'
+    : path.resolve(__dirname, 'database.sqlite');
 
 let dbInstance = null;
 
@@ -19,8 +22,15 @@ async function getDbConnection() {
     return dbInstance;
 }
 
+// Usado nos testes para resetar o banco entre suítes
+async function resetDb() {
+    if (dbInstance) {
+        await dbInstance.close();
+        dbInstance = null;
+    }
+}
+
 async function initializeTables(db) {
-    // Tabela: Empresas
     await db.exec(`
         CREATE TABLE IF NOT EXISTS empresas (
             id TEXT PRIMARY KEY,
@@ -31,7 +41,6 @@ async function initializeTables(db) {
         )
     `);
 
-    // Tabela: Equipamentos
     await db.exec(`
         CREATE TABLE IF NOT EXISTS equipamentos (
             id TEXT PRIMARY KEY,
@@ -43,7 +52,6 @@ async function initializeTables(db) {
         )
     `);
 
-    // Tabela: Funcionários
     await db.exec(`
         CREATE TABLE IF NOT EXISTS funcionarios (
             id TEXT PRIMARY KEY,
@@ -53,7 +61,6 @@ async function initializeTables(db) {
         )
     `);
 
-    // Tabela: Histórico
     await db.exec(`
         CREATE TABLE IF NOT EXISTS historico (
             id TEXT PRIMARY KEY,
@@ -68,4 +75,4 @@ async function initializeTables(db) {
     `);
 }
 
-module.exports = { getDbConnection };
+module.exports = { getDbConnection, resetDb };
