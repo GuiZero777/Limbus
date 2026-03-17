@@ -153,7 +153,7 @@ const showInfoModal = () => {
     const html = `
         <div class="p-8 text-center">
             <div class="w-24 h-24 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <img src="logo.png" alt="Limbus Logo" class="w-20 h-20">
+                <img src="logo_256.webp" alt="Limbus Logo" class="w-20 h-20">
             </div>
             <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Sobre o <span class="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">Limbus</span></h3>
             <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Sistema de gestão de termos de equipamentos</p>
