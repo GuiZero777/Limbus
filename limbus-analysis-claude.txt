@@ -1,0 +1,94 @@
+# 🔍 Relatório Atualizado do Projeto Limbus (Semana 2)
+
+## Visão Geral
+
+**Limbus** é um sistema de gestão de termos de equipamentos (EPI/TI). Esta análise reflete o estado atual da aplicação após a refatoração de UI/UX e a adição das configurações raiz recomendadas.
+
+| Item | Valor | Status |
+|---|---|---|
+| **Repositório** | GuiZero777/Limbus | Ativo |
+| **Branch atual** | feature/ui-overhaul | Foco atual |
+| **Git status** | Limpo (nada para commitar) | Excelente |
+| **Total de commits** | 14 | +5 desde a última análise |
+
+---
+
+## 📁 Estrutura do Projeto (Atualizada)
+
+Limbus/
+├── .agent/
+│   └── workflows/
+│       └── start-server.md  # Workflow criado para o Antigravity
+├── .git/                    
+├── .gitignore               # Configurado na raiz
+├── package.json             # Adicionado com scripts centralizados
+├── README.md                # Documentação criada
+├── backend/                 # API Node.js/Express + SQLite (Em ordem)
+├── js/
+│   ├── app.js               # Entry point (~4.9KB)
+│   ├── views.js             # Renderização de telas (~102KB) MUITO GRANDE
+│   ├── store.js             # Gerenciamento de estado (~7.9KB)
+│   ├── print.js             # Geração de termos (~9KB)
+│   ├── ui.js                # Utilitários de UI (~6.5KB) Cresceu com UI Overhaul
+│   └── utils.js             # Funções auxiliares (~1.4KB)
+├── index.html               # Página principal (~7.7KB)
+├── styles.css               # Estilos customizados (~19.5KB) Cresceu com UI Overhaul
+├── logo.png                 # Nova logo adicionada (~405KB)
+└── check_dark.js            # Arquivo de debug (Ignorado no git)
+
+---
+
+## ✅ Progresso desde a última verificação
+
+As **3 vulnerabilidades críticas foram resolvidas**:
+1. **.gitignore raiz** criado! node_modules e pastas de IDE protegidas.
+2. **README.md** adicionado!
+3. **package.json raiz** implementado! 
+4. **Agent Workflow** criado (.agent/workflows/start-server.md), o que deixa o AI Assistant mais inteligente no seu projeto.
+
+Além disso, a branch feature/ui-overhaul trouxe ótimas evoluções visuais (paleta indigo, toasts, tooltips, paginação e favicon).
+
+---
+
+## ⚠️ Problemas e Melhorias Identificadas (Novo Cenário)
+
+Agora que a base estrutural está sólida, os desafios do projeto mudaram para Qualidade de Código e Manutenibilidade.
+
+### Alta Prioridade (Manutenibilidade)
+
+1. views.js explodiu para 102KB
+O arquivo ficou gigantesco. Qualquer nova tela ou alteração vai gerar conflitos massivos.
+
+2. styles.css chegou a ~20KB
+O CSS puro está crescendo rápido. A lógica visual está começando a ficar complexa de gerenciar em um arquivo só.
+
+### Média Prioridade (Performance & Bugs)
+
+3. logo.png muito pesada (405KB)
+É uma imagem muito pesada para a web. Pode retardar o carregamento. O ideal é reduzi-la para WEBP (ficará com ~30KB).
+
+4. Sem Testes Automatizados
+Nenhum teste para proteger a API contra quebras futuras.
+
+5. Validação fraca no Backend
+Dados inseridos pelo client não são devidamente sanitizados antes do SQLite.
+
+---
+
+## 🚀 Recomendações de Próximos Passos (Para Maximizar o Projeto)
+
+### 1. Modularização do Frontend (URGENTE)
+Chegou a hora de quebrar o views.js. Recomendo separar os arquivos por contexto:
+- views/dashboard.js
+- views/funcionarios.js
+- views/equipamentos.js
+- views/empresas.js
+
+### 2. Otimização de Assets
+Comprimir logo.png para formato .webp ou .svg.
+
+### 3. Setup de Linter / Prettier
+Adicionar ESLint fará o código seguir um padrão rígido, evitando bugs.
+
+### 4. Mais Workflows!
+Já temos o /start-server. Podemos criar workflows para /test ou /build-ui.
