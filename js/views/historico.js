@@ -25,6 +25,14 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
     let historico = getHistorico().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
+    // Limite de 7 dias no modo sem licença
+    if (!isFeatureAvailable('historico_completo')) {
+        const limite = new Date();
+        limite.setDate(limite.getDate() - 7);
+        const limiteStr = limite.toISOString().split('T')[0];
+        historico = historico.filter(h => h.data >= limiteStr);
+    }
+
     // Aplicar Filtros de Data
     if (filters.start) {
         historico = historico.filter(h => h.data >= filters.start);
@@ -40,6 +48,10 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     // Event for printing
     setTimeout(() => {
         document.getElementById('btn-print-historico')?.addEventListener('click', () => {
+            if (!isFeatureAvailable('relatorios')) {
+                renderLicenseActivation();
+                return;
+            }
             const printWindow = window.open('', '_blank');
             if (!printWindow) {
                 showToast('Por favor, permita pop-ups para imprimir o relatório.', 'warning');

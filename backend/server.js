@@ -3,6 +3,14 @@ const cors = require('cors');
 const path = require('path');
 const { getDbConnection } = require('./database');
 const crypto = require('crypto');
+const {
+    generateLicenseKey,
+    hashDocument,
+    calcularExpiracao,
+    getLicenseStatus,
+    requireFeature,
+    PLANOS
+} = require('./license');
 
 const app = express();
 
@@ -318,6 +326,127 @@ app.delete('/api/historico', handle(async (req, res) => {
     await db.run('DELETE FROM historico');
     res.status(204).send();
 }));
+
+// =============================================================
+// LICENÇA
+// =============================================================
+
+// GET /api/licenca — retorna status atual da licença desta instalação
+app.get('/api/licenca', handle(async (req, res) => {
+    const db = await getDbConnection();
+    const licenca = await db.get('SELECT * FROM licenca LIMIT 1');
+    const status = getLicenseStatus(licenca);
+    res.json({
+        ativa:     status.valid,
+        plano:     status.plano,
+        expiresAt: status.expiresAt,
+        daysLeft:  status.daysLeft
+    });
+}));
+
+// POST /api/licenca/ativar — ativa uma chave de licença
+app.post('/api/licenca/ativar', handle(async (req, res) => {
+    const chave     = str(req.body.chave,    'chave',    { max: 25 });
+    const documento = str(req.body.documento,'documento',{ max: 18 });
+
+    // Valida formato da chave: LIMBUS-XXXX-XXXX-XXXX
+    if (!/^LIMBUS-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}$/.test(chave)) {
+        throw new ValidationError('Chave de licença inválida. Formato esperado: LIMBUS-XXXX-XXXX-XXXX');
+    }
+
+    // Valida documento (CPF = 11 dígitos, CNPJ = 14 dígitos)
+    const digits = documento.replace(/\D/g, '');
+    if (digits.length !== 11 && digits.length !== 14) {
+        throw new ValidationError('Documento inválido. Informe um CPF (11 dígitos) ou CNPJ (14 dígitos)');
+    }
+
+    const db = await getDbConnection();
+
+    // Verifica se a chave existe e ainda não foi usada
+    const licencaValida = await db.get(
+        'SELECT * FROM licencas_emitidas WHERE chave = ? AND ativa = 1',
+        [chave]
+    );
+
+    if (!licencaValida) {
+        throw new ValidationError('Chave de licença não encontrada ou já utilizada');
+    }
+
+    // Verifica se o documento bate com o registrado na emissão
+    const docHash = hashDocument(digits);
+    if (licencaValida.documentoHash !== docHash) {
+        throw new ValidationError('Esta chave de licença não pertence ao documento informado');
+    }
+
+    const plano      = licencaValida.plano;
+    const expiresAt  = calcularExpiracao(plano);
+    const ativadaEm  = new Date().toISOString().split('T')[0];
+
+    // Grava (ou substitui) a licença desta instalação
+    await db.run(`
+        INSERT INTO licenca (id, chave, documentoHash, plano, ativadaEm, expiresAt)
+        VALUES (1, ?, ?, ?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            chave = excluded.chave,
+            documentoHash = excluded.documentoHash,
+            plano = excluded.plano,
+            ativadaEm = excluded.ativadaEm,
+            expiresAt = excluded.expiresAt
+    `, [chave, docHash, plano, ativadaEm, expiresAt]);
+
+    // Marca a chave como usada
+    await db.run('UPDATE licencas_emitidas SET ativa = 0 WHERE chave = ?', [chave]);
+
+    res.json({
+        ativa:     true,
+        plano,
+        expiresAt,
+        daysLeft:  expiresAt ? Math.ceil((new Date(expiresAt) - new Date()) / 86400000) : null,
+        mensagem:  `Licença ${PLANOS[plano].label} ativada com sucesso!`
+    });
+}));
+
+// POST /api/licenca/emitir — uso interno/admin para gerar uma nova chave
+// Protegido por ADMIN_SECRET no .env
+app.post('/api/licenca/emitir', handle(async (req, res) => {
+    const adminSecret = process.env.ADMIN_SECRET;
+    if (!adminSecret || req.headers['x-admin-secret'] !== adminSecret) {
+        return res.status(401).json({ error: 'Não autorizado' });
+    }
+
+    const documento = str(req.body.documento, 'documento', { max: 18 });
+    const plano     = oneOf(req.body.plano,    'plano',     Object.keys(PLANOS));
+
+    const digits   = documento.replace(/\D/g, '');
+    if (digits.length !== 11 && digits.length !== 14) {
+        throw new ValidationError('Documento inválido. Informe CPF ou CNPJ');
+    }
+
+    const db        = await getDbConnection();
+    const chave     = generateLicenseKey();
+    const docHash   = hashDocument(digits);
+
+    // Cria tabela de chaves emitidas se ainda não existir
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS licencas_emitidas (
+            chave TEXT PRIMARY KEY,
+            documentoHash TEXT NOT NULL,
+            plano TEXT NOT NULL,
+            emitidaEm TEXT NOT NULL,
+            ativa INTEGER DEFAULT 1
+        )
+    `);
+
+    await db.run(
+        'INSERT INTO licencas_emitidas (chave, documentoHash, plano, emitidaEm) VALUES (?, ?, ?, ?)',
+        [chave, docHash, plano, new Date().toISOString().split('T')[0]]
+    );
+
+    res.status(201).json({ chave, plano, documento: digits.length === 14 ? 'CNPJ' : 'CPF' });
+}));
+
+// Aplica middleware de feature nas rotas que precisam de licença ativa
+app.use('/api/historico', requireFeature('historico_completo'));
 
 // =============================================================
 // EXPORT — separado do listen para permitir testes com Supertest

@@ -70,7 +70,7 @@ const renderFuncionarios = (container, headerActions) => {
                 const hasEquip = eqpsFunc.length > 0;
                 const statusBadge = hasEquip
                     ? `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 cursor-help" title="${eqpsFunc.map(e => e.descricao).join(', ')}"><i data-lucide="laptop" class="w-3.5 h-3.5"></i> ${eqpsFunc.length} item(s)</span>`
-                    : `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600"><i data-lucide="box" class="w-3.5 h-3.5"></i> Sem equipe.</span>`;
+                    : `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600"><i data-lucide="box" class="w-3.5 h-3.5"></i> Sem itens</span>`;
 
                 tableHTML += `
                     <tr class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors cursor-pointer row-funcionario" data-id="${f.id}">
@@ -161,6 +161,10 @@ const renderFuncionarios = (container, headerActions) => {
     });
 
     document.getElementById('btn-import-func').addEventListener('click', () => {
+        if (!isFeatureAvailable('importar_planilha')) {
+            renderLicenseActivation();
+            return;
+        }
         renderFuncionarioImport();
     });
 

@@ -3,7 +3,7 @@
 // NOVA VERSÃO: Integrando com o Backend Node.js
 // ---------------------------------------------------------
 
-const API_URL = '/api';
+const API_URL = 'http://localhost:3000/api';
 
 // --- Estado Global na Memória ---
 // Usamos uma cache local para manter as buscas rápidas, mas sempre sincronizadas com a API

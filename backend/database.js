@@ -73,6 +73,18 @@ async function initializeTables(db) {
             FOREIGN KEY (funcionarioId) REFERENCES funcionarios(id) ON DELETE CASCADE
         )
     `);
+
+    // Tabela: Licença — sempre 1 registro (a instalação atual)
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS licenca (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            chave TEXT NOT NULL,
+            documentoHash TEXT NOT NULL,
+            plano TEXT NOT NULL,
+            ativadaEm TEXT NOT NULL,
+            expiresAt TEXT
+        )
+    `);
 }
 
 module.exports = { getDbConnection, resetDb };

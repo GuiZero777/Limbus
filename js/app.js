@@ -86,6 +86,7 @@ const navigate = (viewName, params = {}) => {
     if (!views[viewName]) return;
 
     currentView = viewName;
+    window.currentView = viewName;
     viewParams = params;
 
     // Update Title & Breadcrumbs
@@ -131,7 +132,9 @@ const setupNavigation = () => {
 
 const init = async () => {
     await initializeStore();
+    await loadLicenseState();
     setupNavigation();
+    renderLicenseBanner();
     navigate('dashboard');
 };
 
