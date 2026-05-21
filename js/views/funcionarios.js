@@ -122,7 +122,7 @@ const renderFuncionarios = (container, headerActions) => {
         document.querySelectorAll('.btn-gerar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
-                navigate('gerar_termo', { funcId: id });
+                navigate('gerador_termo', { funcId: id });
             });
         });
 

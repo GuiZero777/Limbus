@@ -8,15 +8,18 @@ process.env.NODE_ENV = 'test';
 
 const request = require('supertest');
 const app     = require('../server');
-const { resetDb } = require('../database');
+const { resetMockDb } = require('../supabaseMock');
 
-// Reseta o banco antes de cada suite para garantir isolamento
+// Injetar mock do Supabase ANTES dos testes rodarem
+jest.mock('@supabase/supabase-js', () => require('../supabaseMock'));
+
+// Reseta o banco mockado antes de cada suite
 beforeEach(async () => {
-    await resetDb();
+    resetMockDb();
 });
 
 afterAll(async () => {
-    await resetDb();
+    resetMockDb();
 });
 
 // =============================================================

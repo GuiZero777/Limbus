@@ -20,7 +20,7 @@ const FEATURES_PREMIUM = [
 // Carrega o status da licença do backend
 const loadLicenseState = async () => {
     try {
-        const res = await fetch('http://localhost:3000/api/licenca');
+        const res = await fetch('/api/licenca');
         if (res.ok) {
             licenseState = await res.json();
         }
@@ -84,9 +84,9 @@ const renderLicenseBanner = () => {
 
     banner.innerHTML = html;
 
-    // Insere no topo do main
-    const mainEl = document.querySelector('main');
-    if (mainEl) mainEl.prepend(banner);
+    // Insere no topo do content-area
+    const contentArea = document.getElementById('content-area');
+    if (contentArea) contentArea.prepend(banner);
 };
 
 // Tela de ativação de licença (abre como modal)
@@ -151,7 +151,7 @@ const renderLicenseActivation = () => {
 
             <p class="text-center text-xs text-slate-400 mt-6">
                 Ainda não tem uma licença?
-                <a href="#" class="text-indigo-500 hover:underline font-medium">Comprar agora</a>
+                <a href="https://limbus.app" target="_blank" class="text-indigo-500 hover:underline font-medium">Comprar agora</a>
             </p>
         </div>
     `;
@@ -174,7 +174,7 @@ const renderLicenseActivation = () => {
         btn.textContent = 'Ativando...';
 
         try {
-            const res = await fetch('http://localhost:3000/api/licenca/ativar', {
+            const res = await fetch('/api/licenca/ativar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chave, documento })

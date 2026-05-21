@@ -1,0 +1,83 @@
+[
+  {
+    "id": "954db390-bd40-4492-9998-0ea22ee24b41",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "52eb6158-2eab-48ca-b3c6-386a94fb7b28",
+    "equipamentosIds": null,
+    "data": "2026-03-06",
+    "timestamp": "2026-03-06T21:43:18.487Z"
+  },
+  {
+    "id": "b7e7ef81-11ac-413a-9c10-c327c2042271",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "0e789267-eeb0-4297-90b7-97ed9e82e499",
+    "equipamentosIds": null,
+    "data": "2026-03-06",
+    "timestamp": "2026-03-06T21:43:18.514Z"
+  },
+  {
+    "id": "186fe584-e41d-4c92-b3a4-a7fb5269a504",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "1d0da78e-6cc3-4919-83bc-1ec885594f16",
+    "equipamentosIds": null,
+    "data": "2026-03-06",
+    "timestamp": "2026-03-06T21:43:18.543Z"
+  },
+  {
+    "id": "95263d39-5062-4093-8f2e-2dbb24fd0afe",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "0c3b03cf-7804-44cc-84de-be3c19b4ddbe",
+    "equipamentosIds": null,
+    "data": "2026-03-06",
+    "timestamp": "2026-03-06T21:43:18.574Z"
+  },
+  {
+    "id": "f64653bf-fed9-4821-b497-d55386f03afa",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": null,
+    "equipamentosIds": "[\"1ad2356b-d4b2-4d68-9305-aa16f64422b5\",\"248336bf-1506-4998-9c2b-05583f8a86d2\"]",
+    "data": "2026-03-11",
+    "timestamp": "2026-03-11T20:02:17.830Z"
+  },
+  {
+    "id": "93376e54-7ba0-4221-a892-f6716f666341",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "248336bf-1506-4998-9c2b-05583f8a86d2",
+    "equipamentosIds": null,
+    "data": "2026-03-11",
+    "timestamp": "2026-03-11T20:08:37.202Z"
+  },
+  {
+    "id": "069f6b1b-42d5-41d7-9f51-d31cc24599d2",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": "1ad2356b-d4b2-4d68-9305-aa16f64422b5",
+    "equipamentosIds": null,
+    "data": "2026-03-11",
+    "timestamp": "2026-03-11T20:08:39.561Z"
+  },
+  {
+    "id": "d74ee20d-3d7b-4b20-9da4-c2143756aad8",
+    "tipo": "ENTREGA",
+    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "equipamentoId": null,
+    "equipamentosIds": "[\"248336bf-1506-4998-9c2b-05583f8a86d2\",\"1ad2356b-d4b2-4d68-9305-aa16f64422b5\"]",
+    "data": "2026-03-12",
+    "timestamp": "2026-03-11T20:09:05.148Z"
+  },
+  {
+    "id": "012107c2-5882-4891-9428-9bfc642d7078",
+    "tipo": "ENTREGA",
+    "funcionarioId": "2394c0ca-ce18-4a40-a287-4db0b9a04ec5",
+    "equipamentoId": null,
+    "equipamentosIds": "[\"cc6176ad-7b79-408e-9502-7262976b718a\"]",
+    "data": "2026-03-17",
+    "timestamp": "2026-03-13T16:55:36.325Z"
+  }
+]

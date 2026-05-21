@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { supabase, getDbConnection } = require('./database');
+const { getDbConnection } = require('./database');
 const crypto = require('crypto');
 const {
     generateLicenseKey,
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, '..')));
 const generateId = () => crypto.randomUUID();
 
 // =============================================================
-// VALIDAÇÃO
+// VALIDAÇÃO — funções puras, zero dependências externas
 // =============================================================
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -101,9 +101,8 @@ const handle = (fn) => async (req, res) => {
 // =============================================================
 
 app.get('/api/empresas', handle(async (req, res) => {
-    const { data, error } = await supabase.from('empresas').select('*');
-    if (error) throw error;
-    res.json(data || []);
+    const db = await getDbConnection();
+    res.json(await db.all('SELECT * FROM empresas'));
 }));
 
 app.post('/api/empresas', handle(async (req, res) => {
@@ -112,23 +111,22 @@ app.post('/api/empresas', handle(async (req, res) => {
     const cidade = str(req.body.cidade, 'cidade', { max: 100 });
     const ufV    = uf(req.body.uf);
 
-    const id = generateId();
-    const { error } = await supabase.from('empresas').insert([{
-        id, nome, cnpj: cnpjV, cidade, uf: ufV
-    }]);
+    const db = await getDbConnection();
+    const existing = await db.get('SELECT id FROM empresas WHERE cnpj = ?', [cnpjV]);
+    if (existing) throw new ValidationError('Já existe uma empresa cadastrada com este CNPJ');
 
-    if (error) {
-        if (error.code === '23505') throw new ValidationError('Já existe uma empresa cadastrada com este CNPJ');
-        throw error;
-    }
-    
+    const id = generateId();
+    await db.run(
+        'INSERT INTO empresas (id, nome, cnpj, cidade, uf) VALUES (?, ?, ?, ?, ?)',
+        [id, nome, cnpjV, cidade, ufV]
+    );
     res.status(201).json({ id, nome, cnpj: cnpjV, cidade, uf: ufV });
 }));
 
 app.delete('/api/empresas/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
-    const { error } = await supabase.from('empresas').delete().eq('id', id);
-    if (error) throw error;
+    const db = await getDbConnection();
+    await db.run('DELETE FROM empresas WHERE id = ?', [id]);
     res.status(204).send();
 }));
 
@@ -137,9 +135,8 @@ app.delete('/api/empresas/:id', handle(async (req, res) => {
 // =============================================================
 
 app.get('/api/funcionarios', handle(async (req, res) => {
-    const { data, error } = await supabase.from('funcionarios').select('*');
-    if (error) throw error;
-    res.json(data || []);
+    const db = await getDbConnection();
+    res.json(await db.all('SELECT * FROM funcionarios'));
 }));
 
 app.post('/api/funcionarios', handle(async (req, res) => {
@@ -147,12 +144,12 @@ app.post('/api/funcionarios', handle(async (req, res) => {
     const funcao       = str(req.body.funcao,        'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao, 'dataAdmissao');
 
+    const db = await getDbConnection();
     const id = generateId();
-    const { error } = await supabase.from('funcionarios').insert([{
-        id, nome, funcao, dataAdmissao
-    }]);
-
-    if (error) throw error;
+    await db.run(
+        'INSERT INTO funcionarios (id, nome, funcao, dataAdmissao) VALUES (?, ?, ?, ?)',
+        [id, nome, funcao, dataAdmissao]
+    );
     res.status(201).json({ id, nome, funcao, dataAdmissao });
 }));
 
@@ -165,22 +162,30 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
         throw new ValidationError('Máximo de 1000 funcionários por importação');
     }
 
-    const toInsert = [];
-    for (const func of funcionarios) {
-        if (!func.nome || !String(func.nome).trim()) continue;
-        const nome         = str(func.nome,                      'nome',   { max: 150 });
-        const funcao       = str(func.funcao || 'Não Informado', 'funcao', { max: 100 });
-        const dataAdmissao = date(func.dataAdmissao,             'dataAdmissao');
-        const id = generateId();
-        toInsert.push({ id, nome, funcao, dataAdmissao });
+    const db = await getDbConnection();
+    const inserted = [];
+
+    await db.run('BEGIN TRANSACTION');
+    try {
+        for (const func of funcionarios) {
+            if (!func.nome || !String(func.nome).trim()) continue;
+            const nome         = str(func.nome,                      'nome',   { max: 150 });
+            const funcao       = str(func.funcao || 'Não Informado', 'funcao', { max: 100 });
+            const dataAdmissao = date(func.dataAdmissao,             'dataAdmissao');
+            const id = generateId();
+            await db.run(
+                'INSERT INTO funcionarios (id, nome, funcao, dataAdmissao) VALUES (?, ?, ?, ?)',
+                [id, nome, funcao, dataAdmissao]
+            );
+            inserted.push({ id, nome, funcao, dataAdmissao });
+        }
+        await db.run('COMMIT');
+    } catch (txErr) {
+        await db.run('ROLLBACK');
+        throw txErr;
     }
 
-    if (toInsert.length > 0) {
-        const { error } = await supabase.from('funcionarios').insert(toInsert);
-        if (error) throw error;
-    }
-
-    res.status(201).json({ inserted: toInsert, count: toInsert.length });
+    res.status(201).json({ inserted, count: inserted.length });
 }));
 
 app.put('/api/funcionarios/:id', handle(async (req, res) => {
@@ -189,22 +194,21 @@ app.put('/api/funcionarios/:id', handle(async (req, res) => {
     const funcao       = str(req.body.funcao,           'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao,   'dataAdmissao');
 
-    const { data, error } = await supabase.from('funcionarios')
-        .update({ nome, funcao, dataAdmissao })
-        .eq('id', id)
-        .select()
-        .maybeSingle();
+    const db = await getDbConnection();
+    const existing = await db.get('SELECT id FROM funcionarios WHERE id = ?', [id]);
+    if (!existing) throw new ValidationError('Funcionário não encontrado');
 
-    if (error) throw error;
-    if (!data) throw new ValidationError('Funcionário não encontrado');
-
-    res.json(data);
+    await db.run(
+        'UPDATE funcionarios SET nome = ?, funcao = ?, dataAdmissao = ? WHERE id = ?',
+        [nome, funcao, dataAdmissao, id]
+    );
+    res.json({ id, nome, funcao, dataAdmissao });
 }));
 
 app.delete('/api/funcionarios/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
-    const { error } = await supabase.from('funcionarios').delete().eq('id', id);
-    if (error) throw error;
+    const db = await getDbConnection();
+    await db.run('DELETE FROM funcionarios WHERE id = ?', [id]);
     res.status(204).send();
 }));
 
@@ -213,21 +217,20 @@ app.delete('/api/funcionarios/:id', handle(async (req, res) => {
 // =============================================================
 
 app.get('/api/equipamentos', handle(async (req, res) => {
-    const { data, error } = await supabase.from('equipamentos').select('*');
-    if (error) throw error;
-    res.json(data || []);
+    const db = await getDbConnection();
+    res.json(await db.all('SELECT * FROM equipamentos'));
 }));
 
 app.post('/api/equipamentos', handle(async (req, res) => {
     const descricao   = str(req.body.descricao,   'descricao',   { max: 150 });
     const modeloMarca = str(req.body.modeloMarca, 'modeloMarca', { max: 100 });
 
+    const db = await getDbConnection();
     const id = generateId();
-    const { error } = await supabase.from('equipamentos').insert([{
-        id, descricao, modeloMarca, status: 'DISPONIVEL', "funcionarioId": null
-    }]);
-
-    if (error) throw error;
+    await db.run(
+        'INSERT INTO equipamentos (id, descricao, modeloMarca, status, funcionarioId) VALUES (?, ?, ?, ?, ?)',
+        [id, descricao, modeloMarca, 'DISPONIVEL', null]
+    );
     res.status(201).json({ id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null });
 }));
 
@@ -238,29 +241,26 @@ app.put('/api/equipamentos/:id', handle(async (req, res) => {
     let funcionarioId = req.body.funcionarioId ?? null;
     if (funcionarioId !== null) {
         funcionarioId = uuid(funcionarioId, 'funcionarioId');
+        const db = await getDbConnection();
+        const func = await db.get('SELECT id FROM funcionarios WHERE id = ?', [funcionarioId]);
+        if (!func) throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
     }
 
-    const { data, error } = await supabase.from('equipamentos')
-        .update({ status, "funcionarioId": funcionarioId })
-        .eq('id', id)
-        .select()
-        .maybeSingle();
+    const db = await getDbConnection();
+    const existing = await db.get('SELECT id FROM equipamentos WHERE id = ?', [id]);
+    if (!existing) throw new ValidationError('Equipamento não encontrado');
 
-    if (error) {
-        if (error.code === '23503') throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
-        throw error;
-    }
-    if (!data) throw new ValidationError('Equipamento não encontrado');
-
-    // Mapear de volta a prop
-    data.funcionarioId = data.funcionarioId || null;
-    res.json(data);
+    await db.run(
+        'UPDATE equipamentos SET status = ?, funcionarioId = ? WHERE id = ?',
+        [status, funcionarioId, id]
+    );
+    res.json({ id, status, funcionarioId });
 }));
 
 app.delete('/api/equipamentos/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
-    const { error } = await supabase.from('equipamentos').delete().eq('id', id);
-    if (error) throw error;
+    const db = await getDbConnection();
+    await db.run('DELETE FROM equipamentos WHERE id = ?', [id]);
     res.status(204).send();
 }));
 
@@ -269,17 +269,16 @@ app.delete('/api/equipamentos/:id', handle(async (req, res) => {
 // =============================================================
 
 app.get('/api/historico', handle(async (req, res) => {
-    const { data, error } = await supabase.from('historico').select('*');
-    if (error) throw error;
-
-    const parsed = (data || []).map(h => {
+    const db = await getDbConnection();
+    let historico = await db.all('SELECT * FROM historico');
+    historico = historico.map(h => {
         if (h.equipamentosIds) {
             try { h.equipamentosIds = JSON.parse(h.equipamentosIds); }
             catch { h.equipamentosIds = []; }
         }
         return h;
     });
-    res.json(parsed);
+    res.json(historico);
 }));
 
 app.post('/api/historico', handle(async (req, res) => {
@@ -299,32 +298,32 @@ app.post('/api/historico', handle(async (req, res) => {
         equipamentosIds = equipamentosIds.map((eid, i) => uuid(eid, `equipamentosIds[${i}]`));
     }
 
+    const db = await getDbConnection();
+    const func = await db.get('SELECT id FROM funcionarios WHERE id = ?', [funcionarioId]);
+    if (!func) throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
+
+    const id             = generateId();
+    const timestamp      = new Date().toISOString();
     const stringifiedIds = equipamentosIds ? JSON.stringify(equipamentosIds) : null;
-    const id = generateId();
-    const timestamp = new Date().toISOString();
 
-    const { error } = await supabase.from('historico').insert([{
-        id, tipo, "funcionarioId": funcionarioId, "equipamentoId": equipamentoId, "equipamentosIds": stringifiedIds, data: dataVal, timestamp
-    }]);
-
-    if (error) {
-        if (error.code === '23503') throw new ValidationError('funcionarioId não corresponde a um funcionário existente');
-        throw error;
-    }
-
+    await db.run(
+        `INSERT INTO historico (id, tipo, funcionarioId, equipamentoId, equipamentosIds, data, timestamp)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [id, tipo, funcionarioId, equipamentoId, stringifiedIds, dataVal, timestamp]
+    );
     res.status(201).json({ id, tipo, funcionarioId, equipamentoId, equipamentosIds, data: dataVal, timestamp });
 }));
 
 app.delete('/api/historico/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
-    const { error } = await supabase.from('historico').delete().eq('id', id);
-    if (error) throw error;
+    const db = await getDbConnection();
+    await db.run('DELETE FROM historico WHERE id = ?', [id]);
     res.status(204).send();
 }));
 
 app.delete('/api/historico', handle(async (req, res) => {
-    const { error } = await supabase.from('historico').delete().neq('id', '00000000-0000-0000-0000-000000000000'); // hacky way to delete all in supabase JS
-    if (error) throw error;
+    const db = await getDbConnection();
+    await db.run('DELETE FROM historico');
     res.status(204).send();
 }));
 
@@ -332,11 +331,10 @@ app.delete('/api/historico', handle(async (req, res) => {
 // LICENÇA
 // =============================================================
 
-// GET /api/licenca
+// GET /api/licenca — retorna status atual da licença desta instalação
 app.get('/api/licenca', handle(async (req, res) => {
-    const { data: licenca, error } = await supabase.from('licenca').select('*').limit(1).maybeSingle();
-    if (error) throw error;
-
+    const db = await getDbConnection();
+    const licenca = await db.get('SELECT * FROM licenca LIMIT 1');
     const status = getLicenseStatus(licenca);
     res.json({
         ativa:     status.valid,
@@ -346,29 +344,35 @@ app.get('/api/licenca', handle(async (req, res) => {
     });
 }));
 
-// POST /api/licenca/ativar
+// POST /api/licenca/ativar — ativa uma chave de licença
 app.post('/api/licenca/ativar', handle(async (req, res) => {
     const chave     = str(req.body.chave,    'chave',    { max: 25 });
     const documento = str(req.body.documento,'documento',{ max: 18 });
 
+    // Valida formato da chave: LIMBUS-XXXX-XXXX-XXXX
     if (!/^LIMBUS-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}$/.test(chave)) {
         throw new ValidationError('Chave de licença inválida. Formato esperado: LIMBUS-XXXX-XXXX-XXXX');
     }
 
+    // Valida documento (CPF = 11 dígitos, CNPJ = 14 dígitos)
     const digits = documento.replace(/\D/g, '');
     if (digits.length !== 11 && digits.length !== 14) {
         throw new ValidationError('Documento inválido. Informe um CPF (11 dígitos) ou CNPJ (14 dígitos)');
     }
 
-    const { data: licencaValida, error: eqErr } = await supabase.from('licencas_emitidas')
-        .select('*')
-        .eq('chave', chave)
-        .eq('ativa', 1)
-        .maybeSingle();
+    const db = await getDbConnection();
 
-    if (eqErr) throw eqErr;
-    if (!licencaValida) throw new ValidationError('Chave de licença não encontrada ou já utilizada');
+    // Verifica se a chave existe e ainda não foi usada
+    const licencaValida = await db.get(
+        'SELECT * FROM licencas_emitidas WHERE chave = ? AND ativa = 1',
+        [chave]
+    );
 
+    if (!licencaValida) {
+        throw new ValidationError('Chave de licença não encontrada ou já utilizada');
+    }
+
+    // Verifica se o documento bate com o registrado na emissão
     const docHash = hashDocument(digits);
     if (licencaValida.documentoHash !== docHash) {
         throw new ValidationError('Esta chave de licença não pertence ao documento informado');
@@ -378,15 +382,20 @@ app.post('/api/licenca/ativar', handle(async (req, res) => {
     const expiresAt  = calcularExpiracao(plano);
     const ativadaEm  = new Date().toISOString().split('T')[0];
 
-    const { error: upsertErr } = await supabase.from('licenca').upsert({
-        id: 1, chave, "documentoHash": docHash, plano, "ativadaEm": ativadaEm, "expiresAt": expiresAt
-    });
-    if (upsertErr) throw upsertErr;
+    // Grava (ou substitui) a licença desta instalação
+    await db.run(`
+        INSERT INTO licenca (id, chave, documentoHash, plano, ativadaEm, expiresAt)
+        VALUES (1, ?, ?, ?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            chave = excluded.chave,
+            documentoHash = excluded.documentoHash,
+            plano = excluded.plano,
+            ativadaEm = excluded.ativadaEm,
+            expiresAt = excluded.expiresAt
+    `, [chave, docHash, plano, ativadaEm, expiresAt]);
 
-    const { error: updateErr } = await supabase.from('licencas_emitidas')
-        .update({ ativa: 0 })
-        .eq('chave', chave);
-    if (updateErr) throw updateErr;
+    // Marca a chave como usada
+    await db.run('UPDATE licencas_emitidas SET ativa = 0 WHERE chave = ?', [chave]);
 
     res.json({
         ativa:     true,
@@ -397,7 +406,8 @@ app.post('/api/licenca/ativar', handle(async (req, res) => {
     });
 }));
 
-// POST /api/licenca/emitir
+// POST /api/licenca/emitir — uso interno/admin para gerar uma nova chave
+// Protegido por ADMIN_SECRET no .env
 app.post('/api/licenca/emitir', handle(async (req, res) => {
     const adminSecret = process.env.ADMIN_SECRET;
     if (!adminSecret || req.headers['x-admin-secret'] !== adminSecret) {
@@ -412,28 +422,41 @@ app.post('/api/licenca/emitir', handle(async (req, res) => {
         throw new ValidationError('Documento inválido. Informe CPF ou CNPJ');
     }
 
+    const db        = await getDbConnection();
     const chave     = generateLicenseKey();
     const docHash   = hashDocument(digits);
 
-    const { error } = await supabase.from('licencas_emitidas').insert([{
-        chave, "documentoHash": docHash, plano, "emitidaEm": new Date().toISOString().split('T')[0]
-    }]);
-    if (error) throw error;
+    // Cria tabela de chaves emitidas se ainda não existir
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS licencas_emitidas (
+            chave TEXT PRIMARY KEY,
+            documentoHash TEXT NOT NULL,
+            plano TEXT NOT NULL,
+            emitidaEm TEXT NOT NULL,
+            ativa INTEGER DEFAULT 1
+        )
+    `);
+
+    await db.run(
+        'INSERT INTO licencas_emitidas (chave, documentoHash, plano, emitidaEm) VALUES (?, ?, ?, ?)',
+        [chave, docHash, plano, new Date().toISOString().split('T')[0]]
+    );
 
     res.status(201).json({ chave, plano, documento: digits.length === 14 ? 'CNPJ' : 'CPF' });
 }));
 
+// Aplica middleware de feature nas rotas que precisam de licença ativa
 app.use('/api/historico', requireFeature('historico_completo'));
 
 // =============================================================
-// EXPORT
+// EXPORT — separado do listen para permitir testes com Supertest
 // =============================================================
 
 module.exports = app;
 
+// Só sobe o servidor se executado diretamente (node server.js)
 if (require.main === module) {
     const PORT = process.env.PORT || 3000;
-    // getDbConnection síncrono para garantir que existe o cliente
     getDbConnection().then(() => {
         app.listen(PORT, () => {
             console.log(`Limbus rodando em http://localhost:${PORT}`);

@@ -1,0 +1,392 @@
+[
+  {
+    "id": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
+    "nome": "Arion Carrion de Lima de Almeida",
+    "funcao": "Técnico de Suporte Junior",
+    "dataAdmissao": "2026-03-09"
+  },
+  {
+    "id": "7daa7f79-a4b5-47e9-99d7-fe96c63c4d20",
+    "nome": "Amanda Neves de Barros",
+    "funcao": "Qualidade e Retenção",
+    "dataAdmissao": "2023-11-16"
+  },
+  {
+    "id": "fa53c48b-c74f-4f4e-8601-27b6b1b342ad",
+    "nome": "Ana Luiza Mattia de Lima",
+    "funcao": "Inovação e Desenvolvimento",
+    "dataAdmissao": "2021-11-29"
+  },
+  {
+    "id": "673f2b64-cc4c-4b34-827b-4d39ac111f0d",
+    "nome": "Arthur Delcastanhel da Silva",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2025-11-17"
+  },
+  {
+    "id": "cb8029a4-26d1-4c33-a4f3-cf023d991c73",
+    "nome": "Bruno Moreira",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-01-21"
+  },
+  {
+    "id": "110ab192-f9dd-40a0-8b03-4efc0153e969",
+    "nome": "Bruno Ricardo Campos",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2021-08-23"
+  },
+  {
+    "id": "f61bc8bc-6883-4f0a-8b44-de91df5ac238",
+    "nome": "Claudete Ribeiro Machado",
+    "funcao": "Experiência das Pessoas",
+    "dataAdmissao": "2025-03-31"
+  },
+  {
+    "id": "83cac7a0-fc57-4a9f-bef1-668d4c8e0fd6",
+    "nome": "Davi Appelt de Sa Sartori",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2025-03-31"
+  },
+  {
+    "id": "d24d5231-dbb6-4ae5-8769-6bd9c3aeaa7e",
+    "nome": "Davi João da Silva",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2025-08-18"
+  },
+  {
+    "id": "67036828-6c72-49d5-afde-a54aec7d090b",
+    "nome": "Eduarda Vieira Daucen",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2022-05-09"
+  },
+  {
+    "id": "c80c4917-65ce-4d88-ad98-2e1de8815f6e",
+    "nome": "Emanuela Lehmkuhl",
+    "funcao": "Relacionamento com o Cliente",
+    "dataAdmissao": "2025-04-07"
+  },
+  {
+    "id": "8f176df0-bc95-4d7a-a7a5-2f2c5e9d9b84",
+    "nome": "Ericke Henrique dos Santos",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-02-04"
+  },
+  {
+    "id": "7143446c-1fc1-4382-8f3b-d7b427b025ad",
+    "nome": "Fabricio Wilbert",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2026-03-02"
+  },
+  {
+    "id": "16c2216d-1232-4da0-8e58-17240b9d1903",
+    "nome": "Fagner Gustavo Toledo Pedrozo",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-02-04"
+  },
+  {
+    "id": "05b08c49-2906-4bfc-b1eb-e0087d69cf38",
+    "nome": "Felipe Rogério Folster",
+    "funcao": "Inteligência de Rede",
+    "dataAdmissao": "2022-05-02"
+  },
+  {
+    "id": "c078a60c-6932-428b-a073-e2ac2cafa093",
+    "nome": "Fellipe Garcia",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2021-03-08"
+  },
+  {
+    "id": "c6598862-3301-4689-a72a-a2c31d5887a8",
+    "nome": "Filipe Eduardo de Medeiros",
+    "funcao": "Inteligência de Rede",
+    "dataAdmissao": "2023-06-01"
+  },
+  {
+    "id": "823a999b-ccaa-45df-8190-c2ab9b2e86d6",
+    "nome": "Frank Goncalves",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2024-11-06"
+  },
+  {
+    "id": "cbc1a904-cc3e-4385-b85a-1c7ca9f6decd",
+    "nome": "Gabriel Bignotti",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2025-12-08"
+  },
+  {
+    "id": "e9eba287-8253-4a93-a224-1c8380e8d6f4",
+    "nome": "Gabriel da Silva Dias",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2024-02-19"
+  },
+  {
+    "id": "5505e0e2-084e-427b-b0b9-066e3a4ef161",
+    "nome": "Gabriel Lopes Gonçalves",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2026-01-19"
+  },
+  {
+    "id": "43158213-8a13-4f11-9406-b7b4f9b79875",
+    "nome": "Guilherme Vasconcellos Bardalho",
+    "funcao": "Inteligência de Rede",
+    "dataAdmissao": "2026-01-05"
+  },
+  {
+    "id": "658294b2-d428-4ff0-b713-e42f3401d7fd",
+    "nome": "Hugo Quaresma Souza",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2024-02-26"
+  },
+  {
+    "id": "0ad2b016-16bf-4278-9903-3d284f13c258",
+    "nome": "Jaqueline Freitas Jacques",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2024-08-14"
+  },
+  {
+    "id": "89ea8e3b-7f49-4630-a3b4-fb9ce107da8e",
+    "nome": "João Marcelo Lostada",
+    "funcao": "Relacionamento com o Cliente",
+    "dataAdmissao": "2025-05-27"
+  },
+  {
+    "id": "024c47bd-f8fb-4321-b86e-a17dce06e64f",
+    "nome": "João Victor Muniz da Silva",
+    "funcao": "Relacionamento com o Cliente",
+    "dataAdmissao": "2025-09-01"
+  },
+  {
+    "id": "538ba115-92ff-4a60-af8d-96c0b04881e2",
+    "nome": "Joniel Correa da Silva",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2023-08-28"
+  },
+  {
+    "id": "3b30b7b2-6a44-4091-8dda-16403e6f61ff",
+    "nome": "Julio Cesar da Silva Agostinho",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2023-06-05"
+  },
+  {
+    "id": "8ac2c6c7-3069-4e0b-b02c-a2f9f55f93cc",
+    "nome": "Kleber Coelho",
+    "funcao": "Inovação e Desenvolvimento",
+    "dataAdmissao": "2025-03-31"
+  },
+  {
+    "id": "57832ac5-a178-4cc9-a284-83e419841d0c",
+    "nome": "Lucas Rekshause",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-10-06"
+  },
+  {
+    "id": "b9316dad-064f-437c-a942-95331dfe6b99",
+    "nome": "Lucas Rodrigues Fernandes",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2026-01-19"
+  },
+  {
+    "id": "8c797982-9391-4daa-af0a-e7add553c695",
+    "nome": "Luis Gabriel Ribeiro Arias",
+    "funcao": "Relacionamento com Cliente",
+    "dataAdmissao": "2025-03-31"
+  },
+  {
+    "id": "7a417ebf-863b-4710-b379-8fcba1be9412",
+    "nome": "Manoel Iago Souza dos Santos",
+    "funcao": "Inteligência de Rede",
+    "dataAdmissao": "2024-04-01"
+  },
+  {
+    "id": "59e37990-747f-46af-9e29-6e8d755ff901",
+    "nome": "Manuella da Silva Guimarães",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2023-02-20"
+  },
+  {
+    "id": "6b749128-e153-4b6d-927c-b6485a817146",
+    "nome": "Matheus Eugenio da Silva",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-05-05"
+  },
+  {
+    "id": "7ab8a859-4618-4458-830c-bb082ca09fe3",
+    "nome": "Neide Fatima de Lima Mai",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2024-04-12"
+  },
+  {
+    "id": "774a435a-35e3-41f5-aae5-a4c13adba0c2",
+    "nome": "Pablo Antony de Lima",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2023-04-25"
+  },
+  {
+    "id": "fa924eb0-7de7-4be7-9b0f-c0045430d8af",
+    "nome": "Ricardo da Silveira Soares",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2022-10-10"
+  },
+  {
+    "id": "6736f8f4-fec7-4dc4-bb83-f9ffa6f85185",
+    "nome": "Ronald Vieira de Oliveira",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2023-08-28"
+  },
+  {
+    "id": "56d9d849-9450-49de-97a4-fe3d6332ebdc",
+    "nome": "Vitor Pereira dos Santos",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2024-12-18"
+  },
+  {
+    "id": "d7dedb1a-1525-4df6-856f-9948ee2ce521",
+    "nome": "Weliton Moraes Custodio",
+    "funcao": "Suporte Externo",
+    "dataAdmissao": "2025-02-04"
+  },
+  {
+    "id": "1ba588ed-8e81-47a1-ad06-dddf0584f05a",
+    "nome": "CNPJ's",
+    "funcao": "Não Informado",
+    "dataAdmissao": "2026-03-09"
+  },
+  {
+    "id": "b81682d0-e879-4f88-9e7c-5d9ec7060e00",
+    "nome": "MAIS TECH SOLUÇÕES EM TI LTDA",
+    "funcao": "Não Informado",
+    "dataAdmissao": "52.606.204/0001-74"
+  },
+  {
+    "id": "888ea957-3092-45ee-971b-6dde5ecbfc66",
+    "nome": "MAIS TELECOMUNICAÇÕES LTDA",
+    "funcao": "Não Informado",
+    "dataAdmissao": "11.832.927/0001-04"
+  },
+  {
+    "id": "8f8ec8d9-442b-4748-b092-76050e5438fa",
+    "nome": "MAIS INTERNET E SERVIÇOS DIGITAIS LTDA",
+    "funcao": "Não Informado",
+    "dataAdmissao": "52.799.658/0001-09"
+  },
+  {
+    "id": "b44a7ba8-9fe4-4ae6-a133-55d27ff429c2",
+    "nome": "Novo colaborador",
+    "funcao": "Não Informado",
+    "dataAdmissao": "2026-03-09"
+  },
+  {
+    "id": "64ce6fe1-a7f4-4519-b03f-30f4210e9853",
+    "nome": "Adão Cleiton Bernardes Pontes",
+    "funcao": "Ativação",
+    "dataAdmissao": "2024-06-10"
+  },
+  {
+    "id": "03a19c9f-9a39-48aa-869b-9ec9a8e0415d",
+    "nome": "Bruna Fernandes Mai",
+    "funcao": "CFO",
+    "dataAdmissao": "2010-01-01"
+  },
+  {
+    "id": "288adb93-dc8b-4399-ad58-0936f8ccba80",
+    "nome": "Bruno Cesar Cordeiro",
+    "funcao": "Ativação",
+    "dataAdmissao": "2021-09-24"
+  },
+  {
+    "id": "8e01abe0-e3f9-4eb6-bb24-fc2931c5fee5",
+    "nome": "Claudio Ricardo da Silva",
+    "funcao": "Consultor",
+    "dataAdmissao": "2023-11-06"
+  },
+  {
+    "id": "ad637ac9-16c3-4a15-aec9-72dab4542679",
+    "nome": "Everson Kleber Mai",
+    "funcao": "CEO",
+    "dataAdmissao": "2006-01-01"
+  },
+  {
+    "id": "bb88ae4f-38cf-4538-ade6-508031d78262",
+    "nome": "Fabio Rodolfo da Silva",
+    "funcao": "Ativação",
+    "dataAdmissao": "2022-05-23"
+  },
+  {
+    "id": "3bbcae68-20a6-4759-9532-b63793f4e128",
+    "nome": "Israel Felix Salgueiro Junior",
+    "funcao": "Marketing",
+    "dataAdmissao": "2025-11-06"
+  },
+  {
+    "id": "cf2df0e1-af1b-4e6b-8e5c-294430778aa7",
+    "nome": "Jakson Weingartner",
+    "funcao": "Infraestrutura",
+    "dataAdmissao": "2012-10-02"
+  },
+  {
+    "id": "7ff9811c-0f92-417f-8161-cf34655bd7ac",
+    "nome": "João Eduardo Philippe Boaventura Butzke",
+    "funcao": "Inteligência de Rede",
+    "dataAdmissao": "2021-04-12"
+  },
+  {
+    "id": "9319d17f-7d0f-4eb8-bad6-284fed6ed7cc",
+    "nome": "Larissa May Back",
+    "funcao": "Financeiro",
+    "dataAdmissao": "2015-08-17"
+  },
+  {
+    "id": "a5fda7b3-145e-4f12-b15c-cfc2f86fee1e",
+    "nome": "Luiz Gustavo de Camargo",
+    "funcao": "Ativação",
+    "dataAdmissao": "2025-04-14"
+  },
+  {
+    "id": "84cd188b-e607-4ff0-ae73-b4cecce972af",
+    "nome": "Luiza Cunha Sena",
+    "funcao": "Qualidade e Retenção",
+    "dataAdmissao": "2024-09-10"
+  },
+  {
+    "id": "6a5ff14b-95b6-48e4-ad08-679f0e957973",
+    "nome": "Paulo Ricardo Wursba",
+    "funcao": "Ativação",
+    "dataAdmissao": "2025-10-13"
+  },
+  {
+    "id": "ca184c96-19f4-4d52-9fa0-73a0ed2feb87",
+    "nome": "Reyan Rubens de Araujo",
+    "funcao": "Ativação",
+    "dataAdmissao": "2021-10-04"
+  },
+  {
+    "id": "0d8b1dc5-658e-4ca2-81e2-1becc0c69cf3",
+    "nome": "Samuel Fernandes Ribeiro",
+    "funcao": "Inovação e Desenvolvimento",
+    "dataAdmissao": "2022-01-24"
+  },
+  {
+    "id": "5139aa78-f814-4501-9c3f-198af37f1460",
+    "nome": "Vanderlei Manente Scotti",
+    "funcao": "Diretoria/Patrimonio",
+    "dataAdmissao": "2021-09-14"
+  },
+  {
+    "id": "26ac8131-aec5-45bd-aac1-f155844c7c8f",
+    "nome": "Vilson Rodrigues Souza",
+    "funcao": "Patrimonio",
+    "dataAdmissao": "2023-03-15"
+  },
+  {
+    "id": "1c535963-612d-42b7-88db-bda9a20065a6",
+    "nome": "Vinicius José Coelho",
+    "funcao": "Inovação e Desenvolvimento",
+    "dataAdmissao": "2019-03-15"
+  },
+  {
+    "id": "2394c0ca-ce18-4a40-a287-4db0b9a04ec5",
+    "nome": "Fernanda Silva Conrado",
+    "funcao": "Assistente de Loja",
+    "dataAdmissao": "2025-02-17"
+  }
+]

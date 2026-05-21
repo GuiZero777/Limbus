@@ -86,18 +86,9 @@ const requireFeature = (feature) => async (req, res, next) => {
     if (!FUNCIONALIDADES_PREMIUM.includes(feature)) return next();
 
     try {
-        const { supabase } = require('./database');
-        
-        // No modo teste com Supabase mockado, podemos não ter o client
-        if (!supabase) return next();
-
-        const { data: licenca, error } = await supabase.from('licenca').select('*').limit(1).maybeSingle();
-        
-        if (error) {
-            console.error('Erro de BD ao verificar licença:', error);
-            return next(); // fail open
-        }
-
+        const { getDbConnection } = require('./database');
+        const db = await getDbConnection();
+        const licenca = await db.get('SELECT * FROM licenca LIMIT 1');
         const status = getLicenseStatus(licenca);
 
         if (status.valid) return next();
@@ -108,7 +99,7 @@ const requireFeature = (feature) => async (req, res, next) => {
             licenseRequired: true
         });
     } catch (err) {
-        console.error('Erro no middleware de licença:', err);
+        console.error('Erro ao verificar licença:', err);
         return next(); // fail open — não bloqueia por erro técnico
     }
 };
