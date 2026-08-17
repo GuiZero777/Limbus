@@ -1,121 +1,2632 @@
 [
   {
-    "id": "1d0da78e-6cc3-4919-83bc-1ec885594f16",
-    "descricao": "Celular",
-    "modeloMarca": "A15",
+    "id": "77267039-af68-442d-81c1-144d8dd9de43",
+    "descricao": "All in one",
+    "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "patrimonio": "6164",
+    "serialNumber": null,
+    "observacoes": "senhas adm: m@ster2025 / N@boT3mpErad0"
   },
   {
-    "id": "0c3b03cf-7804-44cc-84de-be3c19b4ddbe",
-    "descricao": "Notebook",
-    "modeloMarca": "Samsung NP350XAA",
+    "id": "c88608ed-ed94-4cd0-a5cf-ed78ba224f9e",
+    "descricao": "All in one",
+    "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "b2abf400-07e2-4d55-b4bd-9c3423a400ce",
+    "patrimonio": "6159",
+    "serialNumber": "07CH9QCH800840",
+    "observacoes": null
   },
   {
-    "id": "0e789267-eeb0-4297-90b7-97ed9e82e499",
-    "descricao": "Carregador Notebook",
-    "modeloMarca": "Samsung",
+    "id": "c8201136-ebd7-4e92-994c-1c3338624465",
+    "descricao": "ALL IN ONE",
+    "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
+    "patrimonio": "6166",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "52eb6158-2eab-48ca-b3c6-386a94fb7b28",
-    "descricao": "Carregador de Celular",
-    "modeloMarca": "Tipo C",
+    "id": "ed2bfa7a-d17d-4b81-bb14-3ded6ecee4b8",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi Redmi 9",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "72a967d0-d0b2-4a73-8878-bdcb89e9a637",
+    "patrimonio": "28757",
+    "serialNumber": "IMEI (1) 864977059399224",
+    "observacoes": null
   },
   {
-    "id": "abb80085-feae-4477-92c2-cd8d164652f5",
-    "descricao": "Notebook",
-    "modeloMarca": "Dell Inspiron 15",
+    "id": "53eb58da-9af9-49ac-84e4-273db0cdd2a2",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi M1906G7G",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "31894",
+    "serialNumber": null,
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 / Bruno Jose / descartado"
   },
   {
-    "id": "afbfbe22-1554-4811-98e2-80f73e6df01e",
-    "descricao": "Mouse e Teclado",
-    "modeloMarca": "Logitech",
+    "id": "028c68db-6c42-410d-b8f9-17cfd9e9bdaa",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi Redmi 12C",
+    "status": "EM_USO",
+    "funcionarioId": "1e5003ef-eef0-4ac3-9ec7-345b12852fef",
+    "patrimonio": "40393",
+    "serialNumber": "IMEI(1) 860932063275559",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 / voltou do paolo"
+  },
+  {
+    "id": "cd6b92eb-428e-495f-8f38-8d43735d6f06",
+    "descricao": "Smartphone",
+    "modeloMarca": "ASUS Zenfone Shot Plus",
+    "status": "EM_USO",
+    "funcionarioId": "5968e011-3880-488c-859b-d99dd4104472",
+    "patrimonio": "37765",
+    "serialNumber": "L5AXB6008501P8K",
+    "observacoes": null
+  },
+  {
+    "id": "2c80368c-0177-48cf-b201-eaab5a9aaf48",
+    "descricao": "Smartphone",
+    "modeloMarca": "ASUS Zenfone Shot Plus",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "37762",
+    "serialNumber": "L6AXB601D444ZAF",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 / Celular novo estava com ronald gaveta"
   },
   {
-    "id": "8822bac4-a749-473b-813b-bb4991ae18a9",
+    "id": "587c427f-d404-4aaf-ba89-da3aa0f04d4e",
+    "descricao": "Smartphone",
+    "modeloMarca": "ASUS Zenfone Shot Plus",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "33986",
+    "serialNumber": null,
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 / armário / maisinternetfibraa@gmail.com Soumais*2023"
+  },
+  {
+    "id": "dd062b8e-94f0-4cbf-bcb3-f092b6555856",
+    "descricao": "GIMBAL",
+    "modeloMarca": "- -",
+    "status": "EM_USO",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "patrimonio": "42449",
+    "serialNumber": "-",
+    "observacoes": null
+  },
+  {
+    "id": "1d72e163-ab78-4b0b-b4fd-ffab63058008",
+    "descricao": "Monitor",
+    "modeloMarca": "LG ?",
+    "status": "EM_USO",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "patrimonio": "32879",
+    "serialNumber": "?",
+    "observacoes": null
+  },
+  {
+    "id": "e372a02e-755e-4b70-95be-0d508258d51d",
+    "descricao": "Impressora",
+    "modeloMarca": "Samsung M4070FR",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28155",
+    "serialNumber": "BRB7L5H6TY",
+    "observacoes": "impressaomaisinternet@gmail.com  senha: capivara123 / / / / admin capivara tonner Mlt-d203u 84:25:19:1D:E4:90"
+  },
+  {
+    "id": "571f1929-da19-42d7-82f3-6f857a3df5b0",
+    "descricao": "Impressora",
+    "modeloMarca": "Epson L3150",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": null,
+    "serialNumber": null,
+    "observacoes": "MAC 50:57:9C:88:59:19"
+  },
+  {
+    "id": "13ad1fbb-c1ad-4d73-bfa3-25be012f5962",
+    "descricao": "Impressora",
+    "modeloMarca": "Epson L375",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": null,
+    "serialNumber": null,
+    "observacoes": "44:D2:44:0D:9B:94"
+  },
+  {
+    "id": "da0128a2-5eea-48cd-bb62-62421ebf7053",
+    "descricao": "Impressora",
+    "modeloMarca": "Epson L5190",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": null,
+    "serialNumber": "X5NR009874",
+    "observacoes": "50:57:9C:92:18:BF /// Senha Acesso K@a(lo*s(%"
+  },
+  {
+    "id": "5c48d24f-7d64-4d98-b3bb-b22cd96aabfe",
+    "descricao": "Impressora",
+    "modeloMarca": "HP M1132 MFP",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31851",
+    "serialNumber": "BRCHB7V4HW",
+    "observacoes": "Instalado no Setor NOC"
+  },
+  {
+    "id": "f9df39c5-f34d-4dee-8a00-36d0fe5bbefa",
+    "descricao": "Impressora",
+    "modeloMarca": "Brother DCP-1617NW",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "56616",
+    "serialNumber": "U63980-C3X449636",
+    "observacoes": "MAC LAN: B4:22:00:C4:00:27 Senha acesso uNTt80%0"
+  },
+  {
+    "id": "be925129-ddc1-4d2c-a7fe-e5ee87cc8e32",
+    "descricao": "Impressora",
+    "modeloMarca": "Brother DCP-1610NW",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "57264",
+    "serialNumber": "63980B5L309727",
+    "observacoes": "MAC WLAN:    04:68:74:9c:a3:bb MAC LAN 94:dd:f8:5e:94:b2 senha 2FHjd68G"
+  },
+  {
+    "id": "f6215152-0d44-430d-a662-07924951e11f",
+    "descricao": "Impressora",
+    "modeloMarca": "Brother DCP-L5512DN",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "58859",
+    "serialNumber": "U67030B6N603233",
+    "observacoes": "MAC: 94-DD-F8-E4-B9-34"
+  },
+  {
+    "id": "bf7a0407-31bb-4003-ba7c-77e008ef6435",
+    "descricao": "Impressora",
+    "modeloMarca": "Brother DCP-1617NW",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "39650",
+    "serialNumber": "U63980-G3X602190",
+    "observacoes": "MAC LAN B4:22:00:DC:72:2C MAC WLAN CC:5E:F8:6C:AD:29 Senha acesso @n@#XGtM"
+  },
+  {
+    "id": "a2a26923-7ff2-45a7-8e3d-0e3a0f6e9875",
+    "descricao": "MiniPC",
+    "modeloMarca": "Belink T4PRO",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40037",
+    "serialNumber": "B33503KH60639",
+    "observacoes": null
+  },
+  {
+    "id": "8a7a1b5f-b2a4-438a-ad1f-57b3fe934fe2",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 27MS500-B",
+    "status": "EM_USO",
+    "funcionarioId": "6659e158-7283-4763-b2d7-af01c401459b",
+    "patrimonio": "49177",
+    "serialNumber": "502AZQV4L356",
+    "observacoes": "EQUIPAMENTO NOVO"
+  },
+  {
+    "id": "c48697bb-e955-4e09-a848-55b2cc7b47dc",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 27MS500-B",
+    "status": "EM_USO",
+    "funcionarioId": "e7479f6c-b3ab-4a68-98eb-063e0fd7de60",
+    "patrimonio": "49196",
+    "serialNumber": "502AZSP4L310",
+    "observacoes": "EQUIPAMENTO NOVO"
+  },
+  {
+    "id": "1f58b675-ddc4-471d-a0cc-81561b062591",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS500-B",
+    "status": "EM_USO",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "patrimonio": "49197",
+    "serialNumber": "409AZMG04979",
+    "observacoes": null
+  },
+  {
+    "id": "aa94f345-1d52-4540-8195-af8d1a51aff0",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS500-B",
+    "status": "EM_USO",
+    "funcionarioId": "96c4b5ec-63ca-471e-8a2b-91a52269315b",
+    "patrimonio": "49192",
+    "serialNumber": "412AZQV5Y332",
+    "observacoes": null
+  },
+  {
+    "id": "b8e9e7b9-e755-4cd5-ae68-e5a88f1810c9",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS500-B",
+    "status": "EM_USO",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "patrimonio": "49175",
+    "serialNumber": "412AZWS6A865",
+    "observacoes": null
+  },
+  {
+    "id": "9e75e6b2-292c-4678-98f5-6a0c0c965168",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 26WQ500-B",
+    "status": "EM_USO",
+    "funcionarioId": "4a6ed86b-eb31-481b-8fd4-cada7695cf6b",
+    "patrimonio": "44920",
+    "serialNumber": "404AZMGCL459",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "9b54d84a-9a83-4a73-bc60-74e81408d146",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 26WQ500-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40396",
+    "serialNumber": "308AZMG9V019",
+    "observacoes": "Everson e Bruna"
+  },
+  {
+    "id": "3331616d-4bf7-4a0f-b6d1-dd4d90e8d568",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 26WQ500-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40398",
+    "serialNumber": "308AZFM9V003",
+    "observacoes": "Everson e Bruna"
+  },
+  {
+    "id": "312d3d84-ef74-4e00-8a77-6e8aa1d2ab37",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 26WQ500-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40397",
+    "serialNumber": "308AZPU67088",
+    "observacoes": "Everson e Bruna"
+  },
+  {
+    "id": "0af828ea-4b4c-4dcf-a040-639962ac1908",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 26WQ500-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40386",
+    "serialNumber": "308AZUJ67030",
+    "observacoes": "Everson e Bruna"
+  },
+  {
+    "id": "e849b8c5-b79a-4a81-8cec-e782ef5c8760",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MK430H-B",
+    "status": "EM_USO",
+    "funcionarioId": "63a0f676-2438-4621-979c-fce05ce6d2df",
+    "patrimonio": "26037",
+    "serialNumber": "106SPJP1M996",
+    "observacoes": null
+  },
+  {
+    "id": "c4dbb792-dcb9-490d-b713-ffbfd2fd8462",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "5b885294-4c66-467c-8153-56237921dd48",
+    "patrimonio": "40483",
+    "serialNumber": "308AZYE4Q322",
+    "observacoes": null
+  },
+  {
+    "id": "2bf45840-d4ff-453a-bacf-1b81aff66ee9",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "1d829f7d-c3f9-4031-83be-d3ed9bba8077",
+    "patrimonio": "40382",
+    "serialNumber": "308AZUJ4P846",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "7942fbce-12b5-4ff9-b332-80cc441f0773",
+    "descricao": "Monitor",
+    "modeloMarca": "LENOVO S22-E19",
+    "status": "EM_USO",
+    "funcionarioId": "a1dd89a9-0b8b-414d-aee0-8f7ac7506be6",
+    "patrimonio": "40182",
+    "serialNumber": "VA769775",
+    "observacoes": null
+  },
+  {
+    "id": "4a3a615a-2e21-444b-ab2b-b56b51ca02e7",
+    "descricao": "Monitor",
+    "modeloMarca": "LENOVO S22-E19",
+    "status": "EM_USO",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "patrimonio": "40181",
+    "serialNumber": "VA769052",
+    "observacoes": null
+  },
+  {
+    "id": "3d141bd5-7d94-42fa-9f88-49f27d315bda",
+    "descricao": "Monitor",
+    "modeloMarca": "LENOVO S22-E19",
+    "status": "EM_USO",
+    "funcionarioId": "7c3148e2-3ea3-4e22-a975-2297568005cf",
+    "patrimonio": "40038",
+    "serialNumber": "VA769050",
+    "observacoes": null
+  },
+  {
+    "id": "ce9527ab-fe00-4197-81ac-8073faddea56",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "patrimonio": "42138",
+    "serialNumber": "312AZKA1H365",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "ebb73559-680c-43c6-b43e-aadf432e5389",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "e8594c94-2457-481d-abf6-e96f05e42859",
+    "patrimonio": "28180",
+    "serialNumber": "201AZERA2388",
+    "observacoes": null
+  },
+  {
+    "id": "cdf62418-b05e-4b42-a3e4-f37859019021",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28791",
+    "serialNumber": "204AZCQ0L603",
+    "observacoes": null
+  },
+  {
+    "id": "f31bf5b2-97df-459a-8eae-d73bc4b67959",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "43849",
+    "serialNumber": "403AZSP34302",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "ee1bcc15-b34c-4ff8-ad30-4d3be2958742",
+    "descricao": "Monitor",
+    "modeloMarca": "AS Rock CL25FF",
+    "status": "EM_USO",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "patrimonio": "48699",
+    "serialNumber": "H1NL0A002308",
+    "observacoes": null
+  },
+  {
+    "id": "f7753b96-8db3-4e41-a18e-6de7022a9226",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MK430H-B",
+    "status": "EM_USO",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "patrimonio": "26047",
+    "serialNumber": "106SPQJ1N004",
+    "observacoes": null
+  },
+  {
+    "id": "b4ac5fd8-1c21-4a7b-b2fd-f1f3f9f50f22",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "5968e011-3880-488c-859b-d99dd4104472",
+    "patrimonio": "26046",
+    "serialNumber": "0096PMZ0J387",
+    "observacoes": null
+  },
+  {
+    "id": "030af5ee-e1e2-4748-92a8-1a66937b998d",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "5f2eb496-63a9-4c3f-927d-a16ebe2e114f",
+    "patrimonio": "26040",
+    "serialNumber": "0098PJP18900",
+    "observacoes": null
+  },
+  {
+    "id": "919fd56f-fc34-405a-9119-9ca57faf3f83",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28192",
+    "serialNumber": "009SPSL0C382",
+    "observacoes": null
+  },
+  {
+    "id": "cd177a3e-da6a-4676-9e2c-093d028cadc0",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "40c1a09a-ccbe-4bf7-bfd6-f18031f3ce79",
+    "patrimonio": "43837",
+    "serialNumber": "403AZGF34303",
+    "observacoes": null
+  },
+  {
+    "id": "d800f416-253c-48d2-b72e-6ba3f273f61f",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "patrimonio": "43844",
+    "serialNumber": "403AZKA34261",
+    "observacoes": null
+  },
+  {
+    "id": "b7e3bbef-f3f9-43e2-9cf4-287799f1d087",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "86cdf0c7-5045-4e44-b921-b09b38d2697a",
+    "patrimonio": "43846",
+    "serialNumber": "403AZMG34211",
+    "observacoes": "Estava com Cleylson"
+  },
+  {
+    "id": "e965d512-122f-4b36-9f8a-ac1530eac9f2",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "patrimonio": "43840",
+    "serialNumber": "403AZUJ34262",
+    "observacoes": null
+  },
+  {
+    "id": "4dcf5520-b0e5-43c5-836c-2822d83161a3",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28163",
+    "serialNumber": "009SPWQ0K393",
+    "observacoes": null
+  },
+  {
+    "id": "ddd6b7aa-6a15-464a-b86c-8b627a757e1d",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28166",
+    "serialNumber": "009SPXV0J418",
+    "observacoes": null
+  },
+  {
+    "id": "90b7feb3-29fa-48bf-a24d-34555586a616",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28167",
+    "serialNumber": "009SPCA0H899",
+    "observacoes": null
+  },
+  {
+    "id": "8c1a4c9c-70be-4deb-ae50-1548871dfd7e",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "patrimonio": "28197",
+    "serialNumber": "9SPJP0J348",
+    "observacoes": "CAIO"
+  },
+  {
+    "id": "e5bd8e09-faac-49da-bfa2-129e63e69d12",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "patrimonio": "28790",
+    "serialNumber": "204AZYE0L602",
+    "observacoes": null
+  },
+  {
+    "id": "3eba4e82-a23d-45f0-9965-587a00b216d5",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "EM_USO",
+    "funcionarioId": "230f0e01-c88a-4435-b155-1b4973590535",
+    "patrimonio": "28168",
+    "serialNumber": "009SPCA0K355",
+    "observacoes": null
+  },
+  {
+    "id": "d8080c61-149f-4124-94f2-bb9d0fafb35c",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "patrimonio": "28175",
+    "serialNumber": "009SPHG0H897",
+    "observacoes": "marcado errado, estava vinculado a Nicolly"
+  },
+  {
+    "id": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
+    "descricao": "Monitor",
+    "modeloMarca": "Moob M24F",
+    "status": "EM_USO",
+    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "patrimonio": "28184",
+    "serialNumber": "M24FAB100BR20101121",
+    "observacoes": null
+  },
+  {
+    "id": "932aefb3-3317-43b3-a7be-1a4745cbfdfa",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "EM_USO",
+    "funcionarioId": "507bf82d-988c-4f55-aa80-927bfa3ccc22",
+    "patrimonio": "28770",
+    "serialNumber": "204AZJT2Z332",
+    "observacoes": null
+  },
+  {
+    "id": "7e5a0e48-e114-4111-98b2-74a8980330a1",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "EM_USO",
+    "funcionarioId": "319a247c-64fc-4c3e-aefa-7e50dfea4c3a",
+    "patrimonio": "28788",
+    "serialNumber": "204AZBZ2Z285",
+    "observacoes": "Esta na sede"
+  },
+  {
+    "id": "d470f930-e973-4dd8-87cc-56f9116db24a",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400",
+    "status": "EM_USO",
+    "funcionarioId": "bb83ed72-593f-4515-8826-2b5efd92d731",
+    "patrimonio": "28196",
+    "serialNumber": "009SPYR0K330",
+    "observacoes": null
+  },
+  {
+    "id": "10b9da5c-fa24-420e-a013-27baf7ee53de",
+    "descricao": "AP",
+    "modeloMarca": "Huawei EkitEngine AP361",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": null,
+    "serialNumber": null,
+    "observacoes": "MAC ADDRESS: 94:90:10:ED:27:20"
+  },
+  {
+    "id": "fcf86662-abbc-4fb9-833d-c4edc9c566e6",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "EM_USO",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "patrimonio": "40384",
+    "serialNumber": "308AZCQ4P499",
+    "observacoes": null
+  },
+  {
+    "id": "4160c411-1c1c-4387-bd4a-61125c776fdf",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "37699",
+    "serialNumber": "305AZTHC4337",
+    "observacoes": null
+  },
+  {
+    "id": "bc300d04-6506-41d3-8858-b227dbb3e3f0",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H-B",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31886",
+    "serialNumber": "305AZWSC4369",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "ed4db312-5b4b-4000-a530-754cb2a1e4a9",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28768",
+    "serialNumber": "204AZSP0L630",
+    "observacoes": null
+  },
+  {
+    "id": "1f91102e-257e-487b-b773-f16a61ff4661",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MK430H",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "29754",
+    "serialNumber": "207AZUJ3U350",
+    "observacoes": null
+  },
+  {
+    "id": "fff06037-77d9-4ea0-832f-a61b2f1070b6",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "37761",
+    "serialNumber": "305AZQVC2100",
+    "observacoes": null
+  },
+  {
+    "id": "bc9537f9-a7fe-4085-ac4d-19c0c79730ed",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "37700",
+    "serialNumber": "305AZYEC2074",
+    "observacoes": "Estava com João Vitor Comercial"
+  },
+  {
+    "id": "1f9b4b0c-89a5-4035-aaa9-3e88f6316564",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400",
+    "status": "EM_USO",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "patrimonio": "28786",
+    "serialNumber": "204AZVN0L671",
+    "observacoes": null
+  },
+  {
+    "id": "025cffc9-ddd0-4c26-be6a-d52d6742bc17",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "33999",
+    "serialNumber": "302AZUJ26878",
+    "observacoes": "Equipamento entregue novo / Morgane"
+  },
+  {
+    "id": "8a540cdc-a580-45bc-a450-39c89fa2bfca",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 20MK400H",
+    "status": "EM_USO",
+    "funcionarioId": "9da32ec1-055e-437f-bc9c-572a38a22b21",
+    "patrimonio": "31879",
+    "serialNumber": "302AZMG26899",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "cf992ae7-ed1c-4642-bc1b-e1ceb93acc01",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "patrimonio": "45316",
+    "serialNumber": "408AZQVG5820",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "144e6eb3-6c53-49a3-b4e9-6a2c98418836",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "patrimonio": "45318",
+    "serialNumber": "408AZERG5924",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "3fc930c0-b71d-4385-9246-0df54a81c8f9",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MP400-B",
+    "status": "EM_USO",
+    "funcionarioId": "d6574de3-a232-4885-b512-9e73b90ab5bb",
+    "patrimonio": "45324",
+    "serialNumber": "408AZCQG5915",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "0dd066d1-bf2b-4d36-8cbe-8e1ac28893d5",
+    "descricao": "Monitor",
+    "modeloMarca": "AsRock CL25FF",
+    "status": "EM_USO",
+    "funcionarioId": "6a2f083f-bd2e-4b8a-86c9-70b69c653609",
+    "patrimonio": "48700",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "6795b485-428d-4996-9166-7e41bf653f8f",
+    "descricao": "Monitor",
+    "modeloMarca": "AOC 24 B35HM2",
+    "status": "EM_USO",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "patrimonio": "49194",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "f4587ee4-ba43-474b-be2a-b0f47301c5d9",
+    "descricao": "Monitor",
+    "modeloMarca": "AOC 24 B35HM2",
+    "status": "EM_USO",
+    "funcionarioId": "e666f26b-88f3-4e94-a9d8-6a5f20096ccc",
+    "patrimonio": "49155",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "2ecb07d5-fe53-4076-af83-adb309175645",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "26041",
+    "serialNumber": null,
+    "observacoes": "estava com Marlucia"
+  },
+  {
+    "id": "8813ac56-e53c-4e71-931d-a14753c31771",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad E14",
+    "status": "EM_USO",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "patrimonio": "45317",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "a62d7761-c02f-4b56-8699-7ec9edbd03f9",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Idepad 3 15ITL6",
+    "status": "EM_USO",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "patrimonio": "40394",
+    "serialNumber": "PE0BSSNC",
+    "observacoes": "NOVO"
+  },
+  {
+    "id": "0e3f0c9a-b9fd-4526-8ef2-83852f19d113",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Idepad 1 15IAU7",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "49176",
+    "serialNumber": "PE9015305088",
+    "observacoes": "EQUIPAMENTO ENTREGUE NOVO ESTAVA COM CARLOS"
+  },
+  {
+    "id": "7a910235-bf74-448f-837a-9b1b93d65ddb",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+    "status": "EM_USO",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "patrimonio": "42149",
+    "serialNumber": "PE0C402V",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "9935e67e-4d0a-4d8c-9a97-b735e276f090",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Thinkpad T480",
+    "status": "EM_USO",
+    "funcionarioId": "7c6cb921-a923-462b-9161-18ad0db0b05b",
+    "patrimonio": "49168",
+    "serialNumber": "PE04PPM3",
+    "observacoes": "NOTEBOOK CHEGOU DIA 26/02/2025... / Senha de ADM qUiaBO%0097"
+  },
+  {
+    "id": "2f8acc9c-5391-4150-9bdd-52c99f4334df",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Thinkpad T480",
+    "status": "EM_USO",
+    "funcionarioId": "230f0e01-c88a-4435-b155-1b4973590535",
+    "patrimonio": "49195",
+    "serialNumber": "PE04PNE1",
+    "observacoes": "NOTEBOOK CHEGOU DIA 26/02/2025 / Devolvido em perfeito estado por (Julio)"
+  },
+  {
+    "id": "a9376c21-b0ac-4ad7-b2de-04da6661bb94",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T480",
+    "status": "EM_USO",
+    "funcionarioId": "c2377d12-5f23-4ef2-9c77-d53d7df1a10b",
+    "patrimonio": "37764",
+    "serialNumber": "PE04YPFW",
+    "observacoes": "Notebook comprado no ML usado"
+  },
+  {
+    "id": "2a1c015d-00fd-4529-900e-e65c35e3bf93",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T470",
+    "status": "EM_USO",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "patrimonio": "49162",
+    "serialNumber": "PE03JDC5",
+    "observacoes": "Entrege adaptador USB RJ45 TP LINK Comprado na semana 18/02/2025"
+  },
+  {
+    "id": "263e87a4-fc49-4e7e-b945-cd9f3b52c481",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T470",
+    "status": "EM_USO",
+    "funcionarioId": "036ee8aa-9c35-436b-ba02-400384d48696",
+    "patrimonio": "40389",
+    "serialNumber": "PF11Y6K8",
+    "observacoes": "Click esquerdo do touch com ruido / no armario/ Senha ADM: N@boT3mpErad0/ está com adaptador de rede"
+  },
+  {
+    "id": "1241bc15-c18b-4d32-b0cd-e8f01151e9f9",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T470",
+    "status": "EM_USO",
+    "funcionarioId": "f9cf1d55-1eee-4e3c-baba-56125f914e6a",
+    "patrimonio": "40388",
+    "serialNumber": "PF0VBHT6",
+    "observacoes": null
+  },
+  {
+    "id": "50312737-4596-4400-8391-7048dab07691",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "EM_USO",
+    "funcionarioId": "bcea12b0-2abe-4ff2-9055-d8559c32c78a",
+    "patrimonio": "44901",
+    "serialNumber": "PE05KEQR",
+    "observacoes": "DABRAMO NOTEBOOKS"
+  },
+  {
+    "id": "00a36d3f-6a82-4dc6-b134-ca2049394878",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "EM_USO",
+    "funcionarioId": "7c339af9-f09c-465c-8080-351c1bfa4be4",
+    "patrimonio": null,
+    "serialNumber": "PE05KHD9",
+    "observacoes": "DABRAMO NOTEBOOKS"
+  },
+  {
+    "id": "4c184de9-491a-4512-9fbc-1cab6e9a3c85",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "EM_USO",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "patrimonio": "44916",
+    "serialNumber": "PE05KEJP",
+    "observacoes": "DABRAMO NOTEBOOKS"
+  },
+  {
+    "id": "c605bfcc-2e89-41c2-a4b9-f7393de96769",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "EM_USO",
+    "funcionarioId": "5b9dd560-15fc-431e-b5c5-d77326fa4544",
+    "patrimonio": "44918",
+    "serialNumber": "PE05KMQ3",
+    "observacoes": "DABRAMO NOTEBOOKS"
+  },
+  {
+    "id": "419c6c51-e64c-481a-a0fb-783d4467352f",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "EM_USO",
+    "funcionarioId": "1e5003ef-eef0-4ac3-9ec7-345b12852fef",
+    "patrimonio": "44919",
+    "serialNumber": "PE05KEVC",
+    "observacoes": "DABRAMO NOTEBOOKS"
+  },
+  {
+    "id": "de1d8422-b886-47d3-9180-ab0239ca6b45",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T490",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "44902",
+    "serialNumber": "PE05KECQ",
+    "observacoes": "DABRAMO NOTEBOOKS user adm senha m@ster2025 , estava com o edson gomes"
+  },
+  {
+    "id": "3b4a3942-2269-456b-9c11-72396232eeb5",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T480",
+    "status": "EM_USO",
+    "funcionarioId": "02bb5ea9-3408-471b-b557-15ebf70c87e0",
+    "patrimonio": "45321",
+    "serialNumber": "PE03SLYN",
+    "observacoes": null
+  },
+  {
+    "id": "c3f372b0-32e8-4b2f-91c9-3cf605b9e60a",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "EM_USO",
+    "funcionarioId": "e7479f6c-b3ab-4a68-98eb-063e0fd7de60",
+    "patrimonio": "49178",
+    "serialNumber": "PE0E387S",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "5c3e34f4-fc4d-445f-b4a6-5a5d989a924c",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "EM_USO",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "patrimonio": "49179",
+    "serialNumber": "PE0DKFHM",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "776f4e4f-5a0b-4d7a-9ef6-d6464b7b3c0f",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "EM_USO",
+    "funcionarioId": "63a0f676-2438-4621-979c-fce05ce6d2df",
+    "patrimonio": "49166",
+    "serialNumber": "PE0DKHG1",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "9a50b14f-d3e2-4028-a095-65f93b6d455e",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "EM_USO",
+    "funcionarioId": "6659e158-7283-4763-b2d7-af01c401459b",
+    "patrimonio": "49167",
+    "serialNumber": "PE0DKFYA",
+    "observacoes": "Equip entregue novo / notebookmaisinternet@outlook.com senha Capivara@123 / PIN 010203"
+  },
+  {
+    "id": "0bbc5471-661b-462b-b8bc-45144b7e97c5",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "40392",
+    "serialNumber": "PE0AVKXK",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "9eeec5a1-85ab-46f2-9ef0-42c0a84a5a88",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+    "status": "EM_USO",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "patrimonio": "49174",
+    "serialNumber": "PE9015313075",
+    "observacoes": "EQUIPAMENTO ENTREGUE NOVO"
+  },
+  {
+    "id": "01e98964-ada0-4d99-9ef4-cd6ce466b577",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+    "status": "EM_USO",
+    "funcionarioId": "5c1ae5ab-239d-4222-a035-43cbca9b921c",
+    "patrimonio": "49184",
+    "serialNumber": "PE9015328124",
+    "observacoes": "EQUIPAMENTO ENTREGUE NOVO/ senha ADM : N@boT3mpErad0"
+  },
+  {
+    "id": "06576130-8bd8-4048-8d5f-19f6c43c9310",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+    "status": "EM_USO",
+    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "patrimonio": "49190",
+    "serialNumber": "PE9015328130",
+    "observacoes": "EQUIPAMENTO ENTREGUE NOVO"
+  },
+  {
+    "id": "2d9ba82d-69a8-4713-bc81-74b5e9454fcb",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "49189",
+    "serialNumber": "PE9015307084",
+    "observacoes": "EQUIPAMENTO ENTREGUE NOVO / senha adm: N@boT3mpErad0"
+  },
+  {
+    "id": "85ec9365-2990-4a24-a279-15f92c180d04",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "49188",
+    "serialNumber": "PE90153307084",
+    "observacoes": "EQUIPAMENTO NOVO / senha adm: m@ster2025"
+  },
+  {
+    "id": "c8d95ef5-7b4b-4758-a2ee-40033faba10b",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo V14 G3-ABA",
+    "status": "EM_USO",
+    "funcionarioId": "4a6ed86b-eb31-481b-8fd4-cada7695cf6b",
+    "patrimonio": "40238",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "dfafcca9-1492-4dec-9603-2261541c2a76",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+    "status": "EM_USO",
+    "funcionarioId": "d1dc0037-954c-4d71-9eb9-b1e059fdf9fa",
+    "patrimonio": "40351",
+    "serialNumber": "PE0BY91V",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "00bd0eff-7f65-4873-a10a-f75490f495db",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo T460",
+    "status": "EM_USO",
+    "funcionarioId": "6ca41f6e-5550-4642-a988-2b90d56c6011",
+    "patrimonio": "42139",
+    "serialNumber": "PE02MD9U",
+    "observacoes": "Comprado ML dia 25/022024/ problemas no touchpad"
+  },
+  {
+    "id": "26e115e1-2f71-4286-8bd6-37f2f835cb99",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo T460",
+    "status": "EM_USO",
+    "funcionarioId": "ff7fce5f-0df4-4ea9-953e-c9057e722895",
+    "patrimonio": "42140",
+    "serialNumber": "PE02R8SR",
+    "observacoes": "Comprado ML dia 25/02/2024"
+  },
+  {
+    "id": "515744f4-1f32-4ac1-adb6-55927526e6d4",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+    "status": "EM_USO",
+    "funcionarioId": "5b885294-4c66-467c-8153-56237921dd48",
+    "patrimonio": "40387",
+    "serialNumber": "PE0BY8Y7",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "629a62ba-6f2a-4222-b602-027b1dcd1b7c",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "EM_USO",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "patrimonio": "43850",
+    "serialNumber": "FV8R044",
+    "observacoes": "Defeito Bateria e lentidão"
+  },
+  {
+    "id": "05823e3d-636a-4902-9255-4aba2caaf096",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "EM_USO",
+    "funcionarioId": "7c3148e2-3ea3-4e22-a975-2297568005cf",
+    "patrimonio": "43836",
+    "serialNumber": "CV8R044",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "abeb302a-58de-48b1-9155-711662f1fbf0",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "EM_USO",
+    "funcionarioId": "a1dd89a9-0b8b-414d-aee0-8f7ac7506be6",
+    "patrimonio": "43839",
+    "serialNumber": "DV8R044",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "61016840-3cd3-4573-b564-499ec50066aa",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "EM_USO",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "patrimonio": "42150",
+    "serialNumber": "8V8R044",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "8a3fd58e-c797-456b-981f-83245226aa87",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "43838",
+    "serialNumber": "BV8R044",
+    "observacoes": null
+  },
+  {
+    "id": "7cfc06f6-f29d-4e07-b1b9-f4167dc10ad7",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 3520",
+    "status": "EM_USO",
+    "funcionarioId": "96c4b5ec-63ca-471e-8a2b-91a52269315b",
+    "patrimonio": "43845",
+    "serialNumber": "9V8R044",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "ce1b4d70-4098-4023-b4df-ba4fff37aac3",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 1",
+    "status": "EM_USO",
+    "funcionarioId": "d6574de3-a232-4885-b512-9e73b90ab5bb",
+    "patrimonio": "40390",
+    "serialNumber": "PE0AVKDQ",
+    "observacoes": "Equipamento entregue novo estava com Morgane/ Nicolly"
+  },
+  {
+    "id": "40ea0a26-10a2-43c8-b9b8-a5e42af1c79b",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "b2abf400-07e2-4d55-b4bd-9c3423a400ce",
+    "patrimonio": "28753",
+    "serialNumber": "PE08RNJB",
+    "observacoes": "Estava com Vand"
+  },
+  {
+    "id": "5a1f3726-b061-4f51-8651-5025ede759b6",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad E480",
+    "status": "EM_USO",
+    "funcionarioId": "e14dc7a1-9e84-4a7b-a91d-805fefed097e",
+    "patrimonio": "40391",
+    "serialNumber": "K1BR87J01YZ",
+    "observacoes": "Notebook Pleticos"
+  },
+  {
+    "id": "3567cb7f-ad34-4fff-b81c-d0480f8a6b0f",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28752",
+    "serialNumber": "PE08RR2Y",
+    "observacoes": "core i3"
+  },
+  {
+    "id": "d29424aa-7d66-4c47-a1fe-a0715546307d",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Latitude E6320",
+    "status": "EM_USO",
+    "funcionarioId": "5fd22c77-915c-4d74-bfc5-d07cfc380443",
+    "patrimonio": "27191",
+    "serialNumber": "F4858S1",
+    "observacoes": null
+  },
+  {
+    "id": "d8071386-bd34-46a5-ba44-0f21009efeff",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "EM_USO",
+    "funcionarioId": "6abee922-3847-4acd-8d76-a7ef39011c83",
+    "patrimonio": "5750",
+    "serialNumber": null,
+    "observacoes": "8750 Patrimonio notebook emprestado loja santo amaro, mouse logitech e fone de ouvido"
+  },
+  {
+    "id": "00e7ac61-0442-4ac6-a00b-dcaf0de80b23",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "10964",
+    "serialNumber": null,
+    "observacoes": "Notebook atualmente para PC TV COMERCIAL CÂMERA"
+  },
+  {
+    "id": "66777dcf-c367-49b9-ae96-b36ccf6f2440",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "cb79cf0e-e283-4029-8427-228d28631817",
+    "patrimonio": "49183",
+    "serialNumber": "PE08RXWK",
+    "observacoes": "Era do Rafael Comercial"
+  },
+  {
+    "id": "f989c22c-09ad-410d-b00c-cdbf35f4e635",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "26042",
+    "serialNumber": "PE03Y56Q",
+    "observacoes": "Estava com Gabriel Atendimento"
+  },
+  {
+    "id": "d1fd4491-c242-4965-b6d1-fb6f507683c2",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "EM_USO",
+    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
+    "patrimonio": "10975",
+    "serialNumber": null,
+    "observacoes": "SSD 480GB Kingston manutenção em 13/04/2023"
+  },
+  {
+    "id": "fc0e445d-7757-4f6a-a49a-230234213343",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "26033",
+    "serialNumber": "PE08HCPJ",
+    "observacoes": null
+  },
+  {
+    "id": "092012fe-b8c1-49e5-a072-19791bb19a11",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "26035",
+    "serialNumber": "PE04KKMV",
+    "observacoes": "note antigo Edilaine/ Joao Barcelos"
+  },
+  {
+    "id": "7ecbc866-03b1-48bb-8a5f-e6319bfe22a8",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Latitude E6320",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "27503",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "6472d294-91b0-4329-9e31-f882314f38bc",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Inspiron 15 3530",
+    "status": "EM_USO",
+    "funcionarioId": "bb83ed72-593f-4515-8826-2b5efd92d731",
+    "patrimonio": "49193",
+    "serialNumber": "6BVQ194",
+    "observacoes": "Novo, perfeito estado"
+  },
+  {
+    "id": "147d4bf9-8785-47b6-b5bc-310b29342004",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo B40-30 80F1",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "6728",
+    "serialNumber": "PE024BOY",
+    "observacoes": "Servidor de Impressao / esta na Florence Peugeot para configuração da RB"
+  },
+  {
+    "id": "42ec2f09-db8c-48fc-8963-aa09ab7bee92",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28153",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "4c38cce5-eb45-408a-b878-fe4ea1f25d62",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "8750",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "1a935834-54e8-4908-9215-32eb6a03f49f",
+    "descricao": "Notebook",
+    "modeloMarca": "Samsung NP350XBE",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28156",
+    "serialNumber": "8A68-1258410",
+    "observacoes": "Problema botao ligar, carcaça quebrada"
+  },
+  {
+    "id": "e4fe14df-a1fb-4102-b89e-5bd725880a60",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "EM_USO",
+    "funcionarioId": "aaed9ad5-0759-4a90-98f5-f90f6a6f9ee9",
+    "patrimonio": "8748",
+    "serialNumber": null,
+    "observacoes": "Trachado próximo ao botao power"
+  },
+  {
+    "id": "a7e309ed-257a-4372-ac91-899d4fa22695",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell P75F006",
+    "status": "EM_USO",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "patrimonio": "28172",
+    "serialNumber": "58QWQ23",
+    "observacoes": null
+  },
+  {
+    "id": "1587e752-ae21-4948-8b11-c806b2d1163a",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28190",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "4da838cc-b241-4c3f-8a48-14c2b54e58d7",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "8749",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "ee1a0716-c90b-4e6b-8680-02a8ddb3f5c1",
+    "descricao": "Notebook",
+    "modeloMarca": "Samsung NP350XBE",
+    "status": "EM_USO",
+    "funcionarioId": "40c1a09a-ccbe-4bf7-bfd6-f18031f3ce79",
+    "patrimonio": "28755",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "11f7606f-44ac-4812-81d0-b6438b23bd7c",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "6165",
+    "serialNumber": "PE9039524015",
+    "observacoes": "Entrada P3 sem funcionamento"
+  },
+  {
+    "id": "567feb3c-8877-43c2-85f8-32cf6f487f51",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell Latitude E6320",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28769",
+    "serialNumber": null,
+    "observacoes": "Esta sem etiqueta patrimonio na parte inferior"
+  },
+  {
+    "id": "59740644-048e-4b42-88f2-c5f09711e9b3",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 330",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "10974",
+    "serialNumber": "PE03Y56Q",
+    "observacoes": "Notebook Provisório"
+  },
+  {
+    "id": "beaf3528-3e98-4e1c-8de1-a088d5b400a5",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo G40-70",
+    "status": "EM_USO",
+    "funcionarioId": "055a7e0d-4305-49eb-ba47-1c0bf7747d1f",
+    "patrimonio": "28784",
+    "serialNumber": "PE00WKH1",
+    "observacoes": null
+  },
+  {
+    "id": "a999de25-b984-4309-9cd8-a67b31adc748",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "patrimonio": "28796",
+    "serialNumber": "PE0886ER",
+    "observacoes": null
+  },
+  {
+    "id": "8dd18988-254d-44d0-b9c8-d34a01673614",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "patrimonio": "28781",
+    "serialNumber": "PE08SZ6E",
+    "observacoes": "Era da Patricia / senha ADM: N@boT3mpErad0"
+  },
+  {
+    "id": "91629f7f-4c81-401c-9a62-cf48b33aff53",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "patrimonio": "28794",
+    "serialNumber": "PE08T0V0",
+    "observacoes": "Esatava com Nilton"
+  },
+  {
+    "id": "f3cd041f-9573-4012-8d9c-1d686c4653db",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "patrimonio": "28782",
+    "serialNumber": "PE08T0TL",
+    "observacoes": null
+  },
+  {
+    "id": "db9d5831-9c94-4145-98ee-628b570a1c0d",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "6c254b60-289c-48b4-9115-b2d9e0626bfe",
+    "patrimonio": "28783",
+    "serialNumber": "PE087YD5",
+    "observacoes": "20GB memoria RAM"
+  },
+  {
+    "id": "6b2e48a9-dff3-42d0-8ce2-eb7171409aaf",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28778",
+    "serialNumber": "PE0882P1",
+    "observacoes": "Arranhados na parte lateral teclado / desgaste natural / Estava com Andressa"
+  },
+  {
+    "id": "e0a5ec15-fd72-4ed3-b5f4-29cb25f91551",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo V15",
+    "status": "EM_USO",
+    "funcionarioId": "3f4c6222-4b96-4dca-a6b1-89fa0aba503d",
+    "patrimonio": "29753",
+    "serialNumber": "PE08L03G",
+    "observacoes": null
+  },
+  {
+    "id": "640b4963-0ba4-4981-9671-ea53419e2136",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "patrimonio": "29752",
+    "serialNumber": "PE08L065",
+    "observacoes": "Equipamento semi novo estava com Suris"
+  },
+  {
+    "id": "593de18d-abbc-4764-bccd-a750a04a84b9",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell P75F0005",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "30570",
+    "serialNumber": "2S13R23",
+    "observacoes": "Notebook NX Connect estava com Eduarda"
+  },
+  {
+    "id": "34c4b35a-9d85-44d8-9ca6-a0100778318c",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "86cdf0c7-5045-4e44-b921-b09b38d2697a",
+    "patrimonio": "30740",
+    "serialNumber": "PE094YBH",
+    "observacoes": "ENTREGUE NOVO"
+  },
+  {
+    "id": "f2e4b345-0c49-4bc8-a819-6b4c3ed6b0a3",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo Ideapad 3",
+    "status": "EM_USO",
+    "funcionarioId": "2fff43d0-ee64-48d6-8b5d-84c8639bb30f",
+    "patrimonio": "30571",
+    "serialNumber": "PE094YB8",
+    "observacoes": "ENTREGUE NOVO"
+  },
+  {
+    "id": "288534ad-69ec-4e55-8657-0c2058c1f2d8",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell INSPIRON 3584",
+    "status": "EM_USO",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "patrimonio": "31866",
+    "serialNumber": "2TYVQ23",
+    "observacoes": "senha: xaBUM!3702 / PC DE TESTES"
+  },
+  {
+    "id": "131883ca-10af-4b4e-ab2a-bc3775821bf8",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell INSPIRON 15 3567",
+    "status": "EM_USO",
+    "funcionarioId": "3a43a81f-a351-4a46-b24d-c1ad5cb89d5c",
+    "patrimonio": "31853",
+    "serialNumber": "8SD19T2",
+    "observacoes": "Pequena Mancha branca no canto superior direito da tela / Carlos Alberto derramou agua queimou 1 memoria"
+  },
+  {
+    "id": "a51782ec-33d9-4c31-92ba-ee3aed18b42b",
+    "descricao": "Notebook",
+    "modeloMarca": "Dell INSPIRON 15",
+    "status": "EM_USO",
+    "funcionarioId": "8850d64b-2a7f-4af3-81e3-36c472a4c3bf",
+    "patrimonio": "31875",
+    "serialNumber": "JNCCK03",
+    "observacoes": "Equipamento em perfeitas condições / Formatado"
+  },
+  {
+    "id": "f9c16e92-9291-440b-a9e3-4266c30186a7",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+    "status": "EM_USO",
+    "funcionarioId": "d5e67f02-1a57-450e-a69e-759b26e48902",
+    "patrimonio": "31876",
+    "serialNumber": "PE06B1D7",
+    "observacoes": "comprado da Mobiliza/ teclas da ultima fileira com defeito"
+  },
+  {
+    "id": "5b8e1bd8-0d22-4e54-916e-ac28a220ae67",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+    "status": "EM_USO",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "patrimonio": "31874",
+    "serialNumber": "PE06B1D7",
+    "observacoes": "comprado da Mobiliza / teclado substituido / carregador nao original"
+  },
+  {
+    "id": "815af4aa-743f-4ba9-91ae-f11ad4d76122",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+    "status": "EM_USO",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "patrimonio": "31895",
+    "serialNumber": "PE06B1D7",
+    "observacoes": "comprado da Mobiliza"
+  },
+  {
+    "id": "71515600-b124-4340-a77e-a0d989362c2c",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+    "status": "EM_USO",
+    "funcionarioId": "9c989e58-9674-4f05-8d3e-7d9ef77c2f7e",
+    "patrimonio": "33989",
+    "serialNumber": "PE06B1D7",
+    "observacoes": "comprado da Mobiliza"
+  },
+  {
+    "id": "f4cf2068-d6a3-4284-b534-1edcf114af71",
+    "descricao": "Notebook",
+    "modeloMarca": "DELL VOSTRO 15 3515",
+    "status": "EM_USO",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "patrimonio": "31881",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "11ebab45-0559-42f1-8a27-4d38975eb8a6",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+    "status": "EM_USO",
+    "funcionarioId": "e8594c94-2457-481d-abf6-e96f05e42859",
+    "patrimonio": "31863",
+    "serialNumber": "PE06B1D7",
+    "observacoes": "comprado da Mobiliza / ficava com Thiago comercial"
+  },
+  {
+    "id": "b188c3d9-747a-478e-abbe-d69ebf53b480",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T480",
+    "status": "EM_USO",
+    "funcionarioId": "797518f9-ebe7-4d76-a9d1-acd4d3ec99b8",
+    "patrimonio": "45320",
+    "serialNumber": "PE04C1S8",
+    "observacoes": "Notebook desligando quando conectado na energia, estava com vitor garopaba"
+  },
+  {
+    "id": "c7f8fdae-110b-4a2f-bc09-5f7cae4459e0",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo V15 G3 IAP",
+    "status": "EM_USO",
+    "funcionarioId": "b1838d75-ef67-44ff-b9e8-9067079367df",
+    "patrimonio": "49200",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "14f5a2a6-77e4-4923-a3a4-dd5c29b5fcd8",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo V15 G3 IAP",
+    "status": "EM_USO",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "patrimonio": "49199",
+    "serialNumber": "PE9014C04035",
+    "observacoes": "Equipamento entregue novo/ADM: N@boT3mpErad0 devolvido no armario"
+  },
+  {
+    "id": "191ba20f-e0d7-443b-8b1c-ba023442b74b",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo V15 G3 IAP",
+    "status": "EM_USO",
+    "funcionarioId": "76ffd51c-79a8-499b-8a5b-dcf973498b68",
+    "patrimonio": "49198",
+    "serialNumber": null,
+    "observacoes": "Equipamento entregue novo/ Senha ADM: N@boT3mpErad0"
+  },
+  {
+    "id": "8fef2a27-12db-4a91-bc49-56e73eea1981",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi Redmi Note 8",
+    "status": "EM_USO",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "patrimonio": "28798",
+    "serialNumber": "cbe890dc",
+    "observacoes": null
+  },
+  {
+    "id": "54addda4-91f5-48bf-b50a-f67fecd125c3",
+    "descricao": "Smartphone",
+    "modeloMarca": "LG K41S",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28754",
+    "serialNumber": "103BSLY1329824",
+    "observacoes": "Equipamento entregue com carregador e cabo, N° 48 9 2002-4315"
+  },
+  {
+    "id": "49ece92f-dbe5-4e11-873e-74e74118fa03",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "730d6494-6a59-4f3f-9e1d-33629ced6a4e",
+    "patrimonio": "50416",
+    "serialNumber": "RQ8X902387M",
+    "observacoes": "inframaisinternet1@gmail.com capivara123 / N° 48 9 20027846, senha smartphone : 123@+i"
+  },
+  {
+    "id": "093b0bf3-f306-42e2-895e-135899512217",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "49173",
+    "serialNumber": "RQ8X80372VR",
+    "observacoes": "Celular novo - N° 48 9 2002-4314    entregue com carregador"
+  },
+  {
+    "id": "0459e8aa-b0f8-442a-9d07-c123593500d7",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "patrimonio": "49172",
+    "serialNumber": "RQ8X803C3NT",
+    "observacoes": "Celular novo"
+  },
+  {
+    "id": "d00c87dd-4c69-4d3d-8b20-241d945036d9",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "7b03fd3d-7669-45dd-b58c-a054b3f82dc7",
+    "patrimonio": "49191",
+    "serialNumber": "RQ8X901Z96H",
+    "observacoes": "Celular novo"
+  },
+  {
+    "id": "de8a3e4c-aeb7-4af9-83b4-2b21d2969940",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "ff7fce5f-0df4-4ea9-953e-c9057e722895",
+    "patrimonio": "50417",
+    "serialNumber": "RQ8X900KCJF",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "3cb60b7f-b3e5-40b9-bb40-253e479dd2b0",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "patrimonio": "50418",
+    "serialNumber": "RQ8X800G7JT",
+    "observacoes": null
+  },
+  {
+    "id": "64bfc8e1-771d-4de9-90bf-e4e441da56a1",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "48696",
+    "serialNumber": "RXCXA01PBZF",
+    "observacoes": "equipamento entregue novo / celularesnocmaisinternet@gmail.com senha capivara@123"
+  },
+  {
+    "id": "6a02ea76-66ca-4414-9ca6-fc733b5c86e2",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "12b95a84-70b1-4341-8117-005ee204be74",
+    "patrimonio": "48698",
+    "serialNumber": "RXCXA01PD3B",
+    "observacoes": "CELULAR INTEIRO POREM COM MARCAS DE USO / COM MDM"
+  },
+  {
+    "id": "5e35f240-ebae-4435-8fc2-bffafd3ba2a6",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "b234e77e-381a-4725-82cb-58963abd8f25",
+    "patrimonio": "48694",
+    "serialNumber": "RXCXA01QB5W",
+    "observacoes": "entregue novo / estava com Edson, colocado mdm"
+  },
+  {
+    "id": "b59d3e1e-6295-463b-b5e5-a65b7a346350",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "patrimonio": "49153",
+    "serialNumber": "RQCX505XDWX",
+    "observacoes": null
+  },
+  {
+    "id": "8bd5f96e-f14b-4d88-8192-6d847057b075",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "5b9dd560-15fc-431e-b5c5-d77326fa4544",
+    "patrimonio": "48691",
+    "serialNumber": "RXCXA01Q4BK",
+    "observacoes": null
+  },
+  {
+    "id": "c43cd74c-13ef-4d16-b96b-b2b2e93ddc18",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "10ae1c14-fac9-4406-b7e2-c265c2378dea",
+    "patrimonio": "48693",
+    "serialNumber": "RXCXA01Q42H",
+    "observacoes": "entregue novo"
+  },
+  {
+    "id": "e5acad1d-b1c5-4d2d-a4e9-16694120a660",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "45319",
+    "serialNumber": "RQ8X703JBLB",
+    "observacoes": "Aparelho entregue novo / cobrancasmaisinternet@gmail.com Capivara@123 / Usado em conjunto com Marcos Vinicius"
+  },
+  {
+    "id": "575f5ed1-eabf-43d1-8e13-31b81da0a32a",
+    "descricao": "Smartphone",
+    "modeloMarca": "LG K41S",
+    "status": "EM_USO",
+    "funcionarioId": "d1dc0037-954c-4d71-9eb9-b1e059fdf9fa",
+    "patrimonio": "29751",
+    "serialNumber": "105BSJA1516764",
+    "observacoes": "somente para bkp estava com ismael fernando"
+  },
+  {
+    "id": "f09d4cce-37a0-4b0d-be84-76df84d2e007",
+    "descricao": "Smartphone",
+    "modeloMarca": "XIAOMI M2004J19G",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "27757",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "1689cf8f-2869-42fe-8c0f-950424385130",
+    "descricao": "Smartphone",
+    "modeloMarca": "XIAOMI M1908C3JG",
+    "status": "EM_USO",
+    "funcionarioId": "c070ccf0-a1fd-4423-9bfb-7b59cab374ef",
+    "patrimonio": "31862",
+    "serialNumber": null,
+    "observacoes": "CABO CARREGADOR DANIFICADO"
+  },
+  {
+    "id": "6dd76420-91b4-4103-93a8-064a7fbb5b63",
+    "descricao": "Smartphone",
+    "modeloMarca": "iPhone 12",
+    "status": "EM_USO",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "patrimonio": "28779",
+    "serialNumber": "DV6GD0GF0F0N",
+    "observacoes": null
+  },
+  {
+    "id": "fdadc0a4-7cab-45cd-907c-6a6779585885",
+    "descricao": "Smartphone",
+    "modeloMarca": "Motorola XT2095-1",
+    "status": "EM_USO",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "patrimonio": "29799",
+    "serialNumber": "ZF523K6R86",
+    "observacoes": null
+  },
+  {
+    "id": "7e45d2ed-d0b8-419d-a9e4-38c07141f61c",
+    "descricao": "Smartphone",
+    "modeloMarca": "Motorola XT2095-1",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "29800",
+    "serialNumber": "ZF523K8V7W",
+    "observacoes": null
+  },
+  {
+    "id": "c7aaf045-6b0a-4c7f-8d46-2d659ea30294",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A03 CORE",
+    "status": "EM_USO",
+    "funcionarioId": "cb79cf0e-e283-4029-8427-228d28631817",
+    "patrimonio": "30572",
+    "serialNumber": "R9XT8007MZZ",
+    "observacoes": "entregue novo na caixa faltando carregador / estava com Ruth / Larissa celularesmaisinternet@gmail.com / capivara123 PELICULA RACHADA"
+  },
+  {
+    "id": "6a251e76-1eec-491f-81e4-f8fdfcd6b88c",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A03 CORE",
+    "status": "EM_USO",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "patrimonio": "30573",
+    "serialNumber": "R9XT708MB9D",
+    "observacoes": "entregue novo na caixa"
+  },
+  {
+    "id": "ae48f5d1-b5e4-43a5-9f37-4c81fb735af9",
+    "descricao": "Smartphone",
+    "modeloMarca": "LG K61 - LM-Q630BAW",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31867",
+    "serialNumber": "101BSPS0312416",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "2b5c45be-dde3-448c-8560-a94fd9dc5d54",
+    "descricao": "Smartphone",
+    "modeloMarca": "APPLE",
+    "status": "EM_USO",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "patrimonio": "42450",
+    "serialNumber": null,
+    "observacoes": "ID APLE mkt@maisinternet.net.br Senha Capivara@123 desbloqueio celular senha capivara"
+  },
+  {
+    "id": "9444d74f-6336-4518-ab85-22f3e3278120",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung Galaxy A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "81c773f3-413f-479e-9e07-da1636928668",
+    "patrimonio": "48692",
+    "serialNumber": "RXCX900Y76Z",
+    "observacoes": "celularesmaisinternet@gmail.com"
+  },
+  {
+    "id": "c64a162f-a9a3-4ee0-8a64-1edc872d98ca",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A03",
+    "status": "EM_USO",
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "patrimonio": "33998",
+    "serialNumber": "R9XTA0B0QLT",
+    "observacoes": "Equipamento com tela trincada"
+  },
+  {
+    "id": "dc0b3210-1f2b-4593-a220-0771d0286d3d",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A03",
+    "status": "EM_USO",
+    "funcionarioId": "74fc142a-6f20-4e9a-8f5a-80cdc4403f9d",
+    "patrimonio": "31873",
+    "serialNumber": "R9QT809G25Y",
+    "observacoes": "Pode ter sido entregue a um técnico"
+  },
+  {
+    "id": "4706b2a4-570a-419f-a2fc-9e5106ad9c03",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "b7e65580-03cd-4d79-a975-a0793d40eae5",
+    "patrimonio": "49152",
+    "serialNumber": "RQCX505XB5T",
+    "observacoes": "celularesmaisinternet@gmail.com"
+  },
+  {
+    "id": "b75d7444-6f72-4bcd-bf49-af333570fef2",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "d5e67f02-1a57-450e-a69e-759b26e48902",
+    "patrimonio": "50450",
+    "serialNumber": "RQ8X902387M",
+    "observacoes": "suportemaisinternet1@gmail.com / capivara123 aparelho entregue novo"
+  },
+  {
+    "id": "99e4c5d8-39f2-43ea-8ceb-aebb28634830",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 4G",
+    "status": "EM_USO",
+    "funcionarioId": "7c6cb921-a923-462b-9161-18ad0db0b05b",
+    "patrimonio": "45315",
+    "serialNumber": "RX8X8051CKF",
+    "observacoes": "suportemaisinternet1@gmail.com / capivara123 aparelho entregue novo"
+  },
+  {
+    "id": "c4fcabab-781a-4349-a106-f8b73443d432",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "patrimonio": "40385",
+    "serialNumber": "RXCWC039T7B",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 Entregue Novo"
+  },
+  {
+    "id": "078c6b5e-dd96-43ff-91c6-597307eee5ed",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi Redmi 12C",
+    "status": "EM_USO",
+    "funcionarioId": "8bf07679-13fc-4ea7-b22a-44ec01bf036c",
+    "patrimonio": "37763",
+    "serialNumber": "2212ARNC4L",
+    "observacoes": null
+  },
+  {
+    "id": "a5490713-1cb0-4226-9235-88fd85cb0960",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "7c339af9-f09c-465c-8080-351c1bfa4be4",
+    "patrimonio": "43848",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "8c73e2ab-4945-46c4-a558-2a58300e3486",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "f9cf1d55-1eee-4e3c-baba-56125f914e6a",
+    "patrimonio": "43842",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "b9b1c572-daad-4a77-b519-dd0b0a07658a",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "e14dc7a1-9e84-4a7b-a91d-805fefed097e",
+    "patrimonio": "43843",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "258d46e9-21c3-4076-b8b9-db953ad7e619",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "43847",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Estava com Guilherme Passos / Celular BRICKADO!"
+  },
+  {
+    "id": "e1053688-24a6-43aa-89e9-5e7085a42c7e",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "patrimonio": "42146",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "afeb3a2e-2491-41cd-9561-dd5f1a512edd",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "bcea12b0-2abe-4ff2-9055-d8559c32c78a",
+    "patrimonio": "42147",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "0461b39a-f0b6-40a2-9dd2-d927a69b9d34",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "42141",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "d364c7fe-325e-423d-8181-4564becc8a53",
+    "descricao": "Smartphone",
+    "modeloMarca": "Xiaomi 13C",
+    "status": "EM_USO",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "patrimonio": "42148",
+    "serialNumber": "23100RN82L",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "3f03a757-8764-4c19-a330-b4f000262418",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A03",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31859",
+    "serialNumber": "R9QT902RBPN",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 / Padrao de desbloqueio nas fotos"
+  },
+  {
+    "id": "6d72720b-4894-4d4b-aae8-098554928a2c",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A04S",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31854",
+    "serialNumber": "RX8W2056AAW",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123"
+  },
+  {
+    "id": "c3391fe9-f914-4072-81f0-0fad4b140f8c",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A04S",
+    "status": "EM_USO",
+    "funcionarioId": "797518f9-ebe7-4d76-a9d1-acd4d3ec99b8",
+    "patrimonio": "31871",
+    "serialNumber": "RX8W20576VV",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123"
+  },
+  {
+    "id": "b556ea45-e0f7-441d-8925-288b67425aa6",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A04s",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31877",
+    "serialNumber": "RX8W203SZEF",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 estava com Pablo Antony"
+  },
+  {
+    "id": "1d6c6f05-e975-4a9e-b3ca-10ad9e58fab8",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "3b7ba3e2-b7f8-4308-8f22-9228b1327c07",
+    "patrimonio": "48697",
+    "serialNumber": "RXCXA01P3GW",
+    "observacoes": "ESTAVA COM GEOVANE AMORAS"
+  },
+  {
+    "id": "f7aa9735-2d2b-4c9b-87f3-daa2cdc13f0b",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A16",
+    "status": "EM_USO",
+    "funcionarioId": "5d71646a-77bb-4870-bf8c-cd206ce93f2c",
+    "patrimonio": "50420",
+    "serialNumber": "RQ8Y800H7GV",
+    "observacoes": null
+  },
+  {
+    "id": "a391fb16-0340-484d-b046-b4ce636fb983",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A16",
+    "status": "EM_USO",
+    "funcionarioId": "036ee8aa-9c35-436b-ba02-400384d48696",
+    "patrimonio": "50421",
+    "serialNumber": "RQ8Y800HCGT",
+    "observacoes": "Estava com Paolo /"
+  },
+  {
+    "id": "f1d1bc72-b4d9-4c67-bd45-515cc67986fd",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "EM_USO",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "patrimonio": "45323",
+    "serialNumber": "RQ8X7045TXR",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123"
+  },
+  {
+    "id": "73768ab7-d2ed-4252-a6aa-9a1fb1c23448",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "45322",
+    "serialNumber": "RQ8X7048CCX",
+    "observacoes": "celularesmaisinternet@gmail.com / capivara123 ESTAVA COM CARLOS"
+  },
+  {
+    "id": "48cbdd07-12c5-4cbb-b526-b69a4690fb3a",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "patrimonio": "48695",
+    "serialNumber": "SM-A156M/DSN",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "6c6cdbd3-8ea6-498a-a3dc-6401685d3dcf",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A15 5G",
+    "status": "EM_USO",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "patrimonio": "49151",
+    "serialNumber": "SM-A156M/DSN",
+    "observacoes": "Equipamento entregue novo"
+  },
+  {
+    "id": "9441be09-0367-42c0-99b3-393771999b1a",
+    "descricao": "SMARTV",
+    "modeloMarca": "LG UK6310PSE",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28174",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "69f8448a-beb2-4ff2-be24-b1d897e5e05b",
+    "descricao": "Tablet",
+    "modeloMarca": "Samsung A7 LITE T225",
+    "status": "EM_USO",
+    "funcionarioId": "e666f26b-88f3-4e94-a9d8-6a5f20096ccc",
+    "patrimonio": "28785",
+    "serialNumber": "R9XT20CQTYF",
+    "observacoes": "Tela c/ pequeno rachado no lado esq/ celularesmaisinternet@gmail.com - capivara123"
+  },
+  {
+    "id": "6b79a429-9e56-4e6e-9a0b-269675cee675",
+    "descricao": "Tablet",
+    "modeloMarca": "Samsung A7 LITE T225",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "30739",
+    "serialNumber": "R9XT50MM8QE",
+    "observacoes": "email: tablet01maisinternet@gmail.com senha Capivara123/  conta galaxy senha c@pivara2022 / padrão: é um \"M\""
+  },
+  {
+    "id": "53ee802a-f335-42a7-860a-450ee6064299",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28152",
+    "serialNumber": "MEAG5000154FI",
+    "observacoes": "CLIENTE CAROLINA DA ROCHA FUCK / Visor com led fraco"
+  },
+  {
+    "id": "18429c0c-6c55-4352-8d2f-91f58cc57db5",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28165",
+    "serialNumber": "MEA13100929C7",
+    "observacoes": "armário"
+  },
+  {
+    "id": "5424befa-7282-42b4-9603-0772284ac895",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28161",
+    "serialNumber": "MEAJ2501184RP",
+    "observacoes": null
+  },
+  {
+    "id": "d5de49ee-fca8-456b-842e-0f74f6390645",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28200",
+    "serialNumber": "MEA1230043431C6",
+    "observacoes": "Armario"
+  },
+  {
+    "id": "7d878d7a-12cc-470c-a1d5-49b98c7490dd",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras V5501",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28170",
+    "serialNumber": "QF3H460045320",
+    "observacoes": null
+  },
+  {
+    "id": "27605876-a190-41b9-abdc-e35e148e9788",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28194",
+    "serialNumber": "MEAI2300432XY",
+    "observacoes": null
+  },
+  {
+    "id": "1d3cf731-e925-4681-977e-a01e83af8a56",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28173",
+    "serialNumber": "MEAG5000063XP",
+    "observacoes": "pode estar no estoque"
+  },
+  {
+    "id": "a18c5043-1966-4d98-9d7a-2a808153b4ff",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28160",
+    "serialNumber": "MEAH250162160",
+    "observacoes": "Garopaba"
+  },
+  {
+    "id": "8c668302-3408-4f4d-970b-166441a51d01",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28181",
+    "serialNumber": "MEAI30005551L",
+    "observacoes": null
+  },
+  {
+    "id": "e58271da-9f45-496f-bce4-756979dcc086",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28185",
+    "serialNumber": "MEAH25016290Q",
+    "observacoes": null
+  },
+  {
+    "id": "f776408e-dda4-47c0-bc1a-b11ff31b1f93",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP1251",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": null,
+    "serialNumber": "MEAI3000556AY",
+    "observacoes": "com delay"
+  },
+  {
+    "id": "a4911080-b895-4565-99c0-0d69ea7306eb",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "30738",
+    "serialNumber": "MEAG5000057A4",
+    "observacoes": "Firmware Atualizado / Armário"
+  },
+  {
+    "id": "6c6d9227-7d78-48c2-848a-fd735c4e3999",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31890",
+    "serialNumber": "MEAJ1400337X8",
+    "observacoes": "Armario"
+  },
+  {
+    "id": "cbc035e0-c269-4e54-9ad6-d7a9552a06ce",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31880",
+    "serialNumber": "MEAH44202618XZ",
+    "observacoes": "tela fraca"
+  },
+  {
+    "id": "c721dec9-1aeb-4958-913a-156d2884fa76",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "EM_USO",
+    "funcionarioId": "00c00f74-df64-4d55-80cb-ce1649ab7f5d",
+    "patrimonio": "31882",
+    "serialNumber": "MEAH44202618XZ",
+    "observacoes": null
+  },
+  {
+    "id": "1389b735-de96-47e1-99ce-020969b213fe",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31860",
+    "serialNumber": "MEAH3500942BO",
+    "observacoes": null
+  },
+  {
+    "id": "f6bf92d9-aa47-4193-a910-bc643ef225e8",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31891",
+    "serialNumber": null,
+    "observacoes": "novo na caixa"
+  },
+  {
+    "id": "76b66b40-859a-41a7-ad90-1bfa75f9b278",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "31884",
+    "serialNumber": null,
+    "observacoes": "Garopaba"
+  },
+  {
+    "id": "80ce460a-0726-4102-b75e-8d190faa4f1f",
+    "descricao": "Telefone Voip",
+    "modeloMarca": "Intelbras TIP125I",
+    "status": "EM_USO",
+    "funcionarioId": "6f4de014-570d-43b6-b632-4c8cd4208b4d",
+    "patrimonio": "31858",
+    "serialNumber": null,
+    "observacoes": "armario funcionamento ok"
+  },
+  {
+    "id": "428f7a3e-fbe9-46e9-b9cc-045276c55a03",
+    "descricao": "TV",
+    "modeloMarca": "Philco PTV50G70SBLSG4K-VC",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28151",
+    "serialNumber": "ID em fotos",
+    "observacoes": null
+  },
+  {
+    "id": "c1cd7ceb-6ca2-4673-b68f-815b712ef9f6",
+    "descricao": "TV",
+    "modeloMarca": "PHILCO PTV50G70SBLSG4K-VC",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28195",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "68755cd8-6968-4b94-ae39-4cabfd0787f1",
+    "descricao": "TV",
+    "modeloMarca": "LG 49LJ551C",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "28182",
+    "serialNumber": "810AZFM36515",
+    "observacoes": null
+  },
+  {
+    "id": "0c19d44c-97bc-46f2-98a4-7f19045f3580",
+    "descricao": "Video Game",
+    "modeloMarca": "PS5 PS5 COM DISCO",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "44917",
+    "serialNumber": "F32CO1JHU11364506",
+    "observacoes": null
+  },
+  {
+    "id": "10b6e081-1e39-42b6-a686-08ed4e938b74",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 29WL500",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "58865",
+    "serialNumber": "412AZFM8F691",
+    "observacoes": null
+  },
+  {
+    "id": "b5082197-55b5-4365-b02c-69e0f00393ab",
     "descricao": "Monitor",
     "modeloMarca": "LG",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "58861",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "8a58c8ba-e32b-4601-8c20-0aebf6578da4",
-    "descricao": "Fonte Notebook",
-    "modeloMarca": "Dell",
+    "id": "7383757d-0fa9-4478-a5dc-2cf02df92eda",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 29WL500",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "58860",
+    "serialNumber": "309AZPU9H248",
+    "observacoes": null
   },
   {
-    "id": "b27b707b-4583-4c67-be11-485759f3ec4c",
-    "descricao": "Fonte Notebook",
-    "modeloMarca": "Lenovo",
-    "status": "DISPONIVEL",
-    "funcionarioId": null
-  },
-  {
-    "id": "9900d100-5648-4541-9604-779c6177da2b",
+    "id": "3725b3b2-ad76-4ab0-bbf5-d91f00008ef9",
     "descricao": "Notebook",
-    "modeloMarca": "Lenovo Ideapad Slim 3",
+    "modeloMarca": "Acer Aspire A515-41G",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "58864",
+    "serialNumber": "N17C4",
+    "observacoes": null
   },
   {
-    "id": "b5c75947-725c-4969-86ad-b941405dbd23",
-    "descricao": "Mousepad",
-    "modeloMarca": "Mais Internet",
+    "id": "948f3358-662d-4425-8227-c137ab83bc3d",
+    "descricao": "Impressora",
+    "modeloMarca": "HP LaserJet P1102w",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "58862",
+    "serialNumber": null,
+    "observacoes": "IP: 192.168.2.41"
   },
   {
-    "id": "188beb22-4d36-425d-903c-fd6f51d809e2",
-    "descricao": "Mouse",
-    "modeloMarca": "Logitech",
+    "id": "6fcf1032-833f-407a-9ee3-530a4e355801",
+    "descricao": "PC",
+    "modeloMarca": "Genérico",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "58758",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "18c97933-c538-44cf-8d14-d9276efad323",
-    "descricao": "Teclado",
-    "modeloMarca": "Logitech",
+    "id": "536dd590-a15f-4d3f-9e1a-bf6d11e66351",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS500",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "59880",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "cc6176ad-7b79-408e-9502-7262976b718a",
-    "descricao": "Celular",
-    "modeloMarca": "A15",
+    "id": "cdb79523-6b8a-42ae-bba1-de297c1b8df0",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS501",
     "status": "EM_USO",
-    "funcionarioId": "2394c0ca-ce18-4a40-a287-4db0b9a04ec5"
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "patrimonio": "59881",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "b8256744-92b9-4f02-84c5-0755c47e7a40",
-    "descricao": "Celular",
-    "modeloMarca": "Redmi 9",
+    "id": "db33b374-930a-409f-baac-030ca59514c4",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 24MS502",
     "status": "DISPONIVEL",
-    "funcionarioId": null
+    "funcionarioId": null,
+    "patrimonio": "59882",
+    "serialNumber": null,
+    "observacoes": null
   },
   {
-    "id": "248336bf-1506-4998-9c2b-05583f8a86d2",
+    "id": "a34ec10a-0ad7-4f4f-b670-278946103410",
+    "descricao": "Monitor",
+    "modeloMarca": "Philips",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "60791",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "cc39ea44-ffa5-4e64-914b-23ff07299aa8",
+    "descricao": "Smartphone",
+    "modeloMarca": "Samsung A17",
+    "status": "EM_USO",
+    "funcionarioId": "6ca41f6e-5550-4642-a988-2b90d56c6011",
+    "patrimonio": "61502",
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "ac6cd06c-2f18-49c0-95a2-9f50f555b55c",
     "descricao": "Notebook",
-    "modeloMarca": "ThinkPad T490",
+    "modeloMarca": "Lenovo Ideapad Slim 3 15IRH10",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "93385a43-462b-4ed7-b593-b8c3a7058eba",
+    "patrimonio": "61475",
+    "serialNumber": "PE0FS765",
+    "observacoes": null
   },
   {
-    "id": "1ad2356b-d4b2-4d68-9305-aa16f64422b5",
-    "descricao": "Fonte Notebook",
-    "modeloMarca": "Lenovo USB-C",
+    "id": "83820e4f-c461-4893-a77f-4b85cd0d4c37",
+    "descricao": "Acessório",
+    "modeloMarca": "HUB Usb",
     "status": "EM_USO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba"
+    "funcionarioId": "5f2eb496-63a9-4c3f-927d-a16ebe2e114f",
+    "patrimonio": null,
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "405f6baf-4924-4ab1-ba2b-521de9fcad16",
+    "descricao": "Acessório",
+    "modeloMarca": "HUB Usb",
+    "status": "EM_USO",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "patrimonio": null,
+    "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "58fbc040-ceab-4804-a9a9-aec6023cbe7a",
+    "descricao": "Monitor",
+    "modeloMarca": "LG 27MS500",
+    "status": "EM_USO",
+    "funcionarioId": "93385a43-462b-4ed7-b593-b8c3a7058eba",
+    "patrimonio": "61908",
+    "serialNumber": "602AZYED7026",
+    "observacoes": null
+  },
+  {
+    "id": "457923fc-7e68-4e7e-b3b1-e80815a60241",
+    "descricao": "Notebook",
+    "modeloMarca": "Lenovo ThinkPad T480",
+    "status": "EM_USO",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "patrimonio": "63351",
+    "serialNumber": "PE04MKF8",
+    "observacoes": null
+  },
+  {
+    "id": "67e7754d-febe-403c-a699-7b0653dce236",
+    "descricao": "Celular",
+    "modeloMarca": "Samsung A17",
+    "status": "EM_USO",
+    "funcionarioId": "c2377d12-5f23-4ef2-9c77-d53d7df1a10b",
+    "patrimonio": "64054",
+    "serialNumber": null,
+    "observacoes": null
   }
 ]

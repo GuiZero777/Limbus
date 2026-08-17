@@ -31,7 +31,7 @@ const renderFuncionarios = (container, headerActions) => {
 
         // Sort
         if (sortMode === 'NEWEST') {
-            funcionarios.reverse();
+            funcionarios.sort((a, b) => (b.dataAdmissao || '').localeCompare(a.dataAdmissao || ''));
         } else if (sortMode === 'AZ') {
             funcionarios.sort((a, b) => a.nome.localeCompare(b.nome));
         } else if (sortMode === 'ZA') {
@@ -41,7 +41,8 @@ const renderFuncionarios = (container, headerActions) => {
         if (filterText) {
             funcionarios = funcionarios.filter(f =>
                 f.nome.toLowerCase().includes(filterText.toLowerCase()) ||
-                f.funcao.toLowerCase().includes(filterText.toLowerCase())
+                f.funcao.toLowerCase().includes(filterText.toLowerCase()) ||
+                (f.setor || '').toLowerCase().includes(filterText.toLowerCase())
             );
         }
 
@@ -53,6 +54,7 @@ const renderFuncionarios = (container, headerActions) => {
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
                             <th class="py-3 px-6 font-semibold">Nome</th>
+                            <th class="py-3 px-6 font-semibold hidden md:table-cell">Setor</th>
                             <th class="py-3 px-6 font-semibold hidden md:table-cell">Função</th>
                             <th class="py-3 px-6 font-semibold text-center hidden lg:table-cell">Admissão</th>
                             <th class="py-3 px-6 font-semibold text-center">Status</th>
@@ -63,7 +65,7 @@ const renderFuncionarios = (container, headerActions) => {
         `;
 
         if (funcionarios.length === 0) {
-            tableHTML += `<tr><td colspan="5" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum funcionário encontrado.</td></tr>`;
+            tableHTML += `<tr><td colspan="6" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum funcionário encontrado.</td></tr>`;
         } else {
             funcionarios.forEach(f => {
                 const eqpsFunc = equipamentos.filter(e => e.funcionarioId === f.id && e.status === 'EM_USO');
@@ -81,8 +83,9 @@ const renderFuncionarios = (container, headerActions) => {
                                 </div>
                                 <span>${f.nome}</span>
                             </div>
-                            <div class="md:hidden text-xs text-slate-500 dark:text-slate-400 mt-1">${f.funcao}</div>
+                            <div class="md:hidden text-xs text-slate-500 dark:text-slate-400 mt-1">${f.setor || 'Sem Setor'} &bull; ${f.funcao}</div>
                         </td>
+                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 hidden md:table-cell">${f.setor || 'Sem Setor'}</td>
                         <td class="py-4 px-6 text-slate-600 dark:text-slate-300 hidden md:table-cell">${f.funcao}</td>
                         <td class="py-4 px-6 text-center text-slate-500 dark:text-slate-400 hidden lg:table-cell">${formatInputDate(f.dataAdmissao)}</td>
                         <td class="py-4 px-6 text-center">${statusBadge}</td>
@@ -136,9 +139,13 @@ const renderFuncionarios = (container, headerActions) => {
                 }
                 const ok = await showConfirm('Tem certeza que deseja remover este funcionário? O histórico será mantido.', { title: 'Remover funcionário', type: 'danger', confirmText: 'Remover' });
                 if (ok) {
-                    await removeFuncionario(id);
-                    showToast('Funcionário removido com sucesso.', 'success');
-                    renderTable(document.getElementById('search-func')?.value || '');
+                    try {
+                        await removeFuncionario(id);
+                        showToast('Funcionário removido com sucesso.', 'success');
+                        renderTable(document.getElementById('search-func')?.value || '');
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
                 }
             });
         });
@@ -161,10 +168,6 @@ const renderFuncionarios = (container, headerActions) => {
     });
 
     document.getElementById('btn-import-func').addEventListener('click', () => {
-        if (!isFeatureAvailable('importar_planilha')) {
-            renderLicenseActivation();
-            return;
-        }
         renderFuncionarioImport();
     });
 
@@ -174,7 +177,7 @@ const renderFuncionarios = (container, headerActions) => {
 
 // Form Funcionário (Criar / Editar)
 const renderFuncionarioForm = (id = null) => {
-    let func = { nome: '', funcao: '', dataAdmissao: new Date().toISOString().split('T')[0] };
+    let func = { nome: '', funcao: '', dataAdmissao: new Date().toISOString().split('T')[0], setor: '' };
     let isEdit = false;
 
     if (id) {
@@ -195,9 +198,15 @@ const renderFuncionarioForm = (id = null) => {
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Nome Completo</label>
                     <input type="text" name="nome" value="${func.nome}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Função / Cargo</label>
-                    <input type="text" name="funcao" value="${func.funcao}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Setor</label>
+                        <input type="text" name="setor" value="${func.setor || ''}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Função / Cargo</label>
+                        <input type="text" name="funcao" value="${func.funcao}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Data de Admissão</label>
@@ -219,19 +228,23 @@ const renderFuncionarioForm = (id = null) => {
         const data = {
             nome: formData.get('nome'),
             funcao: formData.get('funcao'),
-            dataAdmissao: formData.get('dataAdmissao')
+            dataAdmissao: formData.get('dataAdmissao'),
+            setor: formData.get('setor')
         };
 
-        if (isEdit) {
-            await editFuncionario(id, data);
-            showToast('Funcionário atualizado!', 'success');
-        } else {
-            await addFuncionario(data);
-            showToast('Funcionário cadastrado!', 'success');
+        try {
+            if (isEdit) {
+                await editFuncionario(id, data);
+                showToast('Funcionário atualizado!', 'success');
+            } else {
+                await addFuncionario(data);
+                showToast('Funcionário cadastrado!', 'success');
+            }
+            hideModal();
+            if (window.renderTable) window.renderTable(document.getElementById('search-func')?.value || '');
+        } catch (err) {
+            showToast(err.message, 'error');
         }
-
-        hideModal();
-        if (window.renderTable) window.renderTable(document.getElementById('search-func')?.value || '');
     });
 
     document.querySelector('.btn-cancel').addEventListener('click', hideModal);
@@ -566,17 +579,24 @@ const renderFuncionarioImport = () => {
             btnConfirm.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Importando...';
             if (window.lucide) window.lucide.createIcons();
 
-            const result = await bulkAddFuncionarios(toImport);
+            try {
+                const result = await bulkAddFuncionarios(toImport);
 
-            // Mostrar resultado
-            document.getElementById('import-step-preview').classList.add('hidden');
-            document.getElementById('import-step-result').classList.remove('hidden');
-            document.getElementById('import-result-title').textContent = result.count + ' funcionários importados!';
-            document.getElementById('import-result-desc').textContent = 'Os funcionários foram adicionados ao sistema com sucesso.';
-            if (window.lucide) window.lucide.createIcons();
+                // Mostrar resultado
+                document.getElementById('import-step-preview').classList.add('hidden');
+                document.getElementById('import-step-result').classList.remove('hidden');
+                document.getElementById('import-result-title').textContent = result.count + ' funcionários importados!';
+                document.getElementById('import-result-desc').textContent = 'Os funcionários foram adicionados ao sistema com sucesso.';
+                if (window.lucide) window.lucide.createIcons();
 
-            // Atualizar tabela por trás do modal
-            renderTable(document.getElementById('search-func')?.value || '');
+                // Atualizar tabela por trás do modal
+                renderTable(document.getElementById('search-func')?.value || '');
+            } catch (err) {
+                showToast(err.message, 'error');
+                btnConfirm.disabled = false;
+                btnConfirm.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Confirmar Importação';
+                if (window.lucide) window.lucide.createIcons();
+            }
         });
     });
 };
@@ -658,7 +678,7 @@ window.renderFuncionarioPerfil = (id) => {
             <div class="p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 flex justify-between items-start">
                 <div>
                     <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-100">${funcionario.nome}</h3>
-                    <p class="text-slate-500 dark:text-slate-400">${funcionario.funcao} &bull; Admissão: ${formatInputDate(funcionario.dataAdmissao)}</p>
+                    <p class="text-slate-500 dark:text-slate-400">${funcionario.setor || 'Sem Setor'} &bull; ${funcionario.funcao} &bull; Admissão: ${formatInputDate(funcionario.dataAdmissao)}</p>
                 </div>
                 <button onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:text-slate-300 p-1">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -711,25 +731,32 @@ window.renderFuncionarioPerfil = (id) => {
 
             const ok = await showConfirm('Confirmar devolução de ' + eqp.descricao + '? O equipamento ficará disponível no estoque.', { title: 'Devolver equipamento', confirmText: 'Devolver' });
             if (ok) {
-                // 1. Atualizar status do equipamento
-                await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
+                try {
+                    // 1. Atualizar status do equipamento
+                    await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
 
-                // 2. Registrar no histórico
-                await addHistorico({
-                    tipo: 'DEVOLUCAO',
-                    funcionarioId: id,
-                    equipamentoId: eqpId,
-                    data: new Date().toISOString().split('T')[0]
-                });
+                    // 2. Registrar no histórico
+                    await addHistorico({
+                        tipo: 'DEVOLUCAO',
+                        funcionarioId: id,
+                        equipamentoId: eqpId,
+                        equipamentoSnapshot: { id: eqp.id, descricao: eqp.descricao, modeloMarca: eqp.modeloMarca },
+                        data: new Date().toISOString().split('T')[0]
+                    });
 
-                // 3. Atualizar a tela
-                renderFuncionarioPerfil(id);
-                // Atualizar tabela por trás se o usuário estiver na tela de funcionários
-                const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
-                if (currentView === 'funcionarios') {
-                    renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));
-                } else if (currentView === 'equipamentos') {
-                    renderEquipamentos(document.getElementById('content-area'), document.getElementById('header-actions'));
+                    showToast('Equipamento devolvido com sucesso.', 'success');
+
+                    // 3. Atualizar a tela
+                    renderFuncionarioPerfil(id);
+                    // Atualizar tabela por trás se o usuário estiver na tela de funcionários
+                    const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
+                    if (currentView === 'funcionarios') {
+                        renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));
+                    } else if (currentView === 'equipamentos') {
+                        renderEquipamentos(document.getElementById('content-area'), document.getElementById('header-actions'));
+                    }
+                } catch (err) {
+                    showToast(err.message, 'error');
                 }
             }
         });
@@ -744,17 +771,23 @@ window.renderFuncionarioPerfil = (id) => {
                 const dataRealStr = formatInputDate(todayStrInput);
                 const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-                // 1. Atualizar e Histórico
-                for (const eqp of equipamentosEmPosse) {
-                    await editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
-                }
+                try {
+                    // 1. Atualizar e Histórico
+                    for (const eqp of equipamentosEmPosse) {
+                        await editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
+                    }
 
-                await addHistorico({
-                    tipo: 'DEVOLUCAO_COMPLETA',
-                    funcionarioId: id,
-                    equipamentosIds: equipamentosEmPosse.map(e => e.id),
-                    data: todayStrInput
-                });
+                    await addHistorico({
+                        tipo: 'DEVOLUCAO_COMPLETA',
+                        funcionarioId: id,
+                        equipamentosIds: equipamentosEmPosse.map(e => e.id),
+                        equipamentosSnapshots: equipamentosEmPosse.map(eq => ({ id: eq.id, descricao: eq.descricao, modeloMarca: eq.modeloMarca })),
+                        data: todayStrInput
+                    });
+                } catch (err) {
+                    showToast(err.message, 'error');
+                    return;
+                }
 
                 const itensDevolvidos = equipamentosEmPosse.map(eqp => `
                                     <tr>

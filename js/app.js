@@ -132,9 +132,7 @@ const setupNavigation = () => {
 
 const init = async () => {
     await initializeStore();
-    await loadLicenseState();
     setupNavigation();
-    renderLicenseBanner();
     navigate('dashboard');
 };
 

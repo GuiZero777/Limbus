@@ -1,83 +1,2773 @@
 [
   {
-    "id": "954db390-bd40-4492-9998-0ea22ee24b41",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "52eb6158-2eab-48ca-b3c6-386a94fb7b28",
+    "id": "85da85ee-3f93-4259-85a8-394cdea8ed31",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "equipamentoId": "77267039-af68-442d-81c1-144d8dd9de43",
     "equipamentosIds": null,
-    "data": "2026-03-06",
-    "timestamp": "2026-03-06T21:43:18.487Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "77267039-af68-442d-81c1-144d8dd9de43",
+      "descricao": "All in one",
+      "modeloMarca": "Samsung DP500A2L-KW1BR",
+      "patrimonio": "6164",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "b7e7ef81-11ac-413a-9c10-c327c2042271",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "0e789267-eeb0-4297-90b7-97ed9e82e499",
+    "id": "a60fee51-02f0-47c3-a05a-8eb8be50d721",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "b2abf400-07e2-4d55-b4bd-9c3423a400ce",
+    "equipamentoId": "c88608ed-ed94-4cd0-a5cf-ed78ba224f9e",
     "equipamentosIds": null,
-    "data": "2026-03-06",
-    "timestamp": "2026-03-06T21:43:18.514Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c88608ed-ed94-4cd0-a5cf-ed78ba224f9e",
+      "descricao": "All in one",
+      "modeloMarca": "Samsung DP500A2L-KW1BR",
+      "patrimonio": "6159",
+      "serialNumber": "07CH9QCH800840"
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "186fe584-e41d-4c92-b3a4-a7fb5269a504",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "1d0da78e-6cc3-4919-83bc-1ec885594f16",
+    "id": "b2d70f5a-a58b-4383-9f60-960e392dedcb",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
+    "equipamentoId": "c8201136-ebd7-4e92-994c-1c3338624465",
     "equipamentosIds": null,
-    "data": "2026-03-06",
-    "timestamp": "2026-03-06T21:43:18.543Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c8201136-ebd7-4e92-994c-1c3338624465",
+      "descricao": "ALL IN ONE",
+      "modeloMarca": "Samsung DP500A2L-KW1BR",
+      "patrimonio": "6166",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "95263d39-5062-4093-8f2e-2dbb24fd0afe",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "0c3b03cf-7804-44cc-84de-be3c19b4ddbe",
+    "id": "4ff37f05-2865-4499-8633-9b5e83ba848c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "72a967d0-d0b2-4a73-8878-bdcb89e9a637",
+    "equipamentoId": "ed2bfa7a-d17d-4b81-bb14-3ded6ecee4b8",
     "equipamentosIds": null,
-    "data": "2026-03-06",
-    "timestamp": "2026-03-06T21:43:18.574Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ed2bfa7a-d17d-4b81-bb14-3ded6ecee4b8",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi Redmi 9",
+      "patrimonio": "28757",
+      "serialNumber": "IMEI (1) 864977059399224"
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "f64653bf-fed9-4821-b497-d55386f03afa",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": null,
-    "equipamentosIds": "[\"1ad2356b-d4b2-4d68-9305-aa16f64422b5\",\"248336bf-1506-4998-9c2b-05583f8a86d2\"]",
-    "data": "2026-03-11",
-    "timestamp": "2026-03-11T20:02:17.830Z"
-  },
-  {
-    "id": "93376e54-7ba0-4221-a892-f6716f666341",
-    "tipo": "DEVOLUCAO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "248336bf-1506-4998-9c2b-05583f8a86d2",
+    "id": "97c75b14-2b75-4b72-a77b-24d173400671",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "1e5003ef-eef0-4ac3-9ec7-345b12852fef",
+    "equipamentoId": "028c68db-6c42-410d-b8f9-17cfd9e9bdaa",
     "equipamentosIds": null,
-    "data": "2026-03-11",
-    "timestamp": "2026-03-11T20:08:37.202Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "028c68db-6c42-410d-b8f9-17cfd9e9bdaa",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi Redmi 12C",
+      "patrimonio": "40393",
+      "serialNumber": "IMEI(1) 860932063275559"
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "069f6b1b-42d5-41d7-9f51-d31cc24599d2",
-    "tipo": "DEVOLUCAO",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": "1ad2356b-d4b2-4d68-9305-aa16f64422b5",
+    "id": "fd9fade3-b3d9-40de-adfe-ff63cf45acda",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5968e011-3880-488c-859b-d99dd4104472",
+    "equipamentoId": "cd6b92eb-428e-495f-8f38-8d43735d6f06",
     "equipamentosIds": null,
-    "data": "2026-03-11",
-    "timestamp": "2026-03-11T20:08:39.561Z"
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "cd6b92eb-428e-495f-8f38-8d43735d6f06",
+      "descricao": "Smartphone",
+      "modeloMarca": "ASUS Zenfone Shot Plus",
+      "patrimonio": "37765",
+      "serialNumber": "L5AXB6008501P8K"
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "d74ee20d-3d7b-4b20-9da4-c2143756aad8",
-    "tipo": "ENTREGA",
-    "funcionarioId": "b5b63c95-acaa-4e35-887a-5230c92d4cba",
-    "equipamentoId": null,
-    "equipamentosIds": "[\"248336bf-1506-4998-9c2b-05583f8a86d2\",\"1ad2356b-d4b2-4d68-9305-aa16f64422b5\"]",
-    "data": "2026-03-12",
-    "timestamp": "2026-03-11T20:09:05.148Z"
+    "id": "427710f5-ba82-43d5-8a2f-9e4b4480522b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "equipamentoId": "dd062b8e-94f0-4cbf-bcb3-f092b6555856",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "dd062b8e-94f0-4cbf-bcb3-f092b6555856",
+      "descricao": "GIMBAL",
+      "modeloMarca": "- -",
+      "patrimonio": "42449",
+      "serialNumber": "-"
+    },
+    "equipamentosSnapshots": null
   },
   {
-    "id": "012107c2-5882-4891-9428-9bfc642d7078",
-    "tipo": "ENTREGA",
-    "funcionarioId": "2394c0ca-ce18-4a40-a287-4db0b9a04ec5",
-    "equipamentoId": null,
-    "equipamentosIds": "[\"cc6176ad-7b79-408e-9502-7262976b718a\"]",
-    "data": "2026-03-17",
-    "timestamp": "2026-03-13T16:55:36.325Z"
+    "id": "655dd3bd-cc78-4398-ad91-c8d9944bc613",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "equipamentoId": "1d72e163-ab78-4b0b-b4fd-ffab63058008",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1d72e163-ab78-4b0b-b4fd-ffab63058008",
+      "descricao": "Monitor",
+      "modeloMarca": "LG ?",
+      "patrimonio": "32879",
+      "serialNumber": "?"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "49b6f53d-8327-428b-a0a0-569ac1839837",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6659e158-7283-4763-b2d7-af01c401459b",
+    "equipamentoId": "8a7a1b5f-b2a4-438a-ad1f-57b3fe934fe2",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8a7a1b5f-b2a4-438a-ad1f-57b3fe934fe2",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 27MS500-B",
+      "patrimonio": "49177",
+      "serialNumber": "502AZQV4L356"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "c673af18-55ff-472c-ae82-dc4cec9ebff0",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e7479f6c-b3ab-4a68-98eb-063e0fd7de60",
+    "equipamentoId": "c48697bb-e955-4e09-a848-55b2cc7b47dc",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c48697bb-e955-4e09-a848-55b2cc7b47dc",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 27MS500-B",
+      "patrimonio": "49196",
+      "serialNumber": "502AZSP4L310"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "16b30fa8-13d2-4237-acbe-865f304894a2",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "equipamentoId": "1f58b675-ddc4-471d-a0cc-81561b062591",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1f58b675-ddc4-471d-a0cc-81561b062591",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MS500-B",
+      "patrimonio": "49197",
+      "serialNumber": "409AZMG04979"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5ab0d74a-242b-4828-adc3-bd32652634f5",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "96c4b5ec-63ca-471e-8a2b-91a52269315b",
+    "equipamentoId": "aa94f345-1d52-4540-8195-af8d1a51aff0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "aa94f345-1d52-4540-8195-af8d1a51aff0",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MS500-B",
+      "patrimonio": "49192",
+      "serialNumber": "412AZQV5Y332"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "0f56e8c6-6a6a-4fe2-829c-025b873eb397",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "equipamentoId": "b8e9e7b9-e755-4cd5-ae68-e5a88f1810c9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b8e9e7b9-e755-4cd5-ae68-e5a88f1810c9",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MS500-B",
+      "patrimonio": "49175",
+      "serialNumber": "412AZWS6A865"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6aa07c57-312d-49c7-9901-5e5039e3c2e3",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "4a6ed86b-eb31-481b-8fd4-cada7695cf6b",
+    "equipamentoId": "9e75e6b2-292c-4678-98f5-6a0c0c965168",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "9e75e6b2-292c-4678-98f5-6a0c0c965168",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 26WQ500-B",
+      "patrimonio": "44920",
+      "serialNumber": "404AZMGCL459"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5e962d0a-f92f-41b8-a1f1-baca5392120b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "63a0f676-2438-4621-979c-fce05ce6d2df",
+    "equipamentoId": "e849b8c5-b79a-4a81-8cec-e782ef5c8760",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e849b8c5-b79a-4a81-8cec-e782ef5c8760",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MK430H-B",
+      "patrimonio": "26037",
+      "serialNumber": "106SPJP1M996"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "cbf37ac4-657c-4084-bc49-8601146e1b6e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5b885294-4c66-467c-8153-56237921dd48",
+    "equipamentoId": "c4dbb792-dcb9-490d-b713-ffbfd2fd8462",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c4dbb792-dcb9-490d-b713-ffbfd2fd8462",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "40483",
+      "serialNumber": "308AZYE4Q322"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5511f126-802e-4f3d-9a0e-3a0dc6c7a297",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "1d829f7d-c3f9-4031-83be-d3ed9bba8077",
+    "equipamentoId": "2bf45840-d4ff-453a-bacf-1b81aff66ee9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "2bf45840-d4ff-453a-bacf-1b81aff66ee9",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "40382",
+      "serialNumber": "308AZUJ4P846"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e44ae8e5-e67b-4401-88c4-5c511a487008",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "a1dd89a9-0b8b-414d-aee0-8f7ac7506be6",
+    "equipamentoId": "7942fbce-12b5-4ff9-b332-80cc441f0773",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "7942fbce-12b5-4ff9-b332-80cc441f0773",
+      "descricao": "Monitor",
+      "modeloMarca": "LENOVO S22-E19",
+      "patrimonio": "40182",
+      "serialNumber": "VA769775"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ade32a41-b7a1-49e9-90b7-3ac1a3b23503",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "equipamentoId": "4a3a615a-2e21-444b-ab2b-b56b51ca02e7",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "4a3a615a-2e21-444b-ab2b-b56b51ca02e7",
+      "descricao": "Monitor",
+      "modeloMarca": "LENOVO S22-E19",
+      "patrimonio": "40181",
+      "serialNumber": "VA769052"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "943c7ad5-fcdc-4cde-8967-c36bfbbdf401",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c3148e2-3ea3-4e22-a975-2297568005cf",
+    "equipamentoId": "3d141bd5-7d94-42fa-9f88-49f27d315bda",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "3d141bd5-7d94-42fa-9f88-49f27d315bda",
+      "descricao": "Monitor",
+      "modeloMarca": "LENOVO S22-E19",
+      "patrimonio": "40038",
+      "serialNumber": "VA769050"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ecbe04c9-f7de-49fa-ba18-c53229d0b983",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "equipamentoId": "ce9527ab-fe00-4197-81ac-8073faddea56",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ce9527ab-fe00-4197-81ac-8073faddea56",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "42138",
+      "serialNumber": "312AZKA1H365"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "2b16f73b-1c05-4081-89aa-8b21c4ddc807",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e8594c94-2457-481d-abf6-e96f05e42859",
+    "equipamentoId": "ebb73559-680c-43c6-b43e-aadf432e5389",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ebb73559-680c-43c6-b43e-aadf432e5389",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "28180",
+      "serialNumber": "201AZERA2388"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "67763c0c-3a66-4217-82f3-64c14770c872",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "equipamentoId": "ee1bcc15-b34c-4ff8-ad30-4d3be2958742",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ee1bcc15-b34c-4ff8-ad30-4d3be2958742",
+      "descricao": "Monitor",
+      "modeloMarca": "AS Rock CL25FF",
+      "patrimonio": "48699",
+      "serialNumber": "H1NL0A002308"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "3b3f6d89-24e7-49ce-91d4-af3f6bc4e291",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "equipamentoId": "f7753b96-8db3-4e41-a18e-6de7022a9226",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f7753b96-8db3-4e41-a18e-6de7022a9226",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MK430H-B",
+      "patrimonio": "26047",
+      "serialNumber": "106SPQJ1N004"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "0ebbaa4f-f483-41fd-b388-fbff39d0e37e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5968e011-3880-488c-859b-d99dd4104472",
+    "equipamentoId": "b4ac5fd8-1c21-4a7b-b2fd-f1f3f9f50f22",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b4ac5fd8-1c21-4a7b-b2fd-f1f3f9f50f22",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "26046",
+      "serialNumber": "0096PMZ0J387"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ddddb243-630f-4070-91c0-45bfb8a82aab",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5f2eb496-63a9-4c3f-927d-a16ebe2e114f",
+    "equipamentoId": "030af5ee-e1e2-4748-92a8-1a66937b998d",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "030af5ee-e1e2-4748-92a8-1a66937b998d",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "26040",
+      "serialNumber": "0098PJP18900"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "32cba024-f206-4c27-b0f2-5ae8ea94132d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "40c1a09a-ccbe-4bf7-bfd6-f18031f3ce79",
+    "equipamentoId": "cd177a3e-da6a-4676-9e2c-093d028cadc0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "cd177a3e-da6a-4676-9e2c-093d028cadc0",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "43837",
+      "serialNumber": "403AZGF34303"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "d3b19e34-d0ed-48f3-9baa-630c1773a8c1",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "equipamentoId": "d800f416-253c-48d2-b72e-6ba3f273f61f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d800f416-253c-48d2-b72e-6ba3f273f61f",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "43844",
+      "serialNumber": "403AZKA34261"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "dd519576-db52-4498-99ce-e2bb924cf1d6",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "86cdf0c7-5045-4e44-b921-b09b38d2697a",
+    "equipamentoId": "b7e3bbef-f3f9-43e2-9cf4-287799f1d087",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b7e3bbef-f3f9-43e2-9cf4-287799f1d087",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "43846",
+      "serialNumber": "403AZMG34211"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "24f20bf9-952e-4666-bf24-ef21b8c37e4e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "equipamentoId": "e965d512-122f-4b36-9f8a-ac1530eac9f2",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e965d512-122f-4b36-9f8a-ac1530eac9f2",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "43840",
+      "serialNumber": "403AZUJ34262"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "fd0a51f9-144c-4d2b-ab66-3d5ebc72e9a4",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "equipamentoId": "8c1a4c9c-70be-4deb-ae50-1548871dfd7e",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8c1a4c9c-70be-4deb-ae50-1548871dfd7e",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "28197",
+      "serialNumber": "9SPJP0J348"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "72d3e54d-2be9-47a2-a85d-6c5588188508",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "equipamentoId": "e5bd8e09-faac-49da-bfa2-129e63e69d12",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e5bd8e09-faac-49da-bfa2-129e63e69d12",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "28790",
+      "serialNumber": "204AZYE0L602"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "3a6113d4-0ad8-4e92-8325-328fafe277ae",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "230f0e01-c88a-4435-b155-1b4973590535",
+    "equipamentoId": "3eba4e82-a23d-45f0-9965-587a00b216d5",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "3eba4e82-a23d-45f0-9965-587a00b216d5",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H",
+      "patrimonio": "28168",
+      "serialNumber": "009SPCA0K355"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "c5e5dbaa-a4f6-4fa3-b903-dbe213ea438d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "equipamentoId": "d8080c61-149f-4124-94f2-bb9d0fafb35c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d8080c61-149f-4124-94f2-bb9d0fafb35c",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "28175",
+      "serialNumber": "009SPHG0H897"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e8d8d3b6-92f7-42bf-9817-afee1205cffa",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "equipamentoId": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
+      "descricao": "Monitor",
+      "modeloMarca": "Moob M24F",
+      "patrimonio": "28184",
+      "serialNumber": "M24FAB100BR20101121"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "9fb37c36-79ea-4474-bdb6-40eca1f1501b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "507bf82d-988c-4f55-aa80-927bfa3ccc22",
+    "equipamentoId": "932aefb3-3317-43b3-a7be-1a4745cbfdfa",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "932aefb3-3317-43b3-a7be-1a4745cbfdfa",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H",
+      "patrimonio": "28770",
+      "serialNumber": "204AZJT2Z332"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "b2c87c98-b8d0-46c8-8e02-b1ae145bce09",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "319a247c-64fc-4c3e-aefa-7e50dfea4c3a",
+    "equipamentoId": "7e5a0e48-e114-4111-98b2-74a8980330a1",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "7e5a0e48-e114-4111-98b2-74a8980330a1",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H",
+      "patrimonio": "28788",
+      "serialNumber": "204AZBZ2Z285"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "b9070834-46a9-45c8-984b-95a07189d7de",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "bb83ed72-593f-4515-8826-2b5efd92d731",
+    "equipamentoId": "d470f930-e973-4dd8-87cc-56f9116db24a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d470f930-e973-4dd8-87cc-56f9116db24a",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400",
+      "patrimonio": "28196",
+      "serialNumber": "009SPYR0K330"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "35359e69-43b5-4344-841f-4406f90f2bde",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "equipamentoId": "fcf86662-abbc-4fb9-833d-c4edc9c566e6",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "fcf86662-abbc-4fb9-833d-c4edc9c566e6",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H-B",
+      "patrimonio": "40384",
+      "serialNumber": "308AZCQ4P499"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "7d5fa502-0d26-4fa7-b3b8-c00f2e8f6048",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "equipamentoId": "1f9b4b0c-89a5-4035-aaa9-3e88f6316564",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1f9b4b0c-89a5-4035-aaa9-3e88f6316564",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400",
+      "patrimonio": "28786",
+      "serialNumber": "204AZVN0L671"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "daacb6a5-93c1-4d72-851a-16ae6c65ce16",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9da32ec1-055e-437f-bc9c-572a38a22b21",
+    "equipamentoId": "8a540cdc-a580-45bc-a450-39c89fa2bfca",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8a540cdc-a580-45bc-a450-39c89fa2bfca",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 20MK400H",
+      "patrimonio": "31879",
+      "serialNumber": "302AZMG26899"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "dfd53ac5-dcf9-48ba-baf3-01dd6f28f573",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "equipamentoId": "cf992ae7-ed1c-4642-bc1b-e1ceb93acc01",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "cf992ae7-ed1c-4642-bc1b-e1ceb93acc01",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "45316",
+      "serialNumber": "408AZQVG5820"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e4a7a875-3af7-4125-8913-41bcd579113d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "equipamentoId": "144e6eb3-6c53-49a3-b4e9-6a2c98418836",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "144e6eb3-6c53-49a3-b4e9-6a2c98418836",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "45318",
+      "serialNumber": "408AZERG5924"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ff9cf0eb-71a0-413c-95b9-2f2df9c48f81",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d6574de3-a232-4885-b512-9e73b90ab5bb",
+    "equipamentoId": "3fc930c0-b71d-4385-9246-0df54a81c8f9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "3fc930c0-b71d-4385-9246-0df54a81c8f9",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MP400-B",
+      "patrimonio": "45324",
+      "serialNumber": "408AZCQG5915"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "daf03968-5ed5-4aff-83d3-1b10d35c6948",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6a2f083f-bd2e-4b8a-86c9-70b69c653609",
+    "equipamentoId": "0dd066d1-bf2b-4d36-8cbe-8e1ac28893d5",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "0dd066d1-bf2b-4d36-8cbe-8e1ac28893d5",
+      "descricao": "Monitor",
+      "modeloMarca": "AsRock CL25FF",
+      "patrimonio": "48700",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ef726346-3ce8-45bd-919b-93b3b3cba91c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "equipamentoId": "6795b485-428d-4996-9166-7e41bf653f8f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6795b485-428d-4996-9166-7e41bf653f8f",
+      "descricao": "Monitor",
+      "modeloMarca": "AOC 24 B35HM2",
+      "patrimonio": "49194",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6130ab6c-5f69-4b5e-ab60-1cc2255340e8",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e666f26b-88f3-4e94-a9d8-6a5f20096ccc",
+    "equipamentoId": "f4587ee4-ba43-474b-be2a-b0f47301c5d9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f4587ee4-ba43-474b-be2a-b0f47301c5d9",
+      "descricao": "Monitor",
+      "modeloMarca": "AOC 24 B35HM2",
+      "patrimonio": "49155",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "66ee327c-5418-453e-8f59-e44f2537ac27",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8b63ede1-636f-4ac8-8ad6-ffcab46f66e4",
+    "equipamentoId": "8813ac56-e53c-4e71-931d-a14753c31771",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8813ac56-e53c-4e71-931d-a14753c31771",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad E14",
+      "patrimonio": "45317",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e2fde586-de64-4fa9-add3-aa9792f5491c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "equipamentoId": "a62d7761-c02f-4b56-8699-7ec9edbd03f9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a62d7761-c02f-4b56-8699-7ec9edbd03f9",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Idepad 3 15ITL6",
+      "patrimonio": "40394",
+      "serialNumber": "PE0BSSNC"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ff397ea1-c835-478b-baf4-4a9da8adaeb8",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "equipamentoId": "7a910235-bf74-448f-837a-9b1b93d65ddb",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "7a910235-bf74-448f-837a-9b1b93d65ddb",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+      "patrimonio": "42149",
+      "serialNumber": "PE0C402V"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "823cd327-9d02-4443-ba41-81b799604b0c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c6cb921-a923-462b-9161-18ad0db0b05b",
+    "equipamentoId": "9935e67e-4d0a-4d8c-9a97-b735e276f090",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "9935e67e-4d0a-4d8c-9a97-b735e276f090",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Thinkpad T480",
+      "patrimonio": "49168",
+      "serialNumber": "PE04PPM3"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a0ffe722-446a-41a7-b70d-a81c6e634a89",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "230f0e01-c88a-4435-b155-1b4973590535",
+    "equipamentoId": "2f8acc9c-5391-4150-9bdd-52c99f4334df",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "2f8acc9c-5391-4150-9bdd-52c99f4334df",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Thinkpad T480",
+      "patrimonio": "49195",
+      "serialNumber": "PE04PNE1"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6bd12ca9-58e0-49fa-bfe2-eb594138acee",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "c2377d12-5f23-4ef2-9c77-d53d7df1a10b",
+    "equipamentoId": "a9376c21-b0ac-4ad7-b2de-04da6661bb94",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a9376c21-b0ac-4ad7-b2de-04da6661bb94",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T480",
+      "patrimonio": "37764",
+      "serialNumber": "PE04YPFW"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a677b9a0-09a3-4aa7-8842-8f71fe234c7c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "equipamentoId": "2a1c015d-00fd-4529-900e-e65c35e3bf93",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "2a1c015d-00fd-4529-900e-e65c35e3bf93",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T470",
+      "patrimonio": "49162",
+      "serialNumber": "PE03JDC5"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "02297b46-3db8-4d72-ac3a-b016819313be",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "036ee8aa-9c35-436b-ba02-400384d48696",
+    "equipamentoId": "263e87a4-fc49-4e7e-b945-cd9f3b52c481",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "263e87a4-fc49-4e7e-b945-cd9f3b52c481",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T470",
+      "patrimonio": "40389",
+      "serialNumber": "PF11Y6K8"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "581fcdb8-8a0a-46d7-9b43-94b98d9b48bc",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "f9cf1d55-1eee-4e3c-baba-56125f914e6a",
+    "equipamentoId": "1241bc15-c18b-4d32-b0cd-e8f01151e9f9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1241bc15-c18b-4d32-b0cd-e8f01151e9f9",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T470",
+      "patrimonio": "40388",
+      "serialNumber": "PF0VBHT6"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e5e384e5-4445-499d-ae47-24351eac14a4",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "bcea12b0-2abe-4ff2-9055-d8559c32c78a",
+    "equipamentoId": "50312737-4596-4400-8391-7048dab07691",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "50312737-4596-4400-8391-7048dab07691",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T490",
+      "patrimonio": "44901",
+      "serialNumber": "PE05KEQR"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "8970e635-0817-419d-8953-d99597397f1f",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c339af9-f09c-465c-8080-351c1bfa4be4",
+    "equipamentoId": "00a36d3f-6a82-4dc6-b134-ca2049394878",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "00a36d3f-6a82-4dc6-b134-ca2049394878",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T490",
+      "patrimonio": "",
+      "serialNumber": "PE05KHD9"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6cde9514-eba6-4355-9dfc-bb3a65b7665d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "equipamentoId": "4c184de9-491a-4512-9fbc-1cab6e9a3c85",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "4c184de9-491a-4512-9fbc-1cab6e9a3c85",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T490",
+      "patrimonio": "44916",
+      "serialNumber": "PE05KEJP"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ff154ab4-6ef0-4c92-bcdd-afbeef47b0b0",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5b9dd560-15fc-431e-b5c5-d77326fa4544",
+    "equipamentoId": "c605bfcc-2e89-41c2-a4b9-f7393de96769",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c605bfcc-2e89-41c2-a4b9-f7393de96769",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T490",
+      "patrimonio": "44918",
+      "serialNumber": "PE05KMQ3"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "4f83253a-952f-49ef-a96f-7cf136a64e4b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "1e5003ef-eef0-4ac3-9ec7-345b12852fef",
+    "equipamentoId": "419c6c51-e64c-481a-a0fb-783d4467352f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "419c6c51-e64c-481a-a0fb-783d4467352f",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T490",
+      "patrimonio": "44919",
+      "serialNumber": "PE05KEVC"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "1b05a414-fc0b-4e52-932d-e18fa6aa75a6",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "02bb5ea9-3408-471b-b557-15ebf70c87e0",
+    "equipamentoId": "3b4a3942-2269-456b-9c11-72396232eeb5",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "3b4a3942-2269-456b-9c11-72396232eeb5",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T480",
+      "patrimonio": "45321",
+      "serialNumber": "PE03SLYN"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "7bc3b398-be52-4b4c-92e9-104c45fa495a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e7479f6c-b3ab-4a68-98eb-063e0fd7de60",
+    "equipamentoId": "c3f372b0-32e8-4b2f-91c9-3cf605b9e60a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c3f372b0-32e8-4b2f-91c9-3cf605b9e60a",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1",
+      "patrimonio": "49178",
+      "serialNumber": "PE0E387S"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "57193287-9e01-4662-a8f4-a15369a03a8f",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "equipamentoId": "5c3e34f4-fc4d-445f-b4a6-5a5d989a924c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "5c3e34f4-fc4d-445f-b4a6-5a5d989a924c",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1",
+      "patrimonio": "49179",
+      "serialNumber": "PE0DKFHM"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "60d27c6f-7ac0-4767-8e94-270a04abb3c0",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "63a0f676-2438-4621-979c-fce05ce6d2df",
+    "equipamentoId": "776f4e4f-5a0b-4d7a-9ef6-d6464b7b3c0f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "776f4e4f-5a0b-4d7a-9ef6-d6464b7b3c0f",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1",
+      "patrimonio": "49166",
+      "serialNumber": "PE0DKHG1"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "46fa95ae-b4b0-4beb-b2a0-aeffeaa4c9a1",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6659e158-7283-4763-b2d7-af01c401459b",
+    "equipamentoId": "9a50b14f-d3e2-4028-a095-65f93b6d455e",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "9a50b14f-d3e2-4028-a095-65f93b6d455e",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1",
+      "patrimonio": "49167",
+      "serialNumber": "PE0DKFYA"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "47a55c28-b498-41bd-b4d0-51f895023317",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "equipamentoId": "9eeec5a1-85ab-46f2-9ef0-42c0a84a5a88",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "9eeec5a1-85ab-46f2-9ef0-42c0a84a5a88",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+      "patrimonio": "49174",
+      "serialNumber": "PE9015313075"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "76e4428a-b7af-4b2c-a6de-0bff28e730d2",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5c1ae5ab-239d-4222-a035-43cbca9b921c",
+    "equipamentoId": "01e98964-ada0-4d99-9ef4-cd6ce466b577",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "01e98964-ada0-4d99-9ef4-cd6ce466b577",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+      "patrimonio": "49184",
+      "serialNumber": "PE9015328124"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "dc333b6e-0aaf-446c-ab6c-feab0228edf2",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "equipamentoId": "06576130-8bd8-4048-8d5f-19f6c43c9310",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "06576130-8bd8-4048-8d5f-19f6c43c9310",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1 15IAU7",
+      "patrimonio": "49190",
+      "serialNumber": "PE9015328130"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "d2c4d29b-0e89-4ba9-ac5e-e923cecd5b72",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "4a6ed86b-eb31-481b-8fd4-cada7695cf6b",
+    "equipamentoId": "c8d95ef5-7b4b-4758-a2ee-40033faba10b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c8d95ef5-7b4b-4758-a2ee-40033faba10b",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo V14 G3-ABA",
+      "patrimonio": "40238",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "290a3ac3-f07d-4562-a5de-98da2258dc22",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d1dc0037-954c-4d71-9eb9-b1e059fdf9fa",
+    "equipamentoId": "dfafcca9-1492-4dec-9603-2261541c2a76",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "dfafcca9-1492-4dec-9603-2261541c2a76",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+      "patrimonio": "40351",
+      "serialNumber": "PE0BY91V"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5131a93b-820a-485c-97de-fb0bb2712c1f",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6ca41f6e-5550-4642-a988-2b90d56c6011",
+    "equipamentoId": "00bd0eff-7f65-4873-a10a-f75490f495db",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "00bd0eff-7f65-4873-a10a-f75490f495db",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo T460",
+      "patrimonio": "42139",
+      "serialNumber": "PE02MD9U"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "9ad0dd44-d36c-4537-af04-c739182677cd",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff7fce5f-0df4-4ea9-953e-c9057e722895",
+    "equipamentoId": "26e115e1-2f71-4286-8bd6-37f2f835cb99",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "26e115e1-2f71-4286-8bd6-37f2f835cb99",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo T460",
+      "patrimonio": "42140",
+      "serialNumber": "PE02R8SR"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "03f941aa-022f-4e84-b47a-d7fa1892d05b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5b885294-4c66-467c-8153-56237921dd48",
+    "equipamentoId": "515744f4-1f32-4ac1-adb6-55927526e6d4",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "515744f4-1f32-4ac1-adb6-55927526e6d4",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3 15ALC6",
+      "patrimonio": "40387",
+      "serialNumber": "PE0BY8Y7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "31cd0739-8fc3-484d-a8db-5e3d09e0f0c5",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "equipamentoId": "629a62ba-6f2a-4222-b602-027b1dcd1b7c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "629a62ba-6f2a-4222-b602-027b1dcd1b7c",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 3520",
+      "patrimonio": "43850",
+      "serialNumber": "FV8R044"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "451108d5-ea72-4eac-85cc-b63310663a05",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c3148e2-3ea3-4e22-a975-2297568005cf",
+    "equipamentoId": "05823e3d-636a-4902-9255-4aba2caaf096",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "05823e3d-636a-4902-9255-4aba2caaf096",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 3520",
+      "patrimonio": "43836",
+      "serialNumber": "CV8R044"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5e8aedb6-528d-4274-83a2-6bcc86ac88d1",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "a1dd89a9-0b8b-414d-aee0-8f7ac7506be6",
+    "equipamentoId": "abeb302a-58de-48b1-9155-711662f1fbf0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "abeb302a-58de-48b1-9155-711662f1fbf0",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 3520",
+      "patrimonio": "43839",
+      "serialNumber": "DV8R044"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "068cfd36-b7c2-4567-b3a9-cba00c0062ff",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "equipamentoId": "61016840-3cd3-4573-b564-499ec50066aa",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "61016840-3cd3-4573-b564-499ec50066aa",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 3520",
+      "patrimonio": "42150",
+      "serialNumber": "8V8R044"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e9819929-548d-4247-bf49-a36a2e0335d9",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "96c4b5ec-63ca-471e-8a2b-91a52269315b",
+    "equipamentoId": "7cfc06f6-f29d-4e07-b1b9-f4167dc10ad7",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "7cfc06f6-f29d-4e07-b1b9-f4167dc10ad7",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 3520",
+      "patrimonio": "43845",
+      "serialNumber": "9V8R044"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "1aca58fe-282a-4988-bce6-db398c627efa",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d6574de3-a232-4885-b512-9e73b90ab5bb",
+    "equipamentoId": "ce1b4d70-4098-4023-b4df-ba4fff37aac3",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ce1b4d70-4098-4023-b4df-ba4fff37aac3",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 1",
+      "patrimonio": "40390",
+      "serialNumber": "PE0AVKDQ"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "38f63a4b-0c0e-4879-a8db-5e3cf6ba0eec",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "b2abf400-07e2-4d55-b4bd-9c3423a400ce",
+    "equipamentoId": "40ea0a26-10a2-43c8-b9b8-a5e42af1c79b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "40ea0a26-10a2-43c8-b9b8-a5e42af1c79b",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28753",
+      "serialNumber": "PE08RNJB"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a232f4a7-6e89-46b0-a90d-2ff06617f8f5",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e14dc7a1-9e84-4a7b-a91d-805fefed097e",
+    "equipamentoId": "5a1f3726-b061-4f51-8651-5025ede759b6",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "5a1f3726-b061-4f51-8651-5025ede759b6",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad E480",
+      "patrimonio": "40391",
+      "serialNumber": "K1BR87J01YZ"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "462cfb0f-a822-4648-9a75-a97596040ca3",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5fd22c77-915c-4d74-bfc5-d07cfc380443",
+    "equipamentoId": "d29424aa-7d66-4c47-a1fe-a0715546307d",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d29424aa-7d66-4c47-a1fe-a0715546307d",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Latitude E6320",
+      "patrimonio": "27191",
+      "serialNumber": "F4858S1"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6d891ae2-dbcc-4698-a693-58e8a1f9d621",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6abee922-3847-4acd-8d76-a7ef39011c83",
+    "equipamentoId": "d8071386-bd34-46a5-ba44-0f21009efeff",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d8071386-bd34-46a5-ba44-0f21009efeff",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 330",
+      "patrimonio": "5750",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "3f57efb2-016f-44e6-8600-6d0791b6fc00",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "cb79cf0e-e283-4029-8427-228d28631817",
+    "equipamentoId": "66777dcf-c367-49b9-ae96-b36ccf6f2440",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "66777dcf-c367-49b9-ae96-b36ccf6f2440",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "49183",
+      "serialNumber": "PE08RXWK"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "165f3357-cad8-4117-997e-c8a5d152e020",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
+    "equipamentoId": "d1fd4491-c242-4965-b6d1-fb6f507683c2",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d1fd4491-c242-4965-b6d1-fb6f507683c2",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 330",
+      "patrimonio": "10975",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ed076fa4-3b63-4b28-86b0-6f4b6e183032",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "bb83ed72-593f-4515-8826-2b5efd92d731",
+    "equipamentoId": "6472d294-91b0-4329-9e31-f882314f38bc",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6472d294-91b0-4329-9e31-f882314f38bc",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell Inspiron 15 3530",
+      "patrimonio": "49193",
+      "serialNumber": "6BVQ194"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "9c92ac0a-5a22-4983-aaa1-bc75c7668987",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "aaed9ad5-0759-4a90-98f5-f90f6a6f9ee9",
+    "equipamentoId": "e4fe14df-a1fb-4102-b89e-5bd725880a60",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e4fe14df-a1fb-4102-b89e-5bd725880a60",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 330",
+      "patrimonio": "8748",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "cb0e4c81-71fa-48ab-a4a3-13962a1f2594",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "equipamentoId": "a7e309ed-257a-4372-ac91-899d4fa22695",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a7e309ed-257a-4372-ac91-899d4fa22695",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell P75F006",
+      "patrimonio": "28172",
+      "serialNumber": "58QWQ23"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "2e6421da-e074-41f5-b09d-5576afe195a4",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "40c1a09a-ccbe-4bf7-bfd6-f18031f3ce79",
+    "equipamentoId": "ee1a0716-c90b-4e6b-8680-02a8ddb3f5c1",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ee1a0716-c90b-4e6b-8680-02a8ddb3f5c1",
+      "descricao": "Notebook",
+      "modeloMarca": "Samsung NP350XBE",
+      "patrimonio": "28755",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "283a17a2-8a70-4b12-bc5a-2fc86c4d2206",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "055a7e0d-4305-49eb-ba47-1c0bf7747d1f",
+    "equipamentoId": "beaf3528-3e98-4e1c-8de1-a088d5b400a5",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "beaf3528-3e98-4e1c-8de1-a088d5b400a5",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo G40-70",
+      "patrimonio": "28784",
+      "serialNumber": "PE00WKH1"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ba37e1b6-2d75-4597-b685-a32a16509c46",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "equipamentoId": "a999de25-b984-4309-9cd8-a67b31adc748",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a999de25-b984-4309-9cd8-a67b31adc748",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28796",
+      "serialNumber": "PE0886ER"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "434ff986-e260-41c0-95ea-309e60bc649c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "equipamentoId": "8dd18988-254d-44d0-b9c8-d34a01673614",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8dd18988-254d-44d0-b9c8-d34a01673614",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28781",
+      "serialNumber": "PE08SZ6E"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "94c697cd-021f-4686-9083-06ca4c60fdaf",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "equipamentoId": "91629f7f-4c81-401c-9a62-cf48b33aff53",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "91629f7f-4c81-401c-9a62-cf48b33aff53",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28794",
+      "serialNumber": "PE08T0V0"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "b4b5d3fa-3fe5-4998-ace4-d0f9c959888d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "equipamentoId": "f3cd041f-9573-4012-8d9c-1d686c4653db",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f3cd041f-9573-4012-8d9c-1d686c4653db",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28782",
+      "serialNumber": "PE08T0TL"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "97337a9f-fb59-41e7-aee2-f5d8f4172298",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6c254b60-289c-48b4-9115-b2d9e0626bfe",
+    "equipamentoId": "db9d5831-9c94-4145-98ee-628b570a1c0d",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "db9d5831-9c94-4145-98ee-628b570a1c0d",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "28783",
+      "serialNumber": "PE087YD5"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "839103ff-effd-4ae1-9b96-42eb6caf5381",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3f4c6222-4b96-4dca-a6b1-89fa0aba503d",
+    "equipamentoId": "e0a5ec15-fd72-4ed3-b5f4-29cb25f91551",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e0a5ec15-fd72-4ed3-b5f4-29cb25f91551",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo V15",
+      "patrimonio": "29753",
+      "serialNumber": "PE08L03G"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "09e33f36-c60d-4603-9175-8f5fc6546d03",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "equipamentoId": "640b4963-0ba4-4981-9671-ea53419e2136",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "640b4963-0ba4-4981-9671-ea53419e2136",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "29752",
+      "serialNumber": "PE08L065"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "c38b8ba2-269e-4519-b201-289b9c326b51",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "86cdf0c7-5045-4e44-b921-b09b38d2697a",
+    "equipamentoId": "34c4b35a-9d85-44d8-9ca6-a0100778318c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "34c4b35a-9d85-44d8-9ca6-a0100778318c",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "30740",
+      "serialNumber": "PE094YBH"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "b4e3d858-2219-4636-98b1-dd57e9e4907a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "2fff43d0-ee64-48d6-8b5d-84c8639bb30f",
+    "equipamentoId": "f2e4b345-0c49-4bc8-a819-6b4c3ed6b0a3",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f2e4b345-0c49-4bc8-a819-6b4c3ed6b0a3",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad 3",
+      "patrimonio": "30571",
+      "serialNumber": "PE094YB8"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "4be9ea1b-cf73-497b-8f11-232993596cbb",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "742f9612-ec88-4aef-951b-c0a604d7d76a",
+    "equipamentoId": "288534ad-69ec-4e55-8657-0c2058c1f2d8",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "288534ad-69ec-4e55-8657-0c2058c1f2d8",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell INSPIRON 3584",
+      "patrimonio": "31866",
+      "serialNumber": "2TYVQ23"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "69edc7a8-65ca-48be-b568-b08c0b68fbfe",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3a43a81f-a351-4a46-b24d-c1ad5cb89d5c",
+    "equipamentoId": "131883ca-10af-4b4e-ab2a-bc3775821bf8",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "131883ca-10af-4b4e-ab2a-bc3775821bf8",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell INSPIRON 15 3567",
+      "patrimonio": "31853",
+      "serialNumber": "8SD19T2"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "3caa95a0-2683-462f-90ec-eb039b59710e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8850d64b-2a7f-4af3-81e3-36c472a4c3bf",
+    "equipamentoId": "a51782ec-33d9-4c31-92ba-ee3aed18b42b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a51782ec-33d9-4c31-92ba-ee3aed18b42b",
+      "descricao": "Notebook",
+      "modeloMarca": "Dell INSPIRON 15",
+      "patrimonio": "31875",
+      "serialNumber": "JNCCK03"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "8a4f0d4a-66de-4a07-9387-befc8b2e3e9a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d5e67f02-1a57-450e-a69e-759b26e48902",
+    "equipamentoId": "f9c16e92-9291-440b-a9e3-4266c30186a7",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f9c16e92-9291-440b-a9e3-4266c30186a7",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+      "patrimonio": "31876",
+      "serialNumber": "PE06B1D7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "54621614-1ae4-46d4-84f2-6aac18e9bd7e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "equipamentoId": "5b8e1bd8-0d22-4e54-916e-ac28a220ae67",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "5b8e1bd8-0d22-4e54-916e-ac28a220ae67",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+      "patrimonio": "31874",
+      "serialNumber": "PE06B1D7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "2c9edc7d-7e94-4b7d-8972-5999025092bd",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "equipamentoId": "815af4aa-743f-4ba9-91ae-f11ad4d76122",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "815af4aa-743f-4ba9-91ae-f11ad4d76122",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+      "patrimonio": "31895",
+      "serialNumber": "PE06B1D7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "9735d719-3df3-4166-a60b-722b6bdc5691",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9c989e58-9674-4f05-8d3e-7d9ef77c2f7e",
+    "equipamentoId": "71515600-b124-4340-a77e-a0d989362c2c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "71515600-b124-4340-a77e-a0d989362c2c",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+      "patrimonio": "33989",
+      "serialNumber": "PE06B1D7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a86f0f1d-0d66-49cb-a04b-92ac004b6eab",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "equipamentoId": "f4cf2068-d6a3-4284-b534-1edcf114af71",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f4cf2068-d6a3-4284-b534-1edcf114af71",
+      "descricao": "Notebook",
+      "modeloMarca": "DELL VOSTRO 15 3515",
+      "patrimonio": "31881",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "63dab686-556d-4b10-9951-42cb79387db8",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e8594c94-2457-481d-abf6-e96f05e42859",
+    "equipamentoId": "11ebab45-0559-42f1-8a27-4d38975eb8a6",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "11ebab45-0559-42f1-8a27-4d38975eb8a6",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo IDEAPAD B330 15IKBR",
+      "patrimonio": "31863",
+      "serialNumber": "PE06B1D7"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "cbe9b30f-b18b-46de-8e13-a157b5c6d203",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "797518f9-ebe7-4d76-a9d1-acd4d3ec99b8",
+    "equipamentoId": "b188c3d9-747a-478e-abbe-d69ebf53b480",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b188c3d9-747a-478e-abbe-d69ebf53b480",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T480",
+      "patrimonio": "45320",
+      "serialNumber": "PE04C1S8"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "0f5539d6-d24c-48f7-89e4-0fd87cb6e2cf",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "b1838d75-ef67-44ff-b9e8-9067079367df",
+    "equipamentoId": "c7f8fdae-110b-4a2f-bc09-5f7cae4459e0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c7f8fdae-110b-4a2f-bc09-5f7cae4459e0",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo V15 G3 IAP",
+      "patrimonio": "49200",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "8ecfff10-2683-45ce-9ab3-3bc2434f90e9",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "equipamentoId": "14f5a2a6-77e4-4923-a3a4-dd5c29b5fcd8",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "14f5a2a6-77e4-4923-a3a4-dd5c29b5fcd8",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo V15 G3 IAP",
+      "patrimonio": "49199",
+      "serialNumber": "PE9014C04035"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "41b83261-e422-4cdb-a26f-d85f85b0cc8e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "76ffd51c-79a8-499b-8a5b-dcf973498b68",
+    "equipamentoId": "191ba20f-e0d7-443b-8b1c-ba023442b74b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "191ba20f-e0d7-443b-8b1c-ba023442b74b",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo V15 G3 IAP",
+      "patrimonio": "49198",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f19853a4-bcc9-4393-86da-82ef9d66fd81",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9f11a3b7-174b-4660-b71f-f9c416933412",
+    "equipamentoId": "8fef2a27-12db-4a91-bc49-56e73eea1981",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8fef2a27-12db-4a91-bc49-56e73eea1981",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi Redmi Note 8",
+      "patrimonio": "28798",
+      "serialNumber": "cbe890dc"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "bfef503e-617e-4505-b9a1-d449368a241a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "730d6494-6a59-4f3f-9e1d-33629ced6a4e",
+    "equipamentoId": "49ece92f-dbe5-4e11-873e-74e74118fa03",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "49ece92f-dbe5-4e11-873e-74e74118fa03",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "50416",
+      "serialNumber": "RQ8X902387M"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6d29e6c1-16ac-4392-af1b-151fd6572e8c",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "0b53f1eb-2469-4b2e-a08b-a029e94c8895",
+    "equipamentoId": "0459e8aa-b0f8-442a-9d07-c123593500d7",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "0459e8aa-b0f8-442a-9d07-c123593500d7",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "49172",
+      "serialNumber": "RQ8X803C3NT"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "fa56f070-4189-4542-aae3-8989a2e23b4b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7b03fd3d-7669-45dd-b58c-a054b3f82dc7",
+    "equipamentoId": "d00c87dd-4c69-4d3d-8b20-241d945036d9",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d00c87dd-4c69-4d3d-8b20-241d945036d9",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "49191",
+      "serialNumber": "RQ8X901Z96H"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5f7dfb40-d0d3-4865-b297-0dc5bbb27ce1",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff7fce5f-0df4-4ea9-953e-c9057e722895",
+    "equipamentoId": "de8a3e4c-aeb7-4af9-83b4-2b21d2969940",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "de8a3e4c-aeb7-4af9-83b4-2b21d2969940",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "50417",
+      "serialNumber": "RQ8X900KCJF"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "94a41d9c-5827-460b-8eee-d60c28439398",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5f0e01aa-e5a5-451f-aa14-8d71cc01b12e",
+    "equipamentoId": "3cb60b7f-b3e5-40b9-bb40-253e479dd2b0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "3cb60b7f-b3e5-40b9-bb40-253e479dd2b0",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "50418",
+      "serialNumber": "RQ8X800G7JT"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "86f354c8-3682-461b-9338-0eb998ac4f03",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "12b95a84-70b1-4341-8117-005ee204be74",
+    "equipamentoId": "6a02ea76-66ca-4414-9ca6-fc733b5c86e2",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6a02ea76-66ca-4414-9ca6-fc733b5c86e2",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "48698",
+      "serialNumber": "RXCXA01PD3B"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "0e48ed1a-ca46-4652-9deb-b64a36bbedaa",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "b234e77e-381a-4725-82cb-58963abd8f25",
+    "equipamentoId": "5e35f240-ebae-4435-8fc2-bffafd3ba2a6",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "5e35f240-ebae-4435-8fc2-bffafd3ba2a6",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "48694",
+      "serialNumber": "RXCXA01QB5W"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "66535c06-b734-4fcb-b10a-14087a2bce43",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "300d8453-f7eb-409c-8532-0fc2e5b7d574",
+    "equipamentoId": "b59d3e1e-6295-463b-b5e5-a65b7a346350",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b59d3e1e-6295-463b-b5e5-a65b7a346350",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "49153",
+      "serialNumber": "RQCX505XDWX"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "06fa4c8a-22f5-4efc-a8fc-6eae237f49a9",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5b9dd560-15fc-431e-b5c5-d77326fa4544",
+    "equipamentoId": "8bd5f96e-f14b-4d88-8192-6d847057b075",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8bd5f96e-f14b-4d88-8192-6d847057b075",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "48691",
+      "serialNumber": "RXCXA01Q4BK"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "1898e9d2-7f9c-4b67-a1f9-3e01f396a8d7",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "10ae1c14-fac9-4406-b7e2-c265c2378dea",
+    "equipamentoId": "c43cd74c-13ef-4d16-b96b-b2b2e93ddc18",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c43cd74c-13ef-4d16-b96b-b2b2e93ddc18",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "48693",
+      "serialNumber": "RXCXA01Q42H"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "324ad8b4-1c65-433f-a51e-36f4b10f1c94",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d1dc0037-954c-4d71-9eb9-b1e059fdf9fa",
+    "equipamentoId": "575f5ed1-eabf-43d1-8e13-31b81da0a32a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "575f5ed1-eabf-43d1-8e13-31b81da0a32a",
+      "descricao": "Smartphone",
+      "modeloMarca": "LG K41S",
+      "patrimonio": "29751",
+      "serialNumber": "105BSJA1516764"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "159bf71b-d50f-47b3-98b0-72427507e794",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "c070ccf0-a1fd-4423-9bfb-7b59cab374ef",
+    "equipamentoId": "1689cf8f-2869-42fe-8c0f-950424385130",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1689cf8f-2869-42fe-8c0f-950424385130",
+      "descricao": "Smartphone",
+      "modeloMarca": "XIAOMI M1908C3JG",
+      "patrimonio": "31862",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "3bee7cbf-b453-4b21-af4d-eb7dda970680",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "equipamentoId": "6dd76420-91b4-4103-93a8-064a7fbb5b63",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6dd76420-91b4-4103-93a8-064a7fbb5b63",
+      "descricao": "Smartphone",
+      "modeloMarca": "iPhone 12",
+      "patrimonio": "28779",
+      "serialNumber": "DV6GD0GF0F0N"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "23ddb9cd-971d-4015-a0dc-65a01396c4e3",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c9e58a9-1366-42c4-b034-450e1a31997d",
+    "equipamentoId": "fdadc0a4-7cab-45cd-907c-6a6779585885",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "fdadc0a4-7cab-45cd-907c-6a6779585885",
+      "descricao": "Smartphone",
+      "modeloMarca": "Motorola XT2095-1",
+      "patrimonio": "29799",
+      "serialNumber": "ZF523K6R86"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "fd962bfa-3c8d-4f7d-83d8-910fe3332aa7",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "cb79cf0e-e283-4029-8427-228d28631817",
+    "equipamentoId": "c7aaf045-6b0a-4c7f-8d46-2d659ea30294",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c7aaf045-6b0a-4c7f-8d46-2d659ea30294",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A03 CORE",
+      "patrimonio": "30572",
+      "serialNumber": "R9XT8007MZZ"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "d9008e79-4087-4a68-a72a-587d1c862dec",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "equipamentoId": "6a251e76-1eec-491f-81e4-f8fdfcd6b88c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6a251e76-1eec-491f-81e4-f8fdfcd6b88c",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A03 CORE",
+      "patrimonio": "30573",
+      "serialNumber": "R9XT708MB9D"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ffb53703-f510-4820-b9ca-c06226fe4bc2",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "45840ad0-56ab-47d9-9928-b4a0eb5d116e",
+    "equipamentoId": "2b5c45be-dde3-448c-8560-a94fd9dc5d54",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "2b5c45be-dde3-448c-8560-a94fd9dc5d54",
+      "descricao": "Smartphone",
+      "modeloMarca": "APPLE",
+      "patrimonio": "42450",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "b4d0da5f-33e5-49e9-9660-63bc2361d5b5",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "81c773f3-413f-479e-9e07-da1636928668",
+    "equipamentoId": "9444d74f-6336-4518-ab85-22f3e3278120",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "9444d74f-6336-4518-ab85-22f3e3278120",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung Galaxy A15 5G",
+      "patrimonio": "48692",
+      "serialNumber": "RXCX900Y76Z"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "c2e08d34-1496-4d78-8679-65e95b8be3be",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8c580001-55e6-4cf4-84c0-8214c2871a8d",
+    "equipamentoId": "c64a162f-a9a3-4ee0-8a64-1edc872d98ca",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c64a162f-a9a3-4ee0-8a64-1edc872d98ca",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A03",
+      "patrimonio": "33998",
+      "serialNumber": "R9XTA0B0QLT"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e4b7982b-d766-472f-b8cf-f0d03d6a8e6e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "74fc142a-6f20-4e9a-8f5a-80cdc4403f9d",
+    "equipamentoId": "dc0b3210-1f2b-4593-a220-0771d0286d3d",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "dc0b3210-1f2b-4593-a220-0771d0286d3d",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A03",
+      "patrimonio": "31873",
+      "serialNumber": "R9QT809G25Y"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "436ef20a-4a1a-4004-bfbf-73a257117bd9",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "b7e65580-03cd-4d79-a975-a0793d40eae5",
+    "equipamentoId": "4706b2a4-570a-419f-a2fc-9e5106ad9c03",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "4706b2a4-570a-419f-a2fc-9e5106ad9c03",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 5G",
+      "patrimonio": "49152",
+      "serialNumber": "RQCX505XB5T"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "348feea3-fc63-4014-9e62-559d86a230ec",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "d5e67f02-1a57-450e-a69e-759b26e48902",
+    "equipamentoId": "b75d7444-6f72-4bcd-bf49-af333570fef2",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b75d7444-6f72-4bcd-bf49-af333570fef2",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 5G",
+      "patrimonio": "50450",
+      "serialNumber": "RQ8X902387M"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f14a4181-3669-416c-bda2-b2b6c7c3d6f2",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c6cb921-a923-462b-9161-18ad0db0b05b",
+    "equipamentoId": "99e4c5d8-39f2-43ea-8ceb-aebb28634830",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "99e4c5d8-39f2-43ea-8ceb-aebb28634830",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 4G",
+      "patrimonio": "45315",
+      "serialNumber": "RX8X8051CKF"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "27fcf7a1-8eb0-4560-945e-31b1f49022bd",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "equipamentoId": "c4fcabab-781a-4349-a106-f8b73443d432",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c4fcabab-781a-4349-a106-f8b73443d432",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 5G",
+      "patrimonio": "40385",
+      "serialNumber": "RXCWC039T7B"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "dd14afa0-3b89-46bf-8993-9f5287f138b3",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "8bf07679-13fc-4ea7-b22a-44ec01bf036c",
+    "equipamentoId": "078c6b5e-dd96-43ff-91c6-597307eee5ed",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "078c6b5e-dd96-43ff-91c6-597307eee5ed",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi Redmi 12C",
+      "patrimonio": "37763",
+      "serialNumber": "2212ARNC4L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a391db3e-c597-4bec-915a-e5ebfb5e4e98",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "7c339af9-f09c-465c-8080-351c1bfa4be4",
+    "equipamentoId": "a5490713-1cb0-4226-9235-88fd85cb0960",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a5490713-1cb0-4226-9235-88fd85cb0960",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "43848",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5b597363-47fa-4497-9988-2af014539aef",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "f9cf1d55-1eee-4e3c-baba-56125f914e6a",
+    "equipamentoId": "8c73e2ab-4945-46c4-a558-2a58300e3486",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "8c73e2ab-4945-46c4-a558-2a58300e3486",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "43842",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "ea0ceca6-2322-4c65-b3b2-5d6ec0a68200",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e14dc7a1-9e84-4a7b-a91d-805fefed097e",
+    "equipamentoId": "b9b1c572-daad-4a77-b519-dd0b0a07658a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "b9b1c572-daad-4a77-b519-dd0b0a07658a",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "43843",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "52ce9400-a5fe-4f28-a5f6-6a499454640b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ff9bb76e-3122-4772-bc58-7cac8281fdc3",
+    "equipamentoId": "e1053688-24a6-43aa-89e9-5e7085a42c7e",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "e1053688-24a6-43aa-89e9-5e7085a42c7e",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "42146",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "93b31159-a7ed-434b-9c7f-c01cd6a3eb6e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "bcea12b0-2abe-4ff2-9055-d8559c32c78a",
+    "equipamentoId": "afeb3a2e-2491-41cd-9561-dd5f1a512edd",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "afeb3a2e-2491-41cd-9561-dd5f1a512edd",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "42147",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "60657cbe-44c9-4925-8087-97ca918b3289",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "604fcac5-5433-4e65-ab25-89f74b077671",
+    "equipamentoId": "d364c7fe-325e-423d-8181-4564becc8a53",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "d364c7fe-325e-423d-8181-4564becc8a53",
+      "descricao": "Smartphone",
+      "modeloMarca": "Xiaomi 13C",
+      "patrimonio": "42148",
+      "serialNumber": "23100RN82L"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "9e53dff6-fc9d-4d79-97e7-7a05c5315de8",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "797518f9-ebe7-4d76-a9d1-acd4d3ec99b8",
+    "equipamentoId": "c3391fe9-f914-4072-81f0-0fad4b140f8c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c3391fe9-f914-4072-81f0-0fad4b140f8c",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A04S",
+      "patrimonio": "31871",
+      "serialNumber": "RX8W20576VV"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "4bedb78e-1e0b-42d3-aa01-7f6d75163cbc",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3b7ba3e2-b7f8-4308-8f22-9228b1327c07",
+    "equipamentoId": "1d6c6f05-e975-4a9e-b3ca-10ad9e58fab8",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "1d6c6f05-e975-4a9e-b3ca-10ad9e58fab8",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "48697",
+      "serialNumber": "RXCXA01P3GW"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "6ba4c6c5-2ea2-4bba-9fac-58f5af736443",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5d71646a-77bb-4870-bf8c-cd206ce93f2c",
+    "equipamentoId": "f7aa9735-2d2b-4c9b-87f3-daa2cdc13f0b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f7aa9735-2d2b-4c9b-87f3-daa2cdc13f0b",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A16",
+      "patrimonio": "50420",
+      "serialNumber": "RQ8Y800H7GV"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f1ca71bd-74e4-4e27-9f0a-db98870034e4",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "036ee8aa-9c35-436b-ba02-400384d48696",
+    "equipamentoId": "a391fb16-0340-484d-b046-b4ce636fb983",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "a391fb16-0340-484d-b046-b4ce636fb983",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A16",
+      "patrimonio": "50421",
+      "serialNumber": "RQ8Y800HCGT"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a945a519-f6e2-45f5-ad6a-319650183542",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "equipamentoId": "f1d1bc72-b4d9-4c67-bd45-515cc67986fd",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "f1d1bc72-b4d9-4c67-bd45-515cc67986fd",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15",
+      "patrimonio": "45323",
+      "serialNumber": "RQ8X7045TXR"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "bdf944a3-efa6-4a5a-93c2-fb515836ca3e",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "a2c47a29-bc76-47a6-95c3-e9e7c8fe65c2",
+    "equipamentoId": "48cbdd07-12c5-4cbb-b526-b69a4690fb3a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "48cbdd07-12c5-4cbb-b526-b69a4690fb3a",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 5G",
+      "patrimonio": "48695",
+      "serialNumber": "SM-A156M/DSN"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f50f8273-608e-444e-a969-8386d0b4a10d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "equipamentoId": "6c6cdbd3-8ea6-498a-a3dc-6401685d3dcf",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "6c6cdbd3-8ea6-498a-a3dc-6401685d3dcf",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A15 5G",
+      "patrimonio": "49151",
+      "serialNumber": "SM-A156M/DSN"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f4d1803a-189a-4e36-9443-c4edd4ea6855",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e666f26b-88f3-4e94-a9d8-6a5f20096ccc",
+    "equipamentoId": "69f8448a-beb2-4ff2-be24-b1d897e5e05b",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "69f8448a-beb2-4ff2-be24-b1d897e5e05b",
+      "descricao": "Tablet",
+      "modeloMarca": "Samsung A7 LITE T225",
+      "patrimonio": "28785",
+      "serialNumber": "R9XT20CQTYF"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "56714056-8c94-4efa-919a-bfbeae1b64ca",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "00c00f74-df64-4d55-80cb-ce1649ab7f5d",
+    "equipamentoId": "c721dec9-1aeb-4958-913a-156d2884fa76",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "c721dec9-1aeb-4958-913a-156d2884fa76",
+      "descricao": "Telefone Voip",
+      "modeloMarca": "Intelbras TIP125I",
+      "patrimonio": "31882",
+      "serialNumber": "MEAH44202618XZ"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "572506f6-4ebb-4482-b0ae-c7b296534d42",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6f4de014-570d-43b6-b632-4c8cd4208b4d",
+    "equipamentoId": "80ce460a-0726-4102-b75e-8d190faa4f1f",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "80ce460a-0726-4102-b75e-8d190faa4f1f",
+      "descricao": "Telefone Voip",
+      "modeloMarca": "Intelbras TIP125I",
+      "patrimonio": "31858",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "155ab441-d6a1-4fdc-955d-40f9b90c7971",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "equipamentoId": "cdb79523-6b8a-42ae-bba1-de297c1b8df0",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "cdb79523-6b8a-42ae-bba1-de297c1b8df0",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 24MS501",
+      "patrimonio": "59881",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "16fd9862-5c73-4340-8323-5e404fd9cc9a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "6ca41f6e-5550-4642-a988-2b90d56c6011",
+    "equipamentoId": "cc39ea44-ffa5-4e64-914b-23ff07299aa8",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "cc39ea44-ffa5-4e64-914b-23ff07299aa8",
+      "descricao": "Smartphone",
+      "modeloMarca": "Samsung A17",
+      "patrimonio": "61502",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "4ce80120-7322-4e9f-897e-9e046554bb31",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "93385a43-462b-4ed7-b593-b8c3a7058eba",
+    "equipamentoId": "ac6cd06c-2f18-49c0-95a2-9f50f555b55c",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "ac6cd06c-2f18-49c0-95a2-9f50f555b55c",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo Ideapad Slim 3 15IRH10",
+      "patrimonio": "61475",
+      "serialNumber": "PE0FS765"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "258a6b61-6307-4bf5-bee7-9210c7f33092",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "5f2eb496-63a9-4c3f-927d-a16ebe2e114f",
+    "equipamentoId": "83820e4f-c461-4893-a77f-4b85cd0d4c37",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "83820e4f-c461-4893-a77f-4b85cd0d4c37",
+      "descricao": "Acessório",
+      "modeloMarca": "HUB Usb",
+      "patrimonio": "",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "82876556-8952-411f-a8cd-7c916df8c26d",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "9427bf5e-37ce-456c-a37f-f2bb7b520869",
+    "equipamentoId": "405f6baf-4924-4ab1-ba2b-521de9fcad16",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "405f6baf-4924-4ab1-ba2b-521de9fcad16",
+      "descricao": "Acessório",
+      "modeloMarca": "HUB Usb",
+      "patrimonio": "",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "85d7bdc4-e27c-46c1-bc91-ecb98bbb75a5",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "93385a43-462b-4ed7-b593-b8c3a7058eba",
+    "equipamentoId": "58fbc040-ceab-4804-a9a9-aec6023cbe7a",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "58fbc040-ceab-4804-a9a9-aec6023cbe7a",
+      "descricao": "Monitor",
+      "modeloMarca": "LG 27MS500",
+      "patrimonio": "61908",
+      "serialNumber": "602AZYED7026"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "5aa0a1b3-8383-4552-98c7-53baef9266d6",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "equipamentoId": "457923fc-7e68-4e7e-b3b1-e80815a60241",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "457923fc-7e68-4e7e-b3b1-e80815a60241",
+      "descricao": "Notebook",
+      "modeloMarca": "Lenovo ThinkPad T480",
+      "patrimonio": "63351",
+      "serialNumber": "PE04MKF8"
+    },
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "c56fd8b1-1d72-4cbd-b3c9-23741091e87a",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "c2377d12-5f23-4ef2-9c77-d53d7df1a10b",
+    "equipamentoId": "67e7754d-febe-403c-a699-7b0653dce236",
+    "equipamentosIds": null,
+    "data": "2026-08-17",
+    "timestamp": "2026-08-17T19:44:01.812Z",
+    "equipamentoSnapshot": {
+      "id": "67e7754d-febe-403c-a699-7b0653dce236",
+      "descricao": "Celular",
+      "modeloMarca": "Samsung A17",
+      "patrimonio": "64054",
+      "serialNumber": ""
+    },
+    "equipamentosSnapshots": null
   }
 ]

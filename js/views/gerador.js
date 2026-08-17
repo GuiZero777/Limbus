@@ -174,28 +174,35 @@ const renderGeradorTermo = (container, headerActions, params) => {
         const equipamentosObjArray = eqpsIds.map(id => equipamentosDB.find(eq => eq.id === id));
         const dataEntrega = formData.get('dataEntrega');
 
-        // Generate the print document with the custom delivery date
-        generateAndPrintTermo(funcionario, empresaObj, equipamentosObjArray, dataEntrega);
+        try {
+            // Update Equipment states to 'EM_USO' and add Handover History Log
+            for (const eqp of equipamentosObjArray) {
+                await editEquipamento(eqp.id, {
+                    status: 'EM_USO',
+                    funcionarioId: funcionario.id
+                });
+            }
 
-        // Update Equipment states to 'EM_USO' and add Handover History Log
-        for (const eqp of equipamentosObjArray) {
-            await editEquipamento(eqp.id, {
-                status: 'EM_USO',
-                funcionarioId: funcionario.id
+            // Registrar UMA única entrada no histórico com todos os equipamentos do termo
+            await addHistorico({
+                tipo: 'ENTREGA',
+                funcionarioId: funcionario.id,
+                equipamentosIds: eqpsIds,
+                equipamentosSnapshots: equipamentosObjArray.map(eq => ({ id: eq.id, descricao: eq.descricao, modeloMarca: eq.modeloMarca })),
+                data: dataEntrega
             });
+
+            // Generate the print document with the custom delivery date
+            generateAndPrintTermo(funcionario, empresaObj, equipamentosObjArray, dataEntrega);
+
+            showToast('Termo gerado com sucesso!', 'success');
+
+            // Redirect back to employees page after small delay to let print open safely
+            setTimeout(() => {
+                navigate('funcionarios');
+            }, 500);
+        } catch (err) {
+            showToast(err.message, 'error');
         }
-
-        // Registrar UMA única entrada no histórico com todos os equipamentos do termo
-        await addHistorico({
-            tipo: 'ENTREGA',
-            funcionarioId: funcionario.id,
-            equipamentosIds: eqpsIds,
-            data: dataEntrega
-        });
-
-        // Redirect back to employees page after small delay to let print open safely
-        setTimeout(() => {
-            navigate('funcionarios');
-        }, 500);
     });
 };

@@ -53,9 +53,13 @@ const renderEmpresas = (container, headerActions) => {
                 const id = e.currentTarget.dataset.id;
                 const ok = await showConfirm('Tem certeza que deseja remover esta empresa?', { title: 'Remover empresa', type: 'danger', confirmText: 'Remover' });
                 if (ok) {
-                    await removeEmpresa(id);
-                    showToast('Empresa removida com sucesso.', 'success');
-                    renderTable();
+                    try {
+                        await removeEmpresa(id);
+                        showToast('Empresa removida com sucesso.', 'success');
+                        renderTable();
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
                 }
             });
         });
@@ -99,14 +103,19 @@ const renderEmpresas = (container, headerActions) => {
         document.getElementById('form-empresa').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            await addEmpresa({
-                nome: formData.get('nome'),
-                cnpj: formData.get('cnpj'),
-                cidade: formData.get('cidade'),
-                uf: formData.get('uf').toUpperCase()
-            });
-            hideModal();
-            renderTable();
+            try {
+                await addEmpresa({
+                    nome: formData.get('nome'),
+                    cnpj: formData.get('cnpj'),
+                    cidade: formData.get('cidade'),
+                    uf: formData.get('uf').toUpperCase()
+                });
+                showToast('Empresa cadastrada com sucesso.', 'success');
+                hideModal();
+                renderTable();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
         });
         document.querySelector('.btn-cancel').addEventListener('click', hideModal);
     });

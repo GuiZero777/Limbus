@@ -3,14 +3,6 @@ const cors = require('cors');
 const path = require('path');
 const { supabase, getDbConnection } = require('./database');
 const crypto = require('crypto');
-const {
-    generateLicenseKey,
-    hashDocument,
-    calcularExpiracao,
-    getLicenseStatus,
-    requireFeature,
-    PLANOS
-} = require('./license');
 
 const app = express();
 
@@ -65,8 +57,10 @@ const date = (val, campo) => {
 };
 
 const cnpj = (val) => {
-    const v = str(val, 'cnpj', { max: 14 });
-    const digits = v.replace(/\D/g, '');
+    if (val === null || val === undefined || typeof val !== 'string') {
+        throw new ValidationError('cnpj é obrigatório e deve ser uma string');
+    }
+    const digits = val.replace(/\D/g, '');
     if (!CNPJ_REGEX.test(digits)) throw new ValidationError('cnpj deve conter exatamente 14 dígitos numéricos');
     return digits;
 };
@@ -121,7 +115,7 @@ app.post('/api/empresas', handle(async (req, res) => {
         if (error.code === '23505') throw new ValidationError('Já existe uma empresa cadastrada com este CNPJ');
         throw error;
     }
-    
+
     res.status(201).json({ id, nome, cnpj: cnpjV, cidade, uf: ufV });
 }));
 
@@ -146,14 +140,15 @@ app.post('/api/funcionarios', handle(async (req, res) => {
     const nome         = str(req.body.nome,         'nome',   { max: 150 });
     const funcao       = str(req.body.funcao,        'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao, 'dataAdmissao');
+    const setor        = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
 
     const id = generateId();
     const { error } = await supabase.from('funcionarios').insert([{
-        id, nome, funcao, dataAdmissao
+        id, nome, funcao, dataAdmissao, setor
     }]);
 
     if (error) throw error;
-    res.status(201).json({ id, nome, funcao, dataAdmissao });
+    res.status(201).json({ id, nome, funcao, dataAdmissao, setor });
 }));
 
 app.post('/api/funcionarios/bulk', handle(async (req, res) => {
@@ -171,8 +166,9 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
         const nome         = str(func.nome,                      'nome',   { max: 150 });
         const funcao       = str(func.funcao || 'Não Informado', 'funcao', { max: 100 });
         const dataAdmissao = date(func.dataAdmissao,             'dataAdmissao');
+        const setor        = func.setor ? str(func.setor, 'setor', { max: 100 }) : null;
         const id = generateId();
-        toInsert.push({ id, nome, funcao, dataAdmissao });
+        toInsert.push({ id, nome, funcao, dataAdmissao, setor });
     }
 
     if (toInsert.length > 0) {
@@ -188,9 +184,10 @@ app.put('/api/funcionarios/:id', handle(async (req, res) => {
     const nome         = str(req.body.nome,            'nome',   { max: 150 });
     const funcao       = str(req.body.funcao,           'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao,   'dataAdmissao');
+    const setor        = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
 
     const { data, error } = await supabase.from('funcionarios')
-        .update({ nome, funcao, dataAdmissao })
+        .update({ nome, funcao, dataAdmissao, setor })
         .eq('id', id)
         .select()
         .maybeSingle();
@@ -219,29 +216,40 @@ app.get('/api/equipamentos', handle(async (req, res) => {
 }));
 
 app.post('/api/equipamentos', handle(async (req, res) => {
-    const descricao   = str(req.body.descricao,   'descricao',   { max: 150 });
-    const modeloMarca = str(req.body.modeloMarca, 'modeloMarca', { max: 100 });
+    const descricao    = str(req.body.descricao,   'descricao',   { max: 150 });
+    const modeloMarca  = str(req.body.modeloMarca, 'modeloMarca', { max: 100 });
+    const patrimonio   = req.body.patrimonio ? str(req.body.patrimonio, 'patrimonio', { max: 50 }) : null;
+    const serialNumber = req.body.serialNumber ? str(req.body.serialNumber, 'serialNumber', { max: 100 }) : null;
+    const observacoes  = req.body.observacoes ? str(req.body.observacoes, 'observacoes', { max: 1000 }) : null;
 
     const id = generateId();
     const { error } = await supabase.from('equipamentos').insert([{
-        id, descricao, modeloMarca, status: 'DISPONIVEL', "funcionarioId": null
+        id, descricao, modeloMarca, status: 'DISPONIVEL', 'funcionarioId': null, patrimonio, serialNumber, observacoes
     }]);
 
     if (error) throw error;
-    res.status(201).json({ id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null });
+    res.status(201).json({ id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null, patrimonio, serialNumber, observacoes });
 }));
 
 app.put('/api/equipamentos/:id', handle(async (req, res) => {
-    const id     = uuid(req.params.id,    'id');
-    const status = oneOf(req.body.status, 'status', STATUS_EQUIPAMENTO_VALIDOS);
-
-    let funcionarioId = req.body.funcionarioId ?? null;
-    if (funcionarioId !== null) {
+    const id            = uuid(req.params.id,    'id');
+    const status        = req.body.status ? oneOf(req.body.status, 'status', STATUS_EQUIPAMENTO_VALIDOS) : undefined;
+    let funcionarioId = req.body.funcionarioId;
+    if (funcionarioId !== undefined && funcionarioId !== null) {
         funcionarioId = uuid(funcionarioId, 'funcionarioId');
     }
 
+    const updateObj = {};
+    if (status !== undefined) updateObj.status = status;
+    if (funcionarioId !== undefined) updateObj.funcionarioId = funcionarioId;
+    if (req.body.descricao !== undefined) updateObj.descricao = str(req.body.descricao, 'descricao', { max: 150 });
+    if (req.body.modeloMarca !== undefined) updateObj.modeloMarca = str(req.body.modeloMarca, 'modeloMarca', { max: 100 });
+    if (req.body.patrimonio !== undefined) updateObj.patrimonio = req.body.patrimonio ? str(req.body.patrimonio, 'patrimonio', { max: 50 }) : null;
+    if (req.body.serialNumber !== undefined) updateObj.serialNumber = req.body.serialNumber ? str(req.body.serialNumber, 'serialNumber', { max: 100 }) : null;
+    if (req.body.observacoes !== undefined) updateObj.observacoes = req.body.observacoes ? str(req.body.observacoes, 'observacoes', { max: 1000 }) : null;
+
     const { data, error } = await supabase.from('equipamentos')
-        .update({ status, "funcionarioId": funcionarioId })
+        .update(updateObj)
         .eq('id', id)
         .select()
         .maybeSingle();
@@ -252,7 +260,6 @@ app.put('/api/equipamentos/:id', handle(async (req, res) => {
     }
     if (!data) throw new ValidationError('Equipamento não encontrado');
 
-    // Mapear de volta a prop
     data.funcionarioId = data.funcionarioId || null;
     res.json(data);
 }));
@@ -272,10 +279,24 @@ app.get('/api/historico', handle(async (req, res) => {
     const { data, error } = await supabase.from('historico').select('*');
     if (error) throw error;
 
-    const parsed = (data || []).map(h => {
-        if (h.equipamentosIds) {
-            try { h.equipamentosIds = JSON.parse(h.equipamentosIds); }
-            catch { h.equipamentosIds = []; }
+    const parsed = (data || []).map(item => {
+        const h = { ...item };
+        if (typeof h.equipamentosIds === 'string') {
+            try {
+                h.equipamentosIds = JSON.parse(h.equipamentosIds);
+            } catch (err) {
+                h.equipamentosIds = [];
+            }
+        }
+        if (!Array.isArray(h.equipamentosIds)) {
+            h.equipamentosIds = [];
+        }
+
+        if (typeof h.equipamentosSnapshots === 'string') {
+            try { h.equipamentosSnapshots = JSON.parse(h.equipamentosSnapshots); } catch(e) {}
+        }
+        if (typeof h.equipamentoSnapshot === 'string') {
+            try { h.equipamentoSnapshot = JSON.parse(h.equipamentoSnapshot); } catch(e) {}
         }
         return h;
     });
@@ -289,6 +310,8 @@ app.post('/api/historico', handle(async (req, res) => {
 
     let equipamentoId   = req.body.equipamentoId  ?? null;
     let equipamentosIds = req.body.equipamentosIds ?? null;
+    let equipamentoSnapshot = req.body.equipamentoSnapshot ?? null;
+    let equipamentosSnapshots = req.body.equipamentosSnapshots ?? null;
 
     if (equipamentoId !== null) {
         equipamentoId = uuid(equipamentoId, 'equipamentoId');
@@ -300,11 +323,15 @@ app.post('/api/historico', handle(async (req, res) => {
     }
 
     const stringifiedIds = equipamentosIds ? JSON.stringify(equipamentosIds) : null;
+    const stringifiedSnapshots = equipamentosSnapshots ? JSON.stringify(equipamentosSnapshots) : null;
+    const stringifiedSnapshot = equipamentoSnapshot ? JSON.stringify(equipamentoSnapshot) : null;
+
     const id = generateId();
     const timestamp = new Date().toISOString();
 
     const { error } = await supabase.from('historico').insert([{
-        id, tipo, "funcionarioId": funcionarioId, "equipamentoId": equipamentoId, "equipamentosIds": stringifiedIds, data: dataVal, timestamp
+        id, tipo, 'funcionarioId': funcionarioId, 'equipamentoId': equipamentoId, 'equipamentosIds': stringifiedIds, data: dataVal, timestamp,
+        'equipamentoSnapshot': stringifiedSnapshot, 'equipamentosSnapshots': stringifiedSnapshots
     }]);
 
     if (error) {
@@ -312,7 +339,10 @@ app.post('/api/historico', handle(async (req, res) => {
         throw error;
     }
 
-    res.status(201).json({ id, tipo, funcionarioId, equipamentoId, equipamentosIds, data: dataVal, timestamp });
+    res.status(201).json({
+        id, tipo, funcionarioId, equipamentoId, equipamentosIds, data: dataVal, timestamp,
+        equipamentoSnapshot, equipamentosSnapshots
+    });
 }));
 
 app.delete('/api/historico/:id', handle(async (req, res) => {
@@ -327,103 +357,6 @@ app.delete('/api/historico', handle(async (req, res) => {
     if (error) throw error;
     res.status(204).send();
 }));
-
-// =============================================================
-// LICENÇA
-// =============================================================
-
-// GET /api/licenca
-app.get('/api/licenca', handle(async (req, res) => {
-    const { data: licenca, error } = await supabase.from('licenca').select('*').limit(1).maybeSingle();
-    if (error) throw error;
-
-    const status = getLicenseStatus(licenca);
-    res.json({
-        ativa:     status.valid,
-        plano:     status.plano,
-        expiresAt: status.expiresAt,
-        daysLeft:  status.daysLeft
-    });
-}));
-
-// POST /api/licenca/ativar
-app.post('/api/licenca/ativar', handle(async (req, res) => {
-    const chave     = str(req.body.chave,    'chave',    { max: 25 });
-    const documento = str(req.body.documento,'documento',{ max: 18 });
-
-    if (!/^LIMBUS-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}$/.test(chave)) {
-        throw new ValidationError('Chave de licença inválida. Formato esperado: LIMBUS-XXXX-XXXX-XXXX');
-    }
-
-    const digits = documento.replace(/\D/g, '');
-    if (digits.length !== 11 && digits.length !== 14) {
-        throw new ValidationError('Documento inválido. Informe um CPF (11 dígitos) ou CNPJ (14 dígitos)');
-    }
-
-    const { data: licencaValida, error: eqErr } = await supabase.from('licencas_emitidas')
-        .select('*')
-        .eq('chave', chave)
-        .eq('ativa', 1)
-        .maybeSingle();
-
-    if (eqErr) throw eqErr;
-    if (!licencaValida) throw new ValidationError('Chave de licença não encontrada ou já utilizada');
-
-    const docHash = hashDocument(digits);
-    if (licencaValida.documentoHash !== docHash) {
-        throw new ValidationError('Esta chave de licença não pertence ao documento informado');
-    }
-
-    const plano      = licencaValida.plano;
-    const expiresAt  = calcularExpiracao(plano);
-    const ativadaEm  = new Date().toISOString().split('T')[0];
-
-    const { error: upsertErr } = await supabase.from('licenca').upsert({
-        id: 1, chave, "documentoHash": docHash, plano, "ativadaEm": ativadaEm, "expiresAt": expiresAt
-    });
-    if (upsertErr) throw upsertErr;
-
-    const { error: updateErr } = await supabase.from('licencas_emitidas')
-        .update({ ativa: 0 })
-        .eq('chave', chave);
-    if (updateErr) throw updateErr;
-
-    res.json({
-        ativa:     true,
-        plano,
-        expiresAt,
-        daysLeft:  expiresAt ? Math.ceil((new Date(expiresAt) - new Date()) / 86400000) : null,
-        mensagem:  `Licença ${PLANOS[plano].label} ativada com sucesso!`
-    });
-}));
-
-// POST /api/licenca/emitir
-app.post('/api/licenca/emitir', handle(async (req, res) => {
-    const adminSecret = process.env.ADMIN_SECRET;
-    if (!adminSecret || req.headers['x-admin-secret'] !== adminSecret) {
-        return res.status(401).json({ error: 'Não autorizado' });
-    }
-
-    const documento = str(req.body.documento, 'documento', { max: 18 });
-    const plano     = oneOf(req.body.plano,    'plano',     Object.keys(PLANOS));
-
-    const digits   = documento.replace(/\D/g, '');
-    if (digits.length !== 11 && digits.length !== 14) {
-        throw new ValidationError('Documento inválido. Informe CPF ou CNPJ');
-    }
-
-    const chave     = generateLicenseKey();
-    const docHash   = hashDocument(digits);
-
-    const { error } = await supabase.from('licencas_emitidas').insert([{
-        chave, "documentoHash": docHash, plano, "emitidaEm": new Date().toISOString().split('T')[0]
-    }]);
-    if (error) throw error;
-
-    res.status(201).json({ chave, plano, documento: digits.length === 14 ? 'CNPJ' : 'CPF' });
-}));
-
-app.use('/api/historico', requireFeature('historico_completo'));
 
 // =============================================================
 // EXPORT

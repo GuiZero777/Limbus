@@ -4,8 +4,6 @@ DROP TABLE IF EXISTS historico CASCADE;
 DROP TABLE IF EXISTS equipamentos CASCADE;
 DROP TABLE IF EXISTS funcionarios CASCADE;
 DROP TABLE IF EXISTS empresas CASCADE;
-DROP TABLE IF EXISTS licenca CASCADE;
-DROP TABLE IF EXISTS licencas_emitidas CASCADE;
 
 
 -- Tabela: empresas
@@ -22,7 +20,8 @@ CREATE TABLE funcionarios (
     id UUID PRIMARY KEY,
     nome TEXT NOT NULL,
     funcao TEXT NOT NULL,
-    "dataAdmissao" TEXT NOT NULL 
+    "dataAdmissao" TEXT NOT NULL,
+    setor TEXT
 );
 
 -- Tabela: equipamentos
@@ -32,6 +31,9 @@ CREATE TABLE equipamentos (
     "modeloMarca" TEXT NOT NULL,
     status TEXT DEFAULT 'DISPONIVEL',
     "funcionarioId" UUID,
+    patrimonio TEXT,
+    "serialNumber" TEXT,
+    observacoes TEXT,
     FOREIGN KEY ("funcionarioId") REFERENCES funcionarios(id) ON DELETE SET NULL
 );
 
@@ -45,23 +47,4 @@ CREATE TABLE historico (
     data TEXT NOT NULL,
     timestamp TEXT NOT NULL,
     FOREIGN KEY ("funcionarioId") REFERENCES funcionarios(id) ON DELETE CASCADE
-);
-
--- Tabela: licenca
-CREATE TABLE licenca (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
-    chave TEXT NOT NULL,
-    "documentoHash" TEXT NOT NULL,
-    plano TEXT NOT NULL,
-    "ativadaEm" TEXT NOT NULL,
-    "expiresAt" TEXT
-);
-
--- Tabela: licencas_emitidas
-CREATE TABLE licencas_emitidas (
-    chave TEXT PRIMARY KEY,
-    "documentoHash" TEXT NOT NULL,
-    plano TEXT NOT NULL,
-    "emitidaEm" TEXT NOT NULL,
-    ativa INTEGER DEFAULT 1
 );

@@ -1,1 +1,1 @@
-module.exports = require('../../../supabaseMock'); 
+module.exports = require('../../../supabaseMock');

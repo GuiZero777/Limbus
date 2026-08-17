@@ -25,14 +25,6 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
     let historico = getHistorico().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-    // Limite de 7 dias no modo sem licença
-    if (!isFeatureAvailable('historico_completo')) {
-        const limite = new Date();
-        limite.setDate(limite.getDate() - 7);
-        const limiteStr = limite.toISOString().split('T')[0];
-        historico = historico.filter(h => h.data >= limiteStr);
-    }
-
     // Aplicar Filtros de Data
     if (filters.start) {
         historico = historico.filter(h => h.data >= filters.start);
@@ -48,10 +40,6 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     // Event for printing
     setTimeout(() => {
         document.getElementById('btn-print-historico')?.addEventListener('click', () => {
-            if (!isFeatureAvailable('relatorios')) {
-                renderLicenseActivation();
-                return;
-            }
             const printWindow = window.open('', '_blank');
             if (!printWindow) {
                 showToast('Por favor, permita pop-ups para imprimir o relatório.', 'warning');
@@ -108,11 +96,28 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                             else if (h.tipo === 'DEVOLUCAO' || h.tipo === 'DEVOLUCAO_COMPLETA') { badgeClass = 'devolucao'; badgeLabel = 'Devolução'; }
 
                             let eqpContent = '';
-                            if (h.equipamentosIds && h.equipamentosIds.length > 0) {
-                                const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
+                            let eqIds = h.equipamentosIds;
+                            if (typeof eqIds === 'string') {
+                                try { eqIds = JSON.parse(eqIds); } catch { eqIds = []; }
+                            }
+                            if (Array.isArray(eqIds) && eqIds.length > 0) {
+                                const eqps = eqIds.map(eId => {
+                                    const found = equipamentos.find(e => e.id === eId);
+                                    if (found) return found;
+                                    
+                                    if (Array.isArray(h.equipamentosSnapshots)) {
+                                        const snap = h.equipamentosSnapshots.find(s => s.id === eId);
+                                        if (snap) return snap;
+                                    }
+                                    return { descricao: 'Equip. Excluído', modeloMarca: '' };
+                                });
                                 eqpContent = eqps.map(eq => '<strong>' + eq.descricao + '</strong><br><span style="color:#666; font-size:11px;">' + eq.modeloMarca + '</span>').join('<div style="margin: 5px 0; border-top: 1px dotted #ccc;"></div>');
                             } else {
-                                const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { descricao: 'Equip. Excluído', modeloMarca: '' };
+                                let eqp = equipamentos.find(e => e.id === h.equipamentoId);
+                                if (!eqp) {
+                                    if (h.equipamentoSnapshot) eqp = h.equipamentoSnapshot;
+                                    else eqp = { descricao: 'Equip. Excluído', modeloMarca: '' };
+                                }
                                 eqpContent = '<strong>' + eqp.descricao + '</strong><br><span style="color:#666; font-size:11px;">' + eqp.modeloMarca + '</span>';
                             }
 
@@ -172,12 +177,36 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             }
 
             let eqpContent = '';
-            if (h.equipamentosIds && h.equipamentosIds.length > 0) {
-                const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
-                eqpContent = eqps.map(eq => '<span class="block text-slate-800 dark:text-slate-100 font-medium">' + eq.descricao + '</span><span class="block text-xs text-slate-500 dark:text-slate-400">' + eq.modeloMarca + '</span>').join('<div class="my-2 border-t border-slate-100"></div>');
+            let eqIds = h.equipamentosIds;
+            if (typeof eqIds === 'string') {
+                try { eqIds = JSON.parse(eqIds); } catch { eqIds = []; }
+            }
+            if (Array.isArray(eqIds) && eqIds.length > 0) {
+                const eqps = eqIds.map(eId => {
+                    const found = equipamentos.find(e => e.id === eId);
+                    if (found) return found;
+                    
+                    // Fallback para o snapshot
+                    if (Array.isArray(h.equipamentosSnapshots)) {
+                        const snap = h.equipamentosSnapshots.find(s => s.id === eId);
+                        if (snap) return snap;
+                    }
+                    return { descricao: 'Equip. Excluído', modeloMarca: '' };
+                });
+                eqpContent = eqps.map(eq => {
+                    const tagInfo = eq.patrimonio ? ` <span class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold px-1.5 py-0.5 rounded">Patr: ${eq.patrimonio}</span>` : '';
+                    const serialInfo = eq.serialNumber ? ` &bull; Serial: ${eq.serialNumber}` : '';
+                    return '<span class="block text-slate-800 dark:text-slate-100 font-medium">' + eq.descricao + tagInfo + '</span><span class="block text-xs text-slate-500 dark:text-slate-400">' + eq.modeloMarca + serialInfo + '</span>';
+                }).join('<div class="my-2 border-t border-slate-100 dark:border-slate-700"></div>');
             } else {
-                const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { descricao: 'Equip. Excluído', modeloMarca: '' };
-                eqpContent = '<span class="block text-slate-800 dark:text-slate-100 font-medium">' + eqp.descricao + '</span><span class="block text-xs text-slate-500 dark:text-slate-400">' + eqp.modeloMarca + '</span>';
+                let eqp = equipamentos.find(e => e.id === h.equipamentoId);
+                if (!eqp) {
+                    if (h.equipamentoSnapshot) eqp = h.equipamentoSnapshot;
+                    else eqp = { descricao: 'Equip. Excluído', modeloMarca: '' };
+                }
+                const tagInfo = eqp.patrimonio ? ` <span class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold px-1.5 py-0.5 rounded">Patr: ${eqp.patrimonio}</span>` : '';
+                const serialInfo = eqp.serialNumber ? ` &bull; Serial: ${eqp.serialNumber}` : '';
+                eqpContent = '<span class="block text-slate-800 dark:text-slate-100 font-medium">' + eqp.descricao + tagInfo + '</span><span class="block text-xs text-slate-500 dark:text-slate-400">' + eqp.modeloMarca + serialInfo + '</span>';
             }
 
             // ID para deletar
@@ -242,13 +271,18 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
             const ok = await showConfirm('Remover esta entrada do histórico?', { title: 'Remover entrada', type: 'danger', confirmText: 'Remover' });
             if (ok) {
-                for (const id of ids) {
-                    await removeHistoricoEntry(id);
+                try {
+                    for (const id of ids) {
+                        await removeHistoricoEntry(id);
+                    }
+                    showToast('Entrada removida do histórico.', 'success');
+                    renderHistoricoGeral(container, headerActions, {
+                        start: startInput?.value || '',
+                        end: endInput?.value || ''
+                    });
+                } catch (err) {
+                    showToast(err.message, 'error');
                 }
-                renderHistoricoGeral(container, headerActions, {
-                    start: startInput?.value || '',
-                    end: endInput?.value || ''
-                });
             }
         });
     });
@@ -257,8 +291,13 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     document.getElementById('btn-clear-historico')?.addEventListener('click', async () => {
         const ok = await showConfirm('Tem certeza absoluta que deseja APAGAR TODO O HISTÓRICO? Esta ação não pode ser desfeita.', { title: 'Apagar todo histórico', type: 'danger', confirmText: 'Apagar Tudo' });
         if (ok) {
-            await clearHistorico();
-            renderHistoricoGeral(container, headerActions);
+            try {
+                await clearHistorico();
+                showToast('Todo o histórico foi apagado com sucesso.', 'success');
+                renderHistoricoGeral(container, headerActions);
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
         }
     });
 };

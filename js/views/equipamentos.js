@@ -44,7 +44,9 @@ const renderEquipamentos = (container, headerActions) => {
         if (filterText) {
             equipamentos = equipamentos.filter(eqp =>
                 eqp.descricao.toLowerCase().includes(filterText) ||
-                eqp.modeloMarca.toLowerCase().includes(filterText)
+                eqp.modeloMarca.toLowerCase().includes(filterText) ||
+                (eqp.patrimonio || '').toLowerCase().includes(filterText) ||
+                (eqp.serialNumber || '').toLowerCase().includes(filterText)
             );
         }
 
@@ -58,8 +60,10 @@ const renderEquipamentos = (container, headerActions) => {
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
-                            <th class="py-3 px-6 font-semibold">Descrição do Equipamento</th>
+                            <th class="py-3 px-6 font-semibold">Patrimônio</th>
+                            <th class="py-3 px-6 font-semibold">Descrição</th>
                             <th class="py-3 px-6 font-semibold">Modelo/Marca</th>
+                            <th class="py-3 px-6 font-semibold">Serial Number</th>
                             <th class="py-3 px-6 font-semibold text-center">Status</th>
                             <th class="py-3 px-6 font-semibold text-right">Ações</th>
                         </tr>
@@ -68,7 +72,7 @@ const renderEquipamentos = (container, headerActions) => {
         `;
 
         if (equipamentos.length === 0) {
-            tableHTML += `<tr><td colspan="4" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum equipamento encontrado.</td></tr>`;
+            tableHTML += `<tr><td colspan="6" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum equipamento encontrado.</td></tr>`;
         } else {
             equipamentos.forEach(eqp => {
                 const isDisponivel = eqp.status === 'DISPONIVEL';
@@ -86,11 +90,22 @@ const renderEquipamentos = (container, headerActions) => {
 
                 tableHTML += `
                     <tr class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
-                        <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">${eqp.descricao}</td>
+                        <td class="py-4 px-6 font-semibold text-indigo-600 dark:text-indigo-400">${eqp.patrimonio || 'Sem Patr.'}</td>
+                        <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">
+                            <span>${eqp.descricao}</span>
+                            ${eqp.observacoes ? `<span class="block text-xs text-slate-400 italic mt-0.5" title="${eqp.observacoes}">${eqp.observacoes}</span>` : ''}
+                        </td>
                         <td class="py-4 px-6 text-slate-600 dark:text-slate-300">${eqp.modeloMarca}</td>
-                        <td class="py-4 px-6 text-center">${statusBadge}</td>
+                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 font-mono text-xs">${eqp.serialNumber || 'Sem Serial'}</td>
+                        <td class="py-4 px-6 text-center">
+                            ${statusBadge}
+                            ${eqp.funcionarioId ? `<span class="block text-xs text-slate-400 mt-1">${getFuncionarioById(eqp.funcionarioId)?.nome || 'Excluído'}</span>` : ''}
+                        </td>
                         <td class="py-4 px-6 text-right flex justify-end items-center">
                             ${alocarBtn}
+                            <button data-id="${eqp.id}" class="btn-edit-equip text-slate-400 hover:text-amber-500 p-2 rounded hover:bg-amber-50 transition-colors" title="Editar Equipamento">
+                                <i data-lucide="edit-2" class="w-4 h-4"></i>
+                            </button>
                             <button data-id="${eqp.id}" class="btn-delete-equip text-red-500 hover:text-red-700 p-2 rounded hover:bg-red-50 transition-colors" title="Remover">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
@@ -115,10 +130,21 @@ const renderEquipamentos = (container, headerActions) => {
                 }
                 const ok = await showConfirm('Tem certeza que deseja remover este equipamento?', { title: 'Remover equipamento', type: 'danger', confirmText: 'Remover' });
                 if (ok) {
-                    await removeEquipamento(id);
-                    showToast('Equipamento removido com sucesso.', 'success');
-                    renderTable(document.getElementById('search-equip')?.value || '');
+                    try {
+                        await removeEquipamento(id);
+                        showToast('Equipamento removido com sucesso.', 'success');
+                        renderTable(document.getElementById('search-equip')?.value || '');
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
                 }
+            });
+        });
+
+        document.querySelectorAll('.btn-edit-equip').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.dataset.id;
+                renderEquipamentoForm(id);
             });
         });
 
@@ -192,19 +218,24 @@ const renderEquipamentos = (container, headerActions) => {
                         return;
                     }
 
-                    // 1. Change Status
-                    await editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
+                    try {
+                        // 1. Change Status
+                        await editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
 
-                    // 2. Add History Log
-                    await addHistorico({
-                        tipo: 'ALOCACAO_MANUAL',
-                        funcionarioId: fId,
-                        equipamentoId: eqId,
-                        data: dataEntrega
-                    });
+                        // 2. Add History Log
+                        await addHistorico({
+                            tipo: 'ALOCACAO_MANUAL',
+                            funcionarioId: fId,
+                            equipamentoId: eqId,
+                            data: dataEntrega
+                        });
 
-                    hideModal();
-                    renderTable(document.getElementById('search-equip')?.value || '');
+                        showToast('Equipamento alocado com sucesso.', 'success');
+                        hideModal();
+                        renderTable(document.getElementById('search-equip')?.value || '');
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
                 });
                 document.querySelector('.btn-cancel').addEventListener('click', hideModal);
             });
@@ -217,18 +248,53 @@ const renderEquipamentos = (container, headerActions) => {
     document.getElementById('filter-status-equip')?.addEventListener('change', renderTable);
     document.getElementById('sort-equip')?.addEventListener('change', renderTable);
 
-    document.getElementById('btn-add-equipamento').addEventListener('click', () => {
+    const renderEquipamentoForm = (id = null) => {
+        let eqp = { descricao: '', modeloMarca: '', patrimonio: '', serialNumber: '', observacoes: '', funcionarioId: null };
+        let isEdit = false;
+
+        if (id) {
+            const found = getEquipamentoById(id);
+            if (found) {
+                eqp = { ...found };
+                isEdit = true;
+            }
+        }
+
+        const title = isEdit ? 'Editar Equipamento' : 'Novo Equipamento';
         const formHTML = `
             <div class="p-6">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Adicionar Equipamento</h3>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">${title}</h3>
                 <form id="form-equipamento" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Patrimônio (Tag)</label>
+                            <input type="text" name="patrimonio" value="${eqp.patrimonio || ''}" placeholder="Ex: 02847" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Serial Number</label>
+                            <input type="text" name="serialNumber" value="${eqp.serialNumber || ''}" placeholder="Ex: BGV69R1" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        </div>
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Descrição</label>
-                        <input type="text" name="descricao" required placeholder="Ex: Notebook, Celular, Monitor" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        <input type="text" name="descricao" value="${eqp.descricao}" required placeholder="Ex: Notebook, Celular, Monitor" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Modelo / Marca</label>
-                        <input type="text" name="modeloMarca" required placeholder="Ex: Dell Inspiron 15" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        <input type="text" name="modeloMarca" value="${eqp.modeloMarca}" required placeholder="Ex: Dell Inspiron 15" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Responsável (Proprietário)</label>
+                        <div class="relative select-search-container">
+                            <input type="text" id="search-responsavel-input" placeholder="Pesquisar funcionário por nome ou setor..." class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
+                            <input type="hidden" name="funcionarioId" id="funcionarioId-value" value="${eqp.funcionarioId || ''}">
+                            <div id="search-responsavel-list" class="absolute z-50 left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Observações (Opcional)</label>
+                        <textarea name="observacoes" placeholder="Senhas administrativas, detalhes da garantia, etc." rows="2" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">${eqp.observacoes || ''}</textarea>
                     </div>
                     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
                         <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
@@ -240,16 +306,161 @@ const renderEquipamentos = (container, headerActions) => {
 
         showModal(formHTML);
 
+        const searchInput = document.getElementById('search-responsavel-input');
+        const searchList = document.getElementById('search-responsavel-list');
+        const hiddenValue = document.getElementById('funcionarioId-value');
+        const funcionarios = getFuncionarios();
+
+        // Inicializar com o valor atual
+        if (eqp.funcionarioId) {
+            const currentFunc = funcionarios.find(f => f.id === eqp.funcionarioId);
+            if (currentFunc) {
+                searchInput.value = `${currentFunc.nome} (${currentFunc.setor || 'Sem setor'})`;
+            }
+        } else {
+            searchInput.value = 'Ninguém (Disponível no Estoque)';
+        }
+
+        const renderDropdownList = (filterText = '') => {
+            let filtered = funcionarios;
+            if (filterText) {
+                filtered = funcionarios.filter(f =>
+                    f.nome.toLowerCase().includes(filterText.toLowerCase()) ||
+                    (f.setor || '').toLowerCase().includes(filterText.toLowerCase())
+                );
+            }
+
+            let listHTML = `
+                <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-800 dark:text-slate-100 font-medium text-sm border-b border-slate-100 dark:border-slate-700" data-value="">
+                    Ninguém (Disponível no Estoque)
+                </div>
+            `;
+
+            if (filtered.length === 0) {
+                listHTML += `<div class="px-4 py-3 text-slate-400 dark:text-slate-500 text-sm">Nenhum funcionário encontrado</div>`;
+            } else {
+                listHTML += filtered.map(f => `
+                    <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-800 dark:text-slate-100 text-sm flex flex-col" data-value="${f.id}" data-text="${f.nome} (${f.setor || 'Sem setor'})">
+                        <span class="font-semibold">${f.nome}</span>
+                        <span class="text-xs text-slate-400">${f.setor || 'Sem setor'}</span>
+                    </div>
+                `).join('');
+            }
+
+            searchList.innerHTML = listHTML;
+
+            // Adicionar eventos de click
+            searchList.querySelectorAll('[data-value]').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const val = e.currentTarget.dataset.value;
+                    const text = e.currentTarget.dataset.text || 'Ninguém (Disponível no Estoque)';
+                    hiddenValue.value = val;
+                    searchInput.value = text;
+                    searchList.classList.add('hidden');
+                });
+            });
+        };
+
+        // Mostrar lista ao focar/clicar
+        searchInput.addEventListener('focus', () => {
+            renderDropdownList(searchInput.value === 'Ninguém (Disponível no Estoque)' ? '' : searchInput.value);
+            searchList.classList.remove('hidden');
+        });
+
+        // Filtrar ao digitar
+        searchInput.addEventListener('input', (e) => {
+            renderDropdownList(e.target.value);
+            searchList.classList.remove('hidden');
+        });
+
+        // Fechar ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.select-search-container')) {
+                searchList.classList.add('hidden');
+                // Se o usuário digitou algo e não selecionou nada válido, resetar para o valor anterior
+                const selectedId = hiddenValue.value;
+                if (selectedId) {
+                    const currentFunc = funcionarios.find(f => f.id === selectedId);
+                    if (currentFunc) {
+                        searchInput.value = `${currentFunc.nome} (${currentFunc.setor || 'Sem setor'})`;
+                    }
+                } else {
+                    searchInput.value = 'Ninguém (Disponível no Estoque)';
+                }
+            }
+        }, { capture: true });
+
         document.getElementById('form-equipamento').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            await addEquipamento({
+            const previousFuncId = eqp.funcionarioId || null;
+            const newFuncId = formData.get('funcionarioId') || null;
+
+            const data = {
                 descricao: formData.get('descricao'),
-                modeloMarca: formData.get('modeloMarca')
-            });
-            hideModal();
-            renderTable(document.getElementById('search-equip')?.value || '');
+                modeloMarca: formData.get('modeloMarca'),
+                patrimonio: formData.get('patrimonio') || null,
+                serialNumber: formData.get('serialNumber') || null,
+                observacoes: formData.get('observacoes') || null,
+                funcionarioId: newFuncId,
+                status: newFuncId ? 'EM_USO' : 'DISPONIVEL'
+            };
+
+            try {
+                if (isEdit) {
+                    await editEquipamento(id, data);
+                    
+                    // Se o proprietário mudou, registrar a movimentação no histórico
+                    if (previousFuncId !== newFuncId) {
+                        const todayStr = new Date().toISOString().split('T')[0];
+                        if (previousFuncId) {
+                            // Registrar devolução
+                            await addHistorico({
+                                tipo: 'DEVOLUCAO',
+                                funcionarioId: previousFuncId,
+                                equipamentoId: id,
+                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                                data: todayStr
+                            });
+                        }
+                        if (newFuncId) {
+                            // Registrar alocação manual
+                            await addHistorico({
+                                tipo: 'ALOCACAO_MANUAL',
+                                funcionarioId: newFuncId,
+                                equipamentoId: id,
+                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                                data: todayStr
+                            });
+                        }
+                    }
+                    showToast('Equipamento atualizado com sucesso.', 'success');
+                } else {
+                    const newEqp = await addEquipamento(data);
+                    
+                    // Se já foi cadastrado com dono, logar no histórico
+                    if (newFuncId) {
+                        const todayStr = new Date().toISOString().split('T')[0];
+                        await addHistorico({
+                            tipo: 'ALOCACAO_MANUAL',
+                            funcionarioId: newFuncId,
+                            equipamentoId: newEqp.id,
+                            equipamentoSnapshot: { id: newEqp.id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                            data: todayStr
+                        });
+                    }
+                    showToast('Equipamento cadastrado com sucesso.', 'success');
+                }
+                hideModal();
+                renderTable(document.getElementById('search-equip')?.value || '');
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
         });
         document.querySelector('.btn-cancel').addEventListener('click', hideModal);
+    };
+
+    document.getElementById('btn-add-equipamento').addEventListener('click', () => {
+        renderEquipamentoForm();
     });
 };

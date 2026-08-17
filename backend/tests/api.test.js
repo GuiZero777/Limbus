@@ -40,13 +40,17 @@ const criarFuncionario = (overrides = {}) =>
         nome:         'João da Silva',
         funcao:       'Analista',
         dataAdmissao: '2024-01-15',
+        setor:        'TI',
         ...overrides
     });
 
 const criarEquipamento = (overrides = {}) =>
     request(app).post('/api/equipamentos').send({
-        descricao:   'Notebook',
-        modeloMarca: 'Dell Inspiron 15',
+        descricao:    'Notebook',
+        modeloMarca:  'Dell Inspiron 15',
+        patrimonio:   '01234',
+        serialNumber: 'SN987654',
+        observacoes:  'Senha: 123',
         ...overrides
     });
 
@@ -182,6 +186,12 @@ describe('Funcionários', () => {
             const res = await criarFuncionario({ funcao: '   ' });
             expect(res.status).toBe(400);
         });
+
+        it('cria funcionário com setor', async () => {
+            const res = await criarFuncionario({ setor: 'Marketing' });
+            expect(res.status).toBe(201);
+            expect(res.body.setor).toBe('Marketing');
+        });
     });
 
     describe('POST /api/funcionarios/bulk', () => {
@@ -280,6 +290,18 @@ describe('Equipamentos', () => {
         it('rejeita modeloMarca ausente', async () => {
             const res = await criarEquipamento({ modeloMarca: undefined });
             expect(res.status).toBe(400);
+        });
+
+        it('cria equipamento com patrimonio, serialNumber e observacoes', async () => {
+            const res = await criarEquipamento({
+                patrimonio:   '99999',
+                serialNumber: 'XYZ789',
+                observacoes:  'Garantia até 2027'
+            });
+            expect(res.status).toBe(201);
+            expect(res.body.patrimonio).toBe('99999');
+            expect(res.body.serialNumber).toBe('XYZ789');
+            expect(res.body.observacoes).toBe('Garantia até 2027');
         });
     });
 
