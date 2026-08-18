@@ -3,6 +3,22 @@
 const renderSetores = (container, headerActions) => {
     headerActions.innerHTML = '';
 
+    // Renderizar a estrutura básica de busca uma única vez para não perder o foco
+    container.innerHTML = `
+        <div class="mb-6 flex items-center justify-between gap-4">
+            <div class="relative flex-1 max-w-md">
+                <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500"></i>
+                <input type="text" id="search-setor" placeholder="Buscar setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+            </div>
+        </div>
+        <div id="setores-table-container"></div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+
+    const searchInput = document.getElementById('search-setor');
+    const tableContainer = document.getElementById('setores-table-container');
+
     const renderTable = (filterText = '') => {
         const funcionarios = getFuncionarios();
         // Obter setores únicos
@@ -15,13 +31,6 @@ const renderSetores = (container, headerActions) => {
         }
 
         let tableHTML = `
-            <div class="mb-6 flex items-center justify-between gap-4">
-                <div class="relative flex-1 max-w-md">
-                    <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500"></i>
-                    <input type="text" id="search-setor" value="${filterText}" placeholder="Buscar setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
-                </div>
-            </div>
-            
             <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -61,15 +70,16 @@ const renderSetores = (container, headerActions) => {
         }
 
         tableHTML += `</tbody></table></div>`;
-        container.innerHTML = tableHTML;
+        tableContainer.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
 
-        const searchInput = document.getElementById('search-setor');
-        searchInput.addEventListener('input', (e) => {
-            renderTable(e.target.value);
-        });
+        // Adicionar eventos dos botões
+        bindTableEvents();
+    };
 
+    const bindTableEvents = () => {
+        // Evento de Editar Setor
         document.querySelectorAll('.btn-edit-setor').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const oldName = e.currentTarget.dataset.name;
@@ -122,7 +132,7 @@ const renderSetores = (container, headerActions) => {
                             await editSetor(oldName, newName);
                             showToast(`Setor renomeado para "${newName}" com sucesso.`, 'success');
                             fechar();
-                            renderTable(document.getElementById('search-setor')?.value || '');
+                            renderTable(searchInput.value || '');
                         } catch (err) {
                             showToast(err.message, 'error');
                         }
@@ -141,6 +151,7 @@ const renderSetores = (container, headerActions) => {
             });
         });
 
+        // Evento de Deletar Setor
         document.querySelectorAll('.btn-delete-setor').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const name = e.currentTarget.dataset.name;
@@ -154,7 +165,7 @@ const renderSetores = (container, headerActions) => {
                     try {
                         await removeSetor(name);
                         showToast(`Setor "${name}" removido com sucesso.`, 'success');
-                        renderTable();
+                        renderTable(searchInput.value || '');
                     } catch (err) {
                         showToast(err.message, 'error');
                     }
@@ -162,6 +173,11 @@ const renderSetores = (container, headerActions) => {
             });
         });
     };
+
+    // Adicionar listener de busca
+    searchInput.addEventListener('input', (e) => {
+        renderTable(e.target.value);
+    });
 
     renderTable();
 };
