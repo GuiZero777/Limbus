@@ -763,38 +763,71 @@ window.renderFuncionarioPerfil = (id) => {
             if (h.equipamentosIds && h.equipamentosIds.length > 0) {
                 const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { id: eId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' });
                 const eqpHTML = eqps.map(eq => `
-                    <div class="flex items-center gap-2 flex-wrap py-0.5">
-                        ${eq.id ? `<button data-eqpid="${eq.id}" class="btn-jump-equip text-xs font-bold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline flex items-center gap-1 transition-colors"><span>${eq.descricao} (${eq.modeloMarca})</span><i data-lucide="external-link" class="w-3 h-3 opacity-60"></i></button>` : `<span class="text-xs font-bold text-slate-800 dark:text-slate-100">${eq.descricao}</span>`}
-                        ${eq.patrimonio ? `<span class="font-mono text-[11px] font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Patr: ${eq.patrimonio}</span>` : ''}
-                        ${eq.serialNumber ? `<span class="text-[11px] text-slate-400 font-mono">S/N: ${eq.serialNumber}</span>` : ''}
+                    <div class="flex flex-col gap-0.5 py-1">
+                        <div class="flex items-center gap-1.5">
+                            <button data-eqpid="${eq.id || ''}" class="${eq.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-xs font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1 text-left">
+                                <span>${eq.descricao} ${eq.modeloMarca ? `&bull; ${eq.modeloMarca}` : ''}</span>
+                                ${eq.id ? '<i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>' : ''}
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs flex-wrap">
+                            ${eq.patrimonio ? `
+                            <span class="inline-flex items-center font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+                                <span class="text-indigo-400 font-sans font-normal mr-1">Patr:</span> ${eq.patrimonio}
+                            </span>` : ''}
+                            ${eq.serialNumber ? `
+                            <span class="inline-flex items-center font-mono text-[10px] text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-700">
+                                <span class="text-slate-400 font-sans font-normal mr-1">S/N:</span> ${eq.serialNumber}
+                            </span>` : ''}
+                        </div>
                     </div>
                 `).join('');
-                eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} múltiplos itens:</p>` +
-                              `<div class="mt-1 space-y-1 pl-2 border-l-2 border-slate-200 dark:border-slate-700">${eqpHTML}</div>`;
+                eqpContent = `
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold uppercase tracking-wider ${corTexto}">${acao}</span>
+                            <span class="text-xs text-slate-500 font-medium">(${eqps.length} itens):</span>
+                        </div>
+                        <div class="mt-1 pl-3 border-l-2 border-slate-200 dark:border-slate-700 space-y-1">
+                            ${eqpHTML}
+                        </div>
+                    </div>
+                `;
             } else {
                 const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { id: h.equipamentoId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' };
                 eqpContent = `
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} 
-                            ${eqp.id ? `<button data-eqpid="${eqp.id}" class="btn-jump-equip font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline inline-flex items-center gap-1 transition-colors"><span>${eqp.descricao}</span><i data-lucide="external-link" class="w-3 h-3 opacity-60"></i></button>` : `<span class="font-bold text-slate-900 dark:text-slate-100">${eqp.descricao}</span>`}
-                        </p>
-                        ${eqp.patrimonio ? `<span class="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Patr: ${eqp.patrimonio}</span>` : ''}
-                    </div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
-                        ${eqp.id ? `<button data-eqpid="${eqp.id}" class="btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-medium">${eqp.modeloMarca}</button>` : `<span>${eqp.modeloMarca}</span>`}
-                        ${eqp.serialNumber ? `<span>&bull; S/N: <span class="font-mono">${eqp.serialNumber}</span></span>` : ''}
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold uppercase tracking-wider ${corTexto}">${acao}</span>
+                            <button data-eqpid="${eqp.id || ''}" class="${eqp.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-sm font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1.5 text-left">
+                                <span>${eqp.descricao} ${eqp.modeloMarca ? `&bull; ${eqp.modeloMarca}` : ''}</span>
+                                ${eqp.id ? '<i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50"></i>' : ''}
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs flex-wrap">
+                            ${eqp.patrimonio ? `
+                            <span class="inline-flex items-center font-mono text-[11px] font-semibold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+                                <span class="text-indigo-400 font-sans font-normal mr-1">Patr:</span> ${eqp.patrimonio}
+                            </span>` : ''}
+                            ${eqp.serialNumber ? `
+                            <span class="inline-flex items-center font-mono text-[11px] text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-700">
+                                <span class="text-slate-400 font-sans font-normal mr-1">S/N:</span> ${eqp.serialNumber}
+                            </span>` : ''}
+                        </div>
                     </div>
                 `;
             }
 
             return `
-                <div class="flex gap-4 items-start relative pb-6 last:pb-0 before:absolute before:left-[15px] before:top-8 before:bottom-0 before:-ml-px before:w-0.5 before:bg-slate-200 last:before:hidden">
-                    <div class="relative z-10 w-8 h-8 rounded-full ${bgIcone} flex items-center justify-center shrink-0 ring-4 ring-white">
+                <div class="flex gap-4 items-start relative pb-6 last:pb-0 before:absolute before:left-[15px] before:top-8 before:bottom-0 before:-ml-px before:w-0.5 before:bg-slate-200 dark:before:bg-slate-700 last:before:hidden">
+                    <div class="relative z-10 w-8 h-8 rounded-full ${bgIcone} flex items-center justify-center shrink-0 ring-4 ring-white dark:ring-slate-900 shadow-sm">
                         <i data-lucide="${icone}" class="w-4 h-4 ${corTexto}"></i>
                     </div>
-                    <div>
+                    <div class="flex-1 min-w-0 flex flex-col gap-1">
                         ${eqpContent}
-                        <p class="text-xs text-slate-400 mt-1.5 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> ${dataStr} às ${timeStr}</p>
+                        <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 flex items-center gap-1">
+                            <i data-lucide="calendar" class="w-3 h-3"></i> ${dataStr} às ${timeStr}
+                        </p>
                     </div>
                 </div>
              `;
@@ -805,26 +838,31 @@ window.renderFuncionarioPerfil = (id) => {
         posseHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 py-4 text-center border border-dashed border-slate-300 dark:border-slate-600 rounded-lg">Nenhum equipamento em posse atualmente.</p>';
     } else {
         const itensHTML = equipamentosEmPosse.map(eqp => `
-                <div class="flex items-center justify-between p-3.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-600 transition-all">
-                    <div class="flex items-center gap-3.5 min-w-0">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                <div class="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700/80 rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all group">
+                    <div class="flex items-start gap-3.5 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-100 dark:border-indigo-900/40 mt-0.5">
                             <i data-lucide="laptop" class="w-5 h-5"></i>
                         </div>
-                        <div class="min-w-0">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <button data-eqpid="${eqp.id}" class="btn-jump-equip text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline text-left truncate flex items-center gap-1 transition-colors" title="Ver detalhes na aba de Equipamentos">
-                                    <span>${eqp.descricao}</span>
-                                    <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-60"></i>
-                                </button>
-                                ${eqp.patrimonio ? `<span class="inline-flex items-center font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">Patr: ${eqp.patrimonio}</span>` : '<span class="text-[11px] text-slate-400 italic">Sem Patr.</span>'}
-                            </div>
-                            <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
-                                <button data-eqpid="${eqp.id}" class="btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-medium">${eqp.modeloMarca}</button>
-                                ${eqp.serialNumber ? `<span>&bull; S/N: <span class="font-mono">${eqp.serialNumber}</span></span>` : ''}
+                        <div class="min-w-0 flex flex-col gap-1">
+                            <!-- 1. Nome do Equipamento & Modelo no Topo -->
+                            <button data-eqpid="${eqp.id}" class="btn-jump-equip text-left font-bold text-sm text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-1.5 transition-colors group" title="Ver na aba de Equipamentos">
+                                <span class="truncate">${eqp.descricao} ${eqp.modeloMarca ? `&bull; ${eqp.modeloMarca}` : ''}</span>
+                                <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"></i>
+                            </button>
+                            
+                            <!-- 2. Linha de Metadados: Patrimônio seguido de Serial Number -->
+                            <div class="flex items-center gap-2 text-xs flex-wrap">
+                                <span class="inline-flex items-center font-mono text-xs font-semibold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+                                    <span class="text-indigo-400 font-sans font-normal mr-1">Patr:</span> ${eqp.patrimonio || 'Sem Patr.'}
+                                </span>
+                                ${eqp.serialNumber ? `
+                                <span class="inline-flex items-center font-mono text-xs text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-700">
+                                    <span class="text-slate-400 font-sans font-normal mr-1">S/N:</span> ${eqp.serialNumber}
+                                </span>` : ''}
                             </div>
                         </div>
                     </div>
-                    <button data-eqpid="${eqp.id}" class="btn-devolver ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shrink-0" title="Registrar devolução do equipamento">
+                    <button data-eqpid="${eqp.id}" class="btn-devolver shrink-0 ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shadow-sm" title="Registrar devolução do equipamento">
                         <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver
                     </button>
                 </div>
