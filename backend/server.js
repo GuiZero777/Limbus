@@ -206,6 +206,35 @@ app.delete('/api/funcionarios/:id', handle(async (req, res) => {
 }));
 
 // =============================================================
+// SETORES (Mapeado nos Funcionários)
+// =============================================================
+
+app.put('/api/setores/:oldName', handle(async (req, res) => {
+    const oldName = req.params.oldName;
+    const newName = str(req.body.newName, 'newName', { max: 100 });
+
+    // Atualiza todos os funcionários com oldName para newName
+    const { error } = await supabase.from('funcionarios')
+        .update({ setor: newName })
+        .eq('setor', oldName);
+
+    if (error) throw error;
+    res.json({ oldName, newName });
+}));
+
+app.delete('/api/setores/:name', handle(async (req, res) => {
+    const name = req.params.name;
+
+    // Remove o setor dos funcionários associados
+    const { error } = await supabase.from('funcionarios')
+        .update({ setor: null })
+        .eq('setor', name);
+
+    if (error) throw error;
+    res.status(204).send();
+}));
+
+// =============================================================
 // EQUIPAMENTOS
 // =============================================================
 

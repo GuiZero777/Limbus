@@ -202,3 +202,34 @@ const clearHistorico = async () => {
     await checkResponse(res, 'Falha ao limpar histórico');
     StoreState.historico = [];
 };
+
+// --- Setores ---
+const editSetor = async (oldName, newName) => {
+    const res = await fetch(`${API_URL}/setores/${encodeURIComponent(oldName)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newName })
+    });
+    await checkResponse(res, 'Falha ao editar setor');
+    
+    // Atualizar localmente os funcionários associados
+    StoreState.funcionarios.forEach(f => {
+        if (f.setor === oldName) {
+            f.setor = newName;
+        }
+    });
+};
+
+const removeSetor = async (name) => {
+    const res = await fetch(`${API_URL}/setores/${encodeURIComponent(name)}`, {
+        method: 'DELETE'
+    });
+    await checkResponse(res, 'Falha ao remover setor');
+    
+    // Remover localmente o setor dos funcionários
+    StoreState.funcionarios.forEach(f => {
+        if (f.setor === name) {
+            f.setor = null;
+        }
+    });
+};

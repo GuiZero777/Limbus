@@ -266,6 +266,39 @@ describe('Funcionários', () => {
             expect(res.status).toBe(400);
         });
     });
+
+    describe('Sectores /api/setores', () => {
+        it('renomeia um setor para todos os funcionários associados', async () => {
+            const f1Res = await criarFuncionario({ nome: 'F1', setor: 'TI' });
+            const f2Res = await criarFuncionario({ nome: 'F2', setor: 'TI' });
+
+            const res = await request(app).put('/api/setores/TI').send({ newName: 'Tecnologia' });
+            expect(res.status).toBe(200);
+            expect(res.body.oldName).toBe('TI');
+            expect(res.body.newName).toBe('Tecnologia');
+
+            // Verificar se os funcionários foram atualizados
+            const listRes = await request(app).get('/api/funcionarios');
+            const list = listRes.body;
+            const updated1 = list.find(f => f.id === f1Res.body.id);
+            const updated2 = list.find(f => f.id === f2Res.body.id);
+            expect(updated1.setor).toBe('Tecnologia');
+            expect(updated2.setor).toBe('Tecnologia');
+        });
+
+        it('remove um setor de todos os funcionários associados', async () => {
+            const fRes = await criarFuncionario({ nome: 'F3', setor: 'Marketing' });
+
+            const res = await request(app).delete('/api/setores/Marketing');
+            expect(res.status).toBe(204);
+
+            // Verificar se o funcionário foi atualizado
+            const listRes = await request(app).get('/api/funcionarios');
+            const list = listRes.body;
+            const updated = list.find(f => f.id === fRes.body.id);
+            expect(updated.setor).toBeNull();
+        });
+    });
 });
 
 // =============================================================

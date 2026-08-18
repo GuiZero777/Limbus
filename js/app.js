@@ -15,7 +15,8 @@ const views = {
     'equipamentos': { title: 'Gestão de Equipamentos', breadcrumbs: ['Início', 'Cadastros', 'Equipamentos'], render: renderEquipamentos },
     'funcionarios': { title: 'Funcionários', breadcrumbs: ['Início', 'Funcionários'], render: renderFuncionarios },
     'gerador_termo': { title: 'Emissão de Termo', breadcrumbs: ['Início', 'Termos', 'Gerador'], render: renderGeradorTermo },
-    'historico': { title: 'Histórico Geral', breadcrumbs: ['Início', 'Cadastros', 'Histórico'], render: renderHistoricoGeral }
+    'historico': { title: 'Histórico Geral', breadcrumbs: ['Início', 'Cadastros', 'Histórico'], render: renderHistoricoGeral },
+    'setores': { title: 'Gestão de Setores', breadcrumbs: ['Início', 'Cadastros', 'Setores'], render: renderSetores }
 };
 
 // Dark Mode handling
