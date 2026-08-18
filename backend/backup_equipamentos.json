@@ -14,7 +14,7 @@
     "descricao": "All in one",
     "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "b2abf400-07e2-4d55-b4bd-9c3423a400ce",
+    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
     "patrimonio": "6159",
     "serialNumber": "07CH9QCH800840",
     "observacoes": null
@@ -23,8 +23,8 @@
     "id": "c8201136-ebd7-4e92-994c-1c3338624465",
     "descricao": "ALL IN ONE",
     "modeloMarca": "Samsung DP500A2L-KW1BR",
-    "status": "EM_USO",
-    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "6166",
     "serialNumber": null,
     "observacoes": null
@@ -563,11 +563,11 @@
     "id": "d8080c61-149f-4124-94f2-bb9d0fafb35c",
     "descricao": "Monitor",
     "modeloMarca": "LG 20MK400H-B",
-    "status": "EM_USO",
-    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "28175",
     "serialNumber": "009SPHG0H897",
-    "observacoes": "marcado errado, estava vinculado a Nicolly"
+    "observacoes": null
   },
   {
     "id": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
@@ -764,10 +764,10 @@
     "descricao": "Monitor",
     "modeloMarca": "AOC 24 B35HM2",
     "status": "EM_USO",
-    "funcionarioId": "3d08158f-71aa-4e77-af1e-e261a7130d83",
+    "funcionarioId": "18a781c7-f527-4b74-99c4-d72aab7f4f76",
     "patrimonio": "49194",
     "serialNumber": null,
-    "observacoes": "Equipamento entregue novo"
+    "observacoes": null
   },
   {
     "id": "f4587ee4-ba43-474b-be2a-b0f47301c5d9",
@@ -1343,8 +1343,8 @@
     "id": "1a935834-54e8-4908-9215-32eb6a03f49f",
     "descricao": "Notebook",
     "modeloMarca": "Samsung NP350XBE",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "10ae1c14-fac9-4406-b7e2-c265c2378dea",
     "patrimonio": "28156",
     "serialNumber": "8A68-1258410",
     "observacoes": "Problema botao ligar, carcaça quebrada"

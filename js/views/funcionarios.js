@@ -201,7 +201,11 @@ const renderFuncionarioForm = (id = null) => {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Setor</label>
-                        <input type="text" name="setor" value="${func.setor || ''}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        <div class="relative select-setor-container">
+                            <input type="text" id="search-setor-input" name="setor" value="${func.setor || ''}" required placeholder="Pesquisar ou digite um novo..." class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
+                            <div id="search-setor-list" class="absolute z-50 left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Função / Cargo</label>
@@ -221,6 +225,68 @@ const renderFuncionarioForm = (id = null) => {
     `;
 
     showModal(formHTML);
+
+    const searchInput = document.getElementById('search-setor-input');
+    const searchList = document.getElementById('search-setor-list');
+    const funcionarios = getFuncionarios();
+
+    const getSetoresExistentes = () => {
+        return [...new Set(funcionarios.map(f => f.setor).filter(Boolean))].sort();
+    };
+
+    const renderSetorList = (filterText = '') => {
+        const setores = getSetoresExistentes();
+        let filtered = setores;
+        if (filterText) {
+            filtered = setores.filter(s => s.toLowerCase().includes(filterText.toLowerCase()));
+        }
+
+        let listHTML = '';
+
+        if (filterText && !setores.some(s => s.toLowerCase() === filterText.trim().toLowerCase())) {
+            listHTML += `
+                <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-primary dark:text-blue-400 font-semibold text-sm border-b border-slate-100 dark:border-slate-700" data-value="${filterText.trim()}">
+                    + Adicionar novo setor "${filterText.trim()}"
+                </div>
+            `;
+        }
+
+        if (filtered.length === 0 && !filterText) {
+            listHTML += `<div class="px-4 py-3 text-slate-400 dark:text-slate-500 text-sm">Nenhum setor cadastrado</div>`;
+        } else {
+            listHTML += filtered.map(s => `
+                <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-800 dark:text-slate-100 text-sm" data-value="${s}">
+                    ${s}
+                </div>
+            `).join('');
+        }
+
+        searchList.innerHTML = listHTML;
+
+        searchList.querySelectorAll('[data-value]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const val = e.currentTarget.dataset.value;
+                searchInput.value = val;
+                searchList.classList.add('hidden');
+            });
+        });
+    };
+
+    searchInput.addEventListener('focus', () => {
+        renderSetorList(searchInput.value);
+        searchList.classList.remove('hidden');
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        renderSetorList(e.target.value);
+        searchList.classList.remove('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.select-setor-container')) {
+            searchList.classList.add('hidden');
+        }
+    }, { capture: true });
 
     document.getElementById('form-funcionario').addEventListener('submit', async (e) => {
         e.preventDefault();
