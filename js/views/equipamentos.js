@@ -1,11 +1,11 @@
 // js/views/equipamentos.js
 
-const renderEquipamentos = (container, headerActions) => {
+const renderEquipamentos = (container, headerActions, params = {}) => {
     headerActions.innerHTML = `
         <div class="flex flex-wrap items-center gap-4">
             <div class="relative">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                <input type="text" id="search-equip" placeholder="Buscar equipamento..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-48 lg:w-64 dark:text-slate-100 dark:bg-slate-900">
+                <input type="text" id="search-equip" value="${params.search || ''}" placeholder="Buscar equipamento..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-48 lg:w-64 dark:text-slate-100 dark:bg-slate-900">
             </div>
             <select id="filter-status-equip" class="py-2 px-3 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                 <option value="ALL">Todos os Status</option>
@@ -89,7 +89,7 @@ const renderEquipamentos = (container, headerActions) => {
                 }
 
                 tableHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
+                    <tr data-eqpid="${eqp.id}" class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
                         <td class="py-4 px-6 font-semibold text-indigo-600 dark:text-indigo-400">${eqp.patrimonio || 'Sem Patr.'}</td>
                         <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">
                             <span>${eqp.descricao}</span>
@@ -247,6 +247,19 @@ const renderEquipamentos = (container, headerActions) => {
     document.getElementById('search-equip')?.addEventListener('input', debounce(renderTable, 300));
     document.getElementById('filter-status-equip')?.addEventListener('change', renderTable);
     document.getElementById('sort-equip')?.addEventListener('change', renderTable);
+
+    if (params.highlightId) {
+        setTimeout(() => {
+            const row = document.querySelector(`tr[data-eqpid="${params.highlightId}"]`);
+            if (row) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                row.classList.add('bg-indigo-50/90', 'dark:bg-indigo-950/60', 'ring-2', 'ring-indigo-500', 'transition-all');
+                setTimeout(() => {
+                    row.classList.remove('ring-2', 'ring-indigo-500');
+                }, 3000);
+            }
+        }, 150);
+    }
 
     const renderEquipamentoForm = (id = null) => {
         let eqp = { descricao: '', modeloMarca: '', patrimonio: '', serialNumber: '', observacoes: '', funcionarioId: null };

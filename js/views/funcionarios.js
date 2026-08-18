@@ -70,8 +70,9 @@ const renderFuncionarios = (container, headerActions) => {
             funcionarios.forEach(f => {
                 const eqpsFunc = equipamentos.filter(e => e.funcionarioId === f.id && e.status === 'EM_USO');
                 const hasEquip = eqpsFunc.length > 0;
+                const tooltipText = eqpsFunc.map(e => `${e.descricao}${e.modeloMarca ? ' (' + e.modeloMarca + ')' : ''}${e.patrimonio ? ' - Patr: ' + e.patrimonio : ''}${e.serialNumber ? ' - S/N: ' + e.serialNumber : ''}`).join(' | ');
                 const statusBadge = hasEquip
-                    ? `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 cursor-help" title="${eqpsFunc.map(e => e.descricao).join(', ')}"><i data-lucide="laptop" class="w-3.5 h-3.5"></i> ${eqpsFunc.length} item(s)</span>`
+                    ? `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800 cursor-pointer shadow-sm hover:scale-105 transition-transform" title="${tooltipText}"><i data-lucide="laptop" class="w-3.5 h-3.5"></i> ${eqpsFunc.length} item(s)</span>`
                     : `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600"><i data-lucide="box" class="w-3.5 h-3.5"></i> Sem itens</span>`;
 
                 tableHTML += `
@@ -760,14 +761,30 @@ window.renderFuncionarioPerfil = (id) => {
 
             let eqpContent = '';
             if (h.equipamentosIds && h.equipamentosIds.length > 0) {
-                const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equipamento Excluído', modeloMarca: '' });
-                const eqpHTML = eqps.map(eq => '<div><span class="font-bold text-slate-900 dark:text-slate-100">' + eq.descricao + '</span> <span class="text-xs text-slate-500 dark:text-slate-400">(' + eq.modeloMarca + ')</span></div>').join('');
-                eqpContent = '<p class="text-sm font-medium text-slate-800 dark:text-slate-100">' + acao + ' múltiplos itens:</p>' +
-                              '<div class="mt-1 space-y-1 pl-2 border-l-2 border-slate-200 dark:border-slate-700">' + eqpHTML + '</div>';
+                const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { id: eId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' });
+                const eqpHTML = eqps.map(eq => `
+                    <div class="flex items-center gap-2 flex-wrap py-0.5">
+                        ${eq.id ? `<button data-eqpid="${eq.id}" class="btn-jump-equip text-xs font-bold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline flex items-center gap-1 transition-colors"><span>${eq.descricao} (${eq.modeloMarca})</span><i data-lucide="external-link" class="w-3 h-3 opacity-60"></i></button>` : `<span class="text-xs font-bold text-slate-800 dark:text-slate-100">${eq.descricao}</span>`}
+                        ${eq.patrimonio ? `<span class="font-mono text-[11px] font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Patr: ${eq.patrimonio}</span>` : ''}
+                        ${eq.serialNumber ? `<span class="text-[11px] text-slate-400 font-mono">S/N: ${eq.serialNumber}</span>` : ''}
+                    </div>
+                `).join('');
+                eqpContent = `<p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} múltiplos itens:</p>` +
+                              `<div class="mt-1 space-y-1 pl-2 border-l-2 border-slate-200 dark:border-slate-700">${eqpHTML}</div>`;
             } else {
-                const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { descricao: 'Equipamento Excluído', modeloMarca: '' };
-                eqpContent = '<p class="text-sm font-medium text-slate-800 dark:text-slate-100">' + acao + ' <span class="font-bold text-slate-900 dark:text-slate-100">' + eqp.descricao + '</span></p>' +
-                              '<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">' + eqp.modeloMarca + '</p>';
+                const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { id: h.equipamentoId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' };
+                eqpContent = `
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${acao} 
+                            ${eqp.id ? `<button data-eqpid="${eqp.id}" class="btn-jump-equip font-bold text-slate-900 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline inline-flex items-center gap-1 transition-colors"><span>${eqp.descricao}</span><i data-lucide="external-link" class="w-3 h-3 opacity-60"></i></button>` : `<span class="font-bold text-slate-900 dark:text-slate-100">${eqp.descricao}</span>`}
+                        </p>
+                        ${eqp.patrimonio ? `<span class="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Patr: ${eqp.patrimonio}</span>` : ''}
+                    </div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
+                        ${eqp.id ? `<button data-eqpid="${eqp.id}" class="btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-medium">${eqp.modeloMarca}</button>` : `<span>${eqp.modeloMarca}</span>`}
+                        ${eqp.serialNumber ? `<span>&bull; S/N: <span class="font-mono">${eqp.serialNumber}</span></span>` : ''}
+                    </div>
+                `;
             }
 
             return `
@@ -788,18 +805,27 @@ window.renderFuncionarioPerfil = (id) => {
         posseHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 py-4 text-center border border-dashed border-slate-300 dark:border-slate-600 rounded-lg">Nenhum equipamento em posse atualmente.</p>';
     } else {
         const itensHTML = equipamentosEmPosse.map(eqp => `
-                <div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-primary">
+                <div class="flex items-center justify-between p-3.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-600 transition-all">
+                    <div class="flex items-center gap-3.5 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
                             <i data-lucide="laptop" class="w-5 h-5"></i>
                         </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-800 dark:text-slate-100">${eqp.descricao}</p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">${eqp.modeloMarca}</p>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button data-eqpid="${eqp.id}" class="btn-jump-equip text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline text-left truncate flex items-center gap-1 transition-colors" title="Ver detalhes na aba de Equipamentos">
+                                    <span>${eqp.descricao}</span>
+                                    <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-60"></i>
+                                </button>
+                                ${eqp.patrimonio ? `<span class="inline-flex items-center font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">Patr: ${eqp.patrimonio}</span>` : '<span class="text-[11px] text-slate-400 italic">Sem Patr.</span>'}
+                            </div>
+                            <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
+                                <button data-eqpid="${eqp.id}" class="btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-medium">${eqp.modeloMarca}</button>
+                                ${eqp.serialNumber ? `<span>&bull; S/N: <span class="font-mono">${eqp.serialNumber}</span></span>` : ''}
+                            </div>
                         </div>
                     </div>
-                    <button data-eqpid="${eqp.id}" class="btn-devolver bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-900/50 hover:text-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1" title="Registrar devolução do equipamento">
-                        <i data-lucide="corner-up-left" class="w-4 h-4"></i> Devolver
+                    <button data-eqpid="${eqp.id}" class="btn-devolver ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shrink-0" title="Registrar devolução do equipamento">
+                        <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver
                     </button>
                 </div>
              `).join('');
@@ -856,6 +882,19 @@ window.renderFuncionarioPerfil = (id) => {
 
     showModal(modalContentHTML);
     if (window.lucide) window.lucide.createIcons();
+
+    // Evento de Pular para Equipamentos
+    document.querySelectorAll('.btn-jump-equip').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const eqpId = e.currentTarget.dataset.eqpid;
+            const targetEqp = getEquipamentoById(eqpId);
+            hideModal();
+            navigate('equipamentos', {
+                search: targetEqp?.patrimonio || targetEqp?.modeloMarca || '',
+                highlightId: eqpId
+            });
+        });
+    });
 
     // Eventos de Devolução
     document.querySelectorAll('.btn-devolver').forEach(btn => {
