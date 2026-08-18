@@ -1,0 +1,66 @@
+[
+  {
+    "id": "setor-1",
+    "nome": "AGILIDADE"
+  },
+  {
+    "id": "setor-2",
+    "nome": "CEO"
+  },
+  {
+    "id": "setor-3",
+    "nome": "CFO"
+  },
+  {
+    "id": "setor-4",
+    "nome": "COMERCIAL"
+  },
+  {
+    "id": "setor-5",
+    "nome": "COORDENADOR"
+  },
+  {
+    "id": "setor-6",
+    "nome": "CTO"
+  },
+  {
+    "id": "setor-7",
+    "nome": "EQUIPE TÉCNICA"
+  },
+  {
+    "id": "setor-8",
+    "nome": "EXPERIENCIA DAS PESSOAS"
+  },
+  {
+    "id": "setor-9",
+    "nome": "FINANCEIRO"
+  },
+  {
+    "id": "setor-10",
+    "nome": "GESTÃO DE FORNECEDORES"
+  },
+  {
+    "id": "setor-11",
+    "nome": "Geral"
+  },
+  {
+    "id": "setor-12",
+    "nome": "INFRA"
+  },
+  {
+    "id": "setor-13",
+    "nome": "INTELIGENCIA DE DADOS"
+  },
+  {
+    "id": "setor-14",
+    "nome": "INTELIGENCIA DE REDES"
+  },
+  {
+    "id": "setor-15",
+    "nome": "MARKETING"
+  },
+  {
+    "id": "setor-16",
+    "nome": "RELACIONAMENTO COM O CLIENTE"
+  }
+]
