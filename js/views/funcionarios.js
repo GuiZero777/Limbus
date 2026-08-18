@@ -206,9 +206,9 @@ const renderFuncionarioForm = (id = null) => {
                                 <i data-lucide="plus" class="w-3 h-3"></i> Novo Setor
                             </button>
                         </label>
-                        <div class="relative select-setor-container">
+                        <div class="relative select-setor-container z-30">
                             <input type="text" id="search-setor-input" name="setor" value="${func.setor || ''}" required placeholder="Pesquisar setor..." class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
-                            <div id="search-setor-list" class="absolute z-50 left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
+                            <div id="search-setor-list" class="absolute z-50 left-0 right-0 top-full mt-1 max-h-56 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl py-1 hidden">
                             </div>
                         </div>
                     </div>
@@ -221,7 +221,7 @@ const renderFuncionarioForm = (id = null) => {
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Data de Admissão</label>
                     <input type="date" name="dataAdmissao" value="${func.dataAdmissao}" required class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                 </div>
-                <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
+                <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
                     <button type="button" class="btn-cancel bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">Cancelar</button>
                     <button type="submit" class="btn-primary">Salvar</button>
                 </div>
@@ -233,16 +233,13 @@ const renderFuncionarioForm = (id = null) => {
 
     const searchInput = document.getElementById('search-setor-input');
     const searchList = document.getElementById('search-setor-list');
-    const funcionarios = getFuncionarios();
-
-    // Obter setores únicos existentes
-    const setoresLocais = [...new Set(funcionarios.map(f => f.setor).filter(Boolean))].sort();
     let selectedSetor = func.setor || '';
 
     const renderSetorList = (filterText = '') => {
-        let filtered = setoresLocais;
+        const setoresDisponiveis = getSetores();
+        let filtered = setoresDisponiveis;
         if (filterText) {
-            filtered = setoresLocais.filter(s => s.toLowerCase().includes(filterText.toLowerCase()));
+            filtered = setoresDisponiveis.filter(s => s.toLowerCase().includes(filterText.toLowerCase()));
         }
 
         let listHTML = '';
@@ -251,7 +248,7 @@ const renderFuncionarioForm = (id = null) => {
             listHTML += `<div class="px-4 py-3 text-slate-400 dark:text-slate-500 text-sm">Nenhum setor encontrado</div>`;
         } else {
             listHTML += filtered.map(s => `
-                <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-800 dark:text-slate-100 text-sm" data-value="${s}">
+                <div class="px-4 py-2.5 hover:bg-indigo-50 dark:hover:bg-slate-700/80 cursor-pointer text-slate-800 dark:text-slate-100 text-sm transition-colors" data-value="${s}">
                     ${s}
                 </div>
             `).join('');
@@ -282,8 +279,9 @@ const renderFuncionarioForm = (id = null) => {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.select-setor-container')) {
             searchList.classList.add('hidden');
+            const setoresDisponiveis = getSetores();
             // Se o que o usuário escreveu não corresponder a um setor existente, resetar
-            if (!setoresLocais.includes(searchInput.value)) {
+            if (!setoresDisponiveis.includes(searchInput.value)) {
                 searchInput.value = selectedSetor;
             }
         }
@@ -327,15 +325,18 @@ const renderFuncionarioForm = (id = null) => {
         const input = overlay.querySelector('#input-novo-setor-nome');
         
         overlay.querySelector('#btn-cancelar-setor').addEventListener('click', fechar);
-        overlay.querySelector('#btn-confirmar-setor').addEventListener('click', () => {
+        overlay.querySelector('#btn-confirmar-setor').addEventListener('click', async () => {
             const valor = input.value.trim();
             if (valor) {
                 const nomeFormatado = valor;
-                const uppercaseList = setoresLocais.map(s => s.toUpperCase());
+                const uppercaseList = getSetores().map(s => s.toUpperCase());
                 if (!uppercaseList.includes(nomeFormatado.toUpperCase())) {
-                    setoresLocais.push(nomeFormatado);
-                    setoresLocais.sort();
-                    showToast(`Setor "${nomeFormatado}" adicionado com sucesso às opções.`, 'success');
+                    try {
+                        await addSetor(nomeFormatado);
+                        showToast(`Setor "${nomeFormatado}" adicionado com sucesso.`, 'success');
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
                 }
                 selectedSetor = nomeFormatado;
                 searchInput.value = nomeFormatado;

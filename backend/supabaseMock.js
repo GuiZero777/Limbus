@@ -14,15 +14,32 @@ function readBOM(file) {
     }
 }
 
+function loadSetores() {
+    const filePath = path.join(__dirname, 'backup_setores.json');
+    let setores = readBOM(filePath);
+    if (!setores || setores.length === 0) {
+        const funcionarios = readBOM(path.join(__dirname, 'backup_funcionarios.json'));
+        const uniqueSetores = [...new Set(funcionarios.map(f => f.setor).filter(Boolean))].sort();
+        setores = uniqueSetores.map((nome, idx) => ({ id: `setor-${idx + 1}`, nome }));
+        if (process.env.NODE_ENV !== 'test') {
+            try {
+                fs.writeFileSync(filePath, JSON.stringify(setores, null, 2), 'utf8');
+            } catch (e) {}
+        }
+    }
+    return setores;
+}
+
 let db = {
     empresas: readBOM(path.join(__dirname, 'backup_empresas.json')),
     funcionarios: readBOM(path.join(__dirname, 'backup_funcionarios.json')),
     equipamentos: readBOM(path.join(__dirname, 'backup_equipamentos.json')),
-    historico: readBOM(path.join(__dirname, 'backup_historico.json'))
+    historico: readBOM(path.join(__dirname, 'backup_historico.json')),
+    setores: loadSetores()
 };
 
 function resetMockDb() {
-    db = { empresas: [], funcionarios: [], equipamentos: [], historico: [] };
+    db = { empresas: [], funcionarios: [], equipamentos: [], historico: [], setores: [] };
 }
 
 class QueryBuilder {
@@ -74,7 +91,7 @@ class QueryBuilder {
 
     persist() {
         if (process.env.NODE_ENV === 'test') return;
-        if (['empresas', 'funcionarios', 'equipamentos', 'historico'].includes(this.table)) {
+        if (['empresas', 'funcionarios', 'equipamentos', 'historico', 'setores'].includes(this.table)) {
             fs.writeFileSync(path.join(__dirname, `backup_${this.table}.json`), JSON.stringify(db[this.table], null, 2), 'utf8');
         }
     }

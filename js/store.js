@@ -11,7 +11,8 @@ const StoreState = {
     empresas: [],
     equipamentos: [],
     funcionarios: [],
-    historico: []
+    historico: [],
+    setores: []
 };
 
 // --- Auxiliar de Resposta ---
@@ -29,17 +30,19 @@ const checkResponse = async (res, defaultMsg = 'Erro na requisição') => {
 // --- Inicialização ---
 const initializeStore = async () => {
     try {
-        const [empRes, equipRes, funcRes, histRes] = await Promise.all([
+        const [empRes, equipRes, funcRes, histRes, setRes] = await Promise.all([
             fetch(`${API_URL}/empresas`),
             fetch(`${API_URL}/equipamentos`),
             fetch(`${API_URL}/funcionarios`),
-            fetch(`${API_URL}/historico`)
+            fetch(`${API_URL}/historico`),
+            fetch(`${API_URL}/setores`)
         ]);
 
         StoreState.empresas = await empRes.json();
         StoreState.equipamentos = await equipRes.json();
         StoreState.funcionarios = await funcRes.json();
         StoreState.historico = await histRes.json();
+        StoreState.setores = await setRes.json();
 
         console.log('Dados carregados com sucesso do Backend.');
     } catch (err) {
@@ -204,6 +207,25 @@ const clearHistorico = async () => {
 };
 
 // --- Setores ---
+const getSetores = () => {
+    const fromSetoresTable = (StoreState.setores || []).map(s => typeof s === 'string' ? s : s.nome).filter(Boolean);
+    const fromFuncionarios = (StoreState.funcionarios || []).map(f => f.setor).filter(Boolean);
+    return [...new Set([...fromSetoresTable, ...fromFuncionarios])].sort();
+};
+
+const addSetor = async (nome) => {
+    const res = await fetch(`${API_URL}/setores`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome })
+    });
+    await checkResponse(res, 'Falha ao adicionar setor');
+    const saved = await res.json();
+    if (!StoreState.setores) StoreState.setores = [];
+    StoreState.setores.push(saved);
+    return saved;
+};
+
 const editSetor = async (oldName, newName) => {
     const res = await fetch(`${API_URL}/setores/${encodeURIComponent(oldName)}`, {
         method: 'PUT',
@@ -212,6 +234,15 @@ const editSetor = async (oldName, newName) => {
     });
     await checkResponse(res, 'Falha ao editar setor');
     
+    // Atualizar na lista de setores
+    if (StoreState.setores) {
+        StoreState.setores.forEach(s => {
+            if (s.nome === oldName) {
+                s.nome = newName;
+            }
+        });
+    }
+
     // Atualizar localmente os funcionários associados
     StoreState.funcionarios.forEach(f => {
         if (f.setor === oldName) {
@@ -226,6 +257,11 @@ const removeSetor = async (name) => {
     });
     await checkResponse(res, 'Falha ao remover setor');
     
+    // Remover da lista de setores
+    if (StoreState.setores) {
+        StoreState.setores = StoreState.setores.filter(s => s.nome !== name);
+    }
+
     // Remover localmente o setor dos funcionários
     StoreState.funcionarios.forEach(f => {
         if (f.setor === name) {

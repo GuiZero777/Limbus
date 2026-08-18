@@ -267,8 +267,35 @@ describe('Funcionários', () => {
         });
     });
 
-    describe('Sectores /api/setores', () => {
-        it('renomeia um setor para todos os funcionários associados', async () => {
+    describe('Setores /api/setores', () => {
+        it('cria e lista setores com sucesso', async () => {
+            const createRes = await request(app).post('/api/setores').send({ nome: 'Logística' });
+            expect(createRes.status).toBe(201);
+            expect(createRes.body.nome).toBe('Logística');
+            expect(createRes.body.id).toBeDefined();
+
+            const getRes = await request(app).get('/api/setores');
+            expect(getRes.status).toBe(200);
+            const found = getRes.body.find(s => s.nome === 'Logística');
+            expect(found).toBeDefined();
+        });
+
+        it('rejeita setor com nome duplicado', async () => {
+            await request(app).post('/api/setores').send({ nome: 'Financeiro' });
+            const dupRes = await request(app).post('/api/setores').send({ nome: 'financeiro' });
+            expect(dupRes.status).toBe(400);
+            expect(dupRes.body.error).toContain('Já existe um setor');
+        });
+
+        it('rejeita setor com nome vazio ou ausente', async () => {
+            const res1 = await request(app).post('/api/setores').send({ nome: '   ' });
+            expect(res1.status).toBe(400);
+            const res2 = await request(app).post('/api/setores').send({});
+            expect(res2.status).toBe(400);
+        });
+
+        it('renomeia um setor para a tabela de setores e todos os funcionários associados', async () => {
+            await request(app).post('/api/setores').send({ nome: 'TI' });
             const f1Res = await criarFuncionario({ nome: 'F1', setor: 'TI' });
             const f2Res = await criarFuncionario({ nome: 'F2', setor: 'TI' });
 
@@ -284,19 +311,28 @@ describe('Funcionários', () => {
             const updated2 = list.find(f => f.id === f2Res.body.id);
             expect(updated1.setor).toBe('Tecnologia');
             expect(updated2.setor).toBe('Tecnologia');
+
+            // Verificar se a tabela de setores foi atualizada
+            const setRes = await request(app).get('/api/setores');
+            expect(setRes.body.find(s => s.nome === 'Tecnologia')).toBeDefined();
         });
 
-        it('remove um setor de todos os funcionários associados', async () => {
+        it('remove um setor da tabela de setores e de todos os funcionários associados', async () => {
+            await request(app).post('/api/setores').send({ nome: 'Marketing' });
             const fRes = await criarFuncionario({ nome: 'F3', setor: 'Marketing' });
 
             const res = await request(app).delete('/api/setores/Marketing');
             expect(res.status).toBe(204);
 
-            // Verificar se o funcionário foi atualizado
+            // Verificar se o funcionário foi desassociado
             const listRes = await request(app).get('/api/funcionarios');
             const list = listRes.body;
             const updated = list.find(f => f.id === fRes.body.id);
             expect(updated.setor).toBeNull();
+
+            // Verificar se foi removido da tabela de setores
+            const setRes = await request(app).get('/api/setores');
+            expect(setRes.body.find(s => s.nome === 'Marketing')).toBeUndefined();
         });
     });
 });

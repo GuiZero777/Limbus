@@ -206,12 +206,40 @@ app.delete('/api/funcionarios/:id', handle(async (req, res) => {
 }));
 
 // =============================================================
-// SETORES (Mapeado nos Funcionários)
+// SETORES
 // =============================================================
+
+app.get('/api/setores', handle(async (req, res) => {
+    const { data, error } = await supabase.from('setores').select('*');
+    if (error) throw error;
+    res.json(data || []);
+}));
+
+app.post('/api/setores', handle(async (req, res) => {
+    const nome = str(req.body.nome, 'nome', { max: 100 });
+
+    // Verificar se já existe um setor com o mesmo nome (case-insensitive)
+    const { data: existingList } = await supabase.from('setores').select('*');
+    const duplicate = (existingList || []).find(s => s.nome.toLowerCase() === nome.toLowerCase());
+    if (duplicate) {
+        throw new ValidationError('Já existe um setor cadastrado com este nome');
+    }
+
+    const id = generateId();
+    const { error } = await supabase.from('setores').insert([{ id, nome }]);
+    if (error) throw error;
+
+    res.status(201).json({ id, nome });
+}));
 
 app.put('/api/setores/:oldName', handle(async (req, res) => {
     const oldName = req.params.oldName;
     const newName = str(req.body.newName, 'newName', { max: 100 });
+
+    // Atualiza na tabela de setores
+    await supabase.from('setores')
+        .update({ nome: newName })
+        .eq('nome', oldName);
 
     // Atualiza todos os funcionários com oldName para newName
     const { error } = await supabase.from('funcionarios')
@@ -224,6 +252,11 @@ app.put('/api/setores/:oldName', handle(async (req, res) => {
 
 app.delete('/api/setores/:name', handle(async (req, res) => {
     const name = req.params.name;
+
+    // Remove da tabela de setores
+    await supabase.from('setores')
+        .delete()
+        .eq('nome', name);
 
     // Remove o setor dos funcionários associados
     const { error } = await supabase.from('funcionarios')
