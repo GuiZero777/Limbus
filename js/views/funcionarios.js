@@ -290,18 +290,68 @@ const renderFuncionarioForm = (id = null) => {
     }, { capture: true });
 
     document.getElementById('btn-add-novo-setor').addEventListener('click', () => {
-        const novoSetor = prompt('Digite o nome do novo setor a ser adicionado:');
-        if (novoSetor && novoSetor.trim()) {
-            const nomeFormatado = novoSetor.trim().toUpperCase();
-            if (!setoresLocais.includes(nomeFormatado)) {
-                setoresLocais.push(nomeFormatado);
-                setoresLocais.sort();
-                showToast(`Setor "${nomeFormatado}" adicionado com sucesso às opções.`, 'success');
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4';
+        overlay.innerHTML = `
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 transform scale-95 opacity-0 transition-all duration-200 modal-box">
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-3">Novo Setor</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Digite o nome do novo setor que deseja adicionar às opções.</p>
+                
+                <div class="mb-5">
+                    <input type="text" id="input-novo-setor-nome" placeholder="Ex: FINANCEIRO" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900 uppercase">
+                </div>
+                
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button type="button" id="btn-cancelar-setor" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Cancelar</button>
+                    <button type="button" id="btn-confirmar-setor" class="btn-primary">Confirmar</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        const box = overlay.querySelector('.modal-box');
+        setTimeout(() => {
+            box.classList.remove('scale-95', 'opacity-0');
+            box.classList.add('scale-100', 'opacity-100');
+        }, 10);
+        
+        const fechar = () => {
+            box.classList.remove('scale-100', 'opacity-100');
+            box.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                overlay.remove();
+            }, 200);
+        };
+        
+        const input = overlay.querySelector('#input-novo-setor-nome');
+        
+        overlay.querySelector('#btn-cancelar-setor').addEventListener('click', fechar);
+        overlay.querySelector('#btn-confirmar-setor').addEventListener('click', () => {
+            const valor = input.value.trim();
+            if (valor) {
+                const nomeFormatado = valor.toUpperCase();
+                if (!setoresLocais.includes(nomeFormatado)) {
+                    setoresLocais.push(nomeFormatado);
+                    setoresLocais.sort();
+                    showToast(`Setor "${nomeFormatado}" adicionado com sucesso às opções.`, 'success');
+                }
+                selectedSetor = nomeFormatado;
+                searchInput.value = nomeFormatado;
+                renderSetorList(nomeFormatado);
+                fechar();
+            } else {
+                showToast('O nome do setor não pode ser vazio.', 'warning');
             }
-            selectedSetor = nomeFormatado;
-            searchInput.value = nomeFormatado;
-            renderSetorList(nomeFormatado);
-        }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                overlay.querySelector('#btn-confirmar-setor').click();
+            }
+        });
+
+        setTimeout(() => input.focus(), 50);
     });
 
     document.getElementById('form-funcionario').addEventListener('submit', async (e) => {
