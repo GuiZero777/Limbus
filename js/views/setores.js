@@ -197,18 +197,21 @@ const renderSetores = (container, headerActions) => {
             contentHTML = `
                 <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/50 pr-1">
                     ${colabs.map(c => `
-                        <div class="py-3 flex items-center justify-between gap-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">
-                                    ${c.nome.charAt(0).toUpperCase()}
+                        <div class="py-2.5 px-3 rounded-xl hover:bg-indigo-50/70 dark:hover:bg-slate-700/60 transition-all cursor-pointer flex items-center justify-between gap-4 group colab-row-item" data-funcid="${c.id}" title="Clique para ver o perfil completo de ${c.nome}">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs group-hover:scale-105 transition-transform shrink-0">
+                                    ${c.nome.substring(0, 2).toUpperCase()}
                                 </div>
-                                <div>
-                                    <div class="font-medium text-sm text-slate-800 dark:text-slate-100">${c.nome}</div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">${c.funcao || 'Cargo não informado'}</div>
+                                <div class="min-w-0">
+                                    <div class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex items-center gap-1.5 truncate">
+                                        <span class="truncate">${c.nome}</span>
+                                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-indigo-500 shrink-0"></i>
+                                    </div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 truncate">${c.funcao || 'Cargo não informado'}</div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <span class="text-xs font-mono text-slate-500 dark:text-slate-400">${c.dataAdmissao || ''}</span>
+                            <div class="text-right shrink-0">
+                                <span class="text-xs font-mono text-slate-400 dark:text-slate-500">${formatInputDate(c.dataAdmissao) || c.dataAdmissao || ''}</span>
                             </div>
                         </div>
                     `).join('')}
@@ -225,7 +228,7 @@ const renderSetores = (container, headerActions) => {
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${setorName}</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">${colabs.length} ${colabs.length === 1 ? 'colaborador vinculado' : 'colaboradores vinculados'}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">${colabs.length} ${colabs.length === 1 ? 'colaborador vinculado' : 'colaboradores vinculados'} &bull; <span class="text-indigo-600 dark:text-indigo-400">Clique para abrir perfil</span></p>
                         </div>
                     </div>
                     <button type="button" id="btn-fechar-modal-colabs-x" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
@@ -260,6 +263,15 @@ const renderSetores = (container, headerActions) => {
 
         overlay.querySelector('#btn-fechar-modal-colabs').addEventListener('click', fechar);
         overlay.querySelector('#btn-fechar-modal-colabs-x').addEventListener('click', fechar);
+
+        // Click no colaborador -> Ir para Funcionários e abrir perfil
+        overlay.querySelectorAll('.colab-row-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const funcId = e.currentTarget.dataset.funcid;
+                fechar();
+                navigate('funcionarios', { funcId, openProfile: true });
+            });
+        });
     };
 
     const bindTableEvents = () => {

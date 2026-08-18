@@ -813,8 +813,8 @@
     "id": "0e3f0c9a-b9fd-4526-8ef2-83852f19d113",
     "descricao": "Notebook",
     "modeloMarca": "Lenovo Idepad 1 15IAU7",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "23a3cb4d-5066-4db7-a1e0-1f1ece97a5d3",
     "patrimonio": "49176",
     "serialNumber": "PE9015305088",
     "observacoes": "EQUIPAMENTO ENTREGUE NOVO ESTAVA COM CARLOS"

@@ -2846,5 +2846,16 @@
     "timestamp": "2026-08-18T16:51:04.102Z",
     "equipamentoSnapshot": "{\"id\":\"6795b485-428d-4996-9166-7e41bf653f8f\",\"descricao\":\"Monitor\",\"modeloMarca\":\"AOC 24 B35HM2\",\"patrimonio\":\"49194\",\"serialNumber\":null}",
     "equipamentosSnapshots": null
+  },
+  {
+    "id": "ad1d9208-ac3e-4f62-a694-c6e8b3180352",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "23a3cb4d-5066-4db7-a1e0-1f1ece97a5d3",
+    "equipamentoId": "0e3f0c9a-b9fd-4526-8ef2-83852f19d113",
+    "equipamentosIds": null,
+    "data": "2026-04-06",
+    "timestamp": "2026-08-18T20:25:33.371Z",
+    "equipamentoSnapshot": null,
+    "equipamentosSnapshots": null
   }
 ]

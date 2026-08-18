@@ -1,11 +1,11 @@
 // js/views/funcionarios.js
 
-const renderFuncionarios = (container, headerActions) => {
+const renderFuncionarios = (container, headerActions, params = {}) => {
     headerActions.innerHTML = `
         <div class="flex flex-wrap items-center gap-4">
             <div class="relative">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                <input type="text" id="search-func" placeholder="Buscar funcionário..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-48 lg:w-64 dark:text-slate-100 dark:bg-slate-900">
+                <input type="text" id="search-func" value="${params.search || ''}" placeholder="Buscar funcionário..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-48 lg:w-64 dark:text-slate-100 dark:bg-slate-900">
             </div>
             <select id="sort-func" class="py-2 px-3 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                 <option value="AZ">Ordem Alfabética (A-Z)</option>
@@ -159,7 +159,7 @@ const renderFuncionarios = (container, headerActions) => {
         });
     };
 
-    renderTable();
+    renderTable(params.search || '');
 
     document.getElementById('search-func')?.addEventListener('input', debounce((e) => renderTable(e.target.value), 300));
     document.getElementById('sort-func')?.addEventListener('change', () => renderTable(document.getElementById('search-func')?.value || ''));
@@ -171,6 +171,22 @@ const renderFuncionarios = (container, headerActions) => {
     document.getElementById('btn-import-func').addEventListener('click', () => {
         renderFuncionarioImport();
     });
+
+    if (params.funcId) {
+        setTimeout(() => {
+            const row = document.querySelector(`tr.row-funcionario[data-id="${params.funcId}"]`);
+            if (row) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                row.classList.add('bg-indigo-50/90', 'dark:bg-indigo-950/60', 'ring-2', 'ring-indigo-500', 'transition-all');
+                setTimeout(() => {
+                    row.classList.remove('ring-2', 'ring-indigo-500');
+                }, 3000);
+            }
+            if (params.openProfile) {
+                renderFuncionarioPerfil(params.funcId);
+            }
+        }, 150);
+    }
 
     // Make renderTable accessible to updating functions (e.g. after import)
     window.renderTable = renderTable;
@@ -765,9 +781,9 @@ window.renderFuncionarioPerfil = (id) => {
                 const eqpHTML = eqps.map(eq => `
                     <div class="flex flex-col gap-0.5 py-1">
                         <div class="flex items-center gap-1.5">
-                            <button data-eqpid="${eq.id || ''}" class="${eq.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-xs font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1 text-left">
-                                <span>${eq.descricao} ${eq.modeloMarca ? `&bull; ${eq.modeloMarca}` : ''}</span>
-                                ${eq.id ? '<i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>' : ''}
+                            <button data-eqpid="${eq.id || ''}" class="${eq.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-xs font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1 text-left flex-wrap">
+                                <span>${eq.descricao}${eq.modeloMarca ? ' - ' + eq.modeloMarca : ''}</span>
+                                ${eq.id ? '<i data-lucide="external-link" class="w-3 h-3 opacity-50 shrink-0"></i>' : ''}
                             </button>
                         </div>
                         <div class="flex items-center gap-2 text-xs flex-wrap">
@@ -799,9 +815,9 @@ window.renderFuncionarioPerfil = (id) => {
                     <div class="flex flex-col gap-1">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold uppercase tracking-wider ${corTexto}">${acao}</span>
-                            <button data-eqpid="${eqp.id || ''}" class="${eqp.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-sm font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1.5 text-left">
-                                <span>${eqp.descricao} ${eqp.modeloMarca ? `&bull; ${eqp.modeloMarca}` : ''}</span>
-                                ${eqp.id ? '<i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50"></i>' : ''}
+                            <button data-eqpid="${eqp.id || ''}" class="${eqp.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-sm font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1.5 text-left flex-wrap">
+                                <span>${eqp.descricao}${eqp.modeloMarca ? ' - ' + eqp.modeloMarca : ''}</span>
+                                ${eqp.id ? '<i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50 shrink-0"></i>' : ''}
                             </button>
                         </div>
                         <div class="flex items-center gap-2 text-xs flex-wrap">
@@ -845,9 +861,9 @@ window.renderFuncionarioPerfil = (id) => {
                         </div>
                         <div class="min-w-0 flex flex-col gap-1">
                             <!-- 1. Nome do Equipamento & Modelo no Topo -->
-                            <button data-eqpid="${eqp.id}" class="btn-jump-equip text-left font-bold text-sm text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-1.5 transition-colors group" title="Ver na aba de Equipamentos">
-                                <span class="truncate">${eqp.descricao} ${eqp.modeloMarca ? `&bull; ${eqp.modeloMarca}` : ''}</span>
-                                <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"></i>
+                            <button data-eqpid="${eqp.id}" class="btn-jump-equip text-left font-bold text-sm text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-1.5 transition-colors group flex-wrap" title="Ver na aba de Equipamentos">
+                                <span>${eqp.descricao}${eqp.modeloMarca ? ' - ' + eqp.modeloMarca : ''}</span>
+                                <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0"></i>
                             </button>
                             
                             <!-- 2. Linha de Metadados: Patrimônio seguido de Serial Number -->
