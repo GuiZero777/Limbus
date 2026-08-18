@@ -200,9 +200,14 @@ const renderFuncionarioForm = (id = null) => {
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Setor</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1 flex items-center gap-1.5 justify-between">
+                            <span>Setor</span>
+                            <button type="button" id="btn-add-novo-setor" class="text-xs text-primary hover:underline font-semibold flex items-center gap-0.5" title="Adicionar Novo Setor">
+                                <i data-lucide="plus" class="w-3 h-3"></i> Novo Setor
+                            </button>
+                        </label>
                         <div class="relative select-setor-container">
-                            <input type="text" id="search-setor-input" name="setor" value="${func.setor || ''}" required placeholder="Pesquisar ou digite um novo..." class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
+                            <input type="text" id="search-setor-input" name="setor" value="${func.setor || ''}" required placeholder="Pesquisar setor..." class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
                             <div id="search-setor-list" class="absolute z-50 left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
                             </div>
                         </div>
@@ -230,29 +235,20 @@ const renderFuncionarioForm = (id = null) => {
     const searchList = document.getElementById('search-setor-list');
     const funcionarios = getFuncionarios();
 
-    const getSetoresExistentes = () => {
-        return [...new Set(funcionarios.map(f => f.setor).filter(Boolean))].sort();
-    };
+    // Obter setores únicos existentes
+    const setoresLocais = [...new Set(funcionarios.map(f => f.setor).filter(Boolean))].sort();
+    let selectedSetor = func.setor || '';
 
     const renderSetorList = (filterText = '') => {
-        const setores = getSetoresExistentes();
-        let filtered = setores;
+        let filtered = setoresLocais;
         if (filterText) {
-            filtered = setores.filter(s => s.toLowerCase().includes(filterText.toLowerCase()));
+            filtered = setoresLocais.filter(s => s.toLowerCase().includes(filterText.toLowerCase()));
         }
 
         let listHTML = '';
 
-        if (filterText && !setores.some(s => s.toLowerCase() === filterText.trim().toLowerCase())) {
-            listHTML += `
-                <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-primary dark:text-blue-400 font-semibold text-sm border-b border-slate-100 dark:border-slate-700" data-value="${filterText.trim()}">
-                    + Adicionar novo setor "${filterText.trim()}"
-                </div>
-            `;
-        }
-
-        if (filtered.length === 0 && !filterText) {
-            listHTML += `<div class="px-4 py-3 text-slate-400 dark:text-slate-500 text-sm">Nenhum setor cadastrado</div>`;
+        if (filtered.length === 0) {
+            listHTML += `<div class="px-4 py-3 text-slate-400 dark:text-slate-500 text-sm">Nenhum setor encontrado</div>`;
         } else {
             listHTML += filtered.map(s => `
                 <div class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-800 dark:text-slate-100 text-sm" data-value="${s}">
@@ -266,6 +262,7 @@ const renderFuncionarioForm = (id = null) => {
         searchList.querySelectorAll('[data-value]').forEach(item => {
             item.addEventListener('click', (e) => {
                 const val = e.currentTarget.dataset.value;
+                selectedSetor = val;
                 searchInput.value = val;
                 searchList.classList.add('hidden');
             });
@@ -285,8 +282,27 @@ const renderFuncionarioForm = (id = null) => {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.select-setor-container')) {
             searchList.classList.add('hidden');
+            // Se o que o usuário escreveu não corresponder a um setor existente, resetar
+            if (!setoresLocais.includes(searchInput.value)) {
+                searchInput.value = selectedSetor;
+            }
         }
     }, { capture: true });
+
+    document.getElementById('btn-add-novo-setor').addEventListener('click', () => {
+        const novoSetor = prompt('Digite o nome do novo setor a ser adicionado:');
+        if (novoSetor && novoSetor.trim()) {
+            const nomeFormatado = novoSetor.trim().toUpperCase();
+            if (!setoresLocais.includes(nomeFormatado)) {
+                setoresLocais.push(nomeFormatado);
+                setoresLocais.sort();
+                showToast(`Setor "${nomeFormatado}" adicionado com sucesso às opções.`, 'success');
+            }
+            selectedSetor = nomeFormatado;
+            searchInput.value = nomeFormatado;
+            renderSetorList(nomeFormatado);
+        }
+    });
 
     document.getElementById('form-funcionario').addEventListener('submit', async (e) => {
         e.preventDefault();
