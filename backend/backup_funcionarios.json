@@ -1048,5 +1048,12 @@
     "funcao": "Não Informado",
     "dataAdmissao": "2024-01-01",
     "setor": "RELACIONAMENTO COM O CLIENTE"
+  },
+  {
+    "id": "e72c55a5-32ef-4e07-ba39-5f1e208b7d94",
+    "nome": "Lucas Queiroz",
+    "funcao": "Atendente de Suporte N1",
+    "dataAdmissao": "2026-08-24",
+    "setor": "RELACIONAMENTO COM O CLIENTE"
   }
 ]

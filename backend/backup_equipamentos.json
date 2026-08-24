@@ -593,8 +593,8 @@
     "id": "7e5a0e48-e114-4111-98b2-74a8980330a1",
     "descricao": "Monitor",
     "modeloMarca": "LG 20MK400H",
-    "status": "EM_USO",
-    "funcionarioId": "319a247c-64fc-4c3e-aefa-7e50dfea4c3a",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "28788",
     "serialNumber": "204AZBZ2Z285",
     "observacoes": "Esta na sede"
@@ -1453,8 +1453,8 @@
     "id": "8dd18988-254d-44d0-b9c8-d34a01673614",
     "descricao": "Notebook",
     "modeloMarca": "Lenovo Ideapad 3",
-    "status": "EM_USO",
-    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "28781",
     "serialNumber": "PE08SZ6E",
     "observacoes": "Era da Patricia / senha ADM: N@boT3mpErad0"

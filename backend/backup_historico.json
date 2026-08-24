@@ -2857,5 +2857,49 @@
     "timestamp": "2026-08-18T20:25:33.371Z",
     "equipamentoSnapshot": null,
     "equipamentosSnapshots": null
+  },
+  {
+    "id": "accaf0d8-e0cc-4a66-b351-54f186f300d6",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "ef118ea9-b9a2-4f8c-bc1b-5d7dfc342468",
+    "equipamentoId": "8dd18988-254d-44d0-b9c8-d34a01673614",
+    "equipamentosIds": null,
+    "data": "2026-08-21",
+    "timestamp": "2026-08-21T21:24:47.934Z",
+    "equipamentoSnapshot": "{\"id\":\"8dd18988-254d-44d0-b9c8-d34a01673614\",\"descricao\":\"Notebook\",\"modeloMarca\":\"Lenovo Ideapad 3\",\"patrimonio\":\"28781\",\"serialNumber\":\"PE08SZ6E\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "e7d54241-501a-4c69-b7f9-0976b994f98b",
+    "tipo": "ALOCACAO_MANUAL",
+    "funcionarioId": "e72c55a5-32ef-4e07-ba39-5f1e208b7d94",
+    "equipamentoId": "8dd18988-254d-44d0-b9c8-d34a01673614",
+    "equipamentosIds": null,
+    "data": "2026-08-21",
+    "timestamp": "2026-08-21T21:24:47.941Z",
+    "equipamentoSnapshot": "{\"id\":\"8dd18988-254d-44d0-b9c8-d34a01673614\",\"descricao\":\"Notebook\",\"modeloMarca\":\"Lenovo Ideapad 3\",\"patrimonio\":\"28781\",\"serialNumber\":\"PE08SZ6E\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "1978abba-6560-4aa2-a79b-61b30cf61c67",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "e72c55a5-32ef-4e07-ba39-5f1e208b7d94",
+    "equipamentoId": "8dd18988-254d-44d0-b9c8-d34a01673614",
+    "equipamentosIds": null,
+    "data": "2026-08-21",
+    "timestamp": "2026-08-21T21:24:59.168Z",
+    "equipamentoSnapshot": "{\"id\":\"8dd18988-254d-44d0-b9c8-d34a01673614\",\"descricao\":\"Notebook\",\"modeloMarca\":\"Lenovo Ideapad 3\",\"patrimonio\":\"28781\",\"serialNumber\":\"PE08SZ6E\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "f34383ae-8a37-4bc8-a130-29917c42fa2a",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "319a247c-64fc-4c3e-aefa-7e50dfea4c3a",
+    "equipamentoId": "7e5a0e48-e114-4111-98b2-74a8980330a1",
+    "equipamentosIds": null,
+    "data": "2026-08-21",
+    "timestamp": "2026-08-21T21:33:15.170Z",
+    "equipamentoSnapshot": "{\"id\":\"7e5a0e48-e114-4111-98b2-74a8980330a1\",\"descricao\":\"Monitor\",\"modeloMarca\":\"LG 20MK400H\",\"patrimonio\":\"28788\",\"serialNumber\":\"204AZBZ2Z285\"}",
+    "equipamentosSnapshots": null
   }
 ]
