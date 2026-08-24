@@ -130,6 +130,7 @@
 
         // 2. FUNCIONÁRIOS
         if (filter === 'ALL' || filter === 'FUNCIONARIOS') {
+            const funcResults = [];
             funcionarios.forEach(f => {
                 const nameNorm = normalizeText(f.nome);
                 const roleNorm = normalizeText(f.funcao || '');
@@ -137,7 +138,7 @@
 
                 if (!query || nameNorm.includes(query) || roleNorm.includes(query) || setorNorm.includes(query)) {
                     const eqps = equipamentos.filter(e => e.funcionarioId === f.id && e.status === 'EM_USO');
-                    results.push({
+                    funcResults.push({
                         type: 'FUNCIONARIO',
                         id: f.id,
                         title: f.nome,
@@ -151,10 +152,13 @@
                     });
                 }
             });
+            funcResults.sort((a, b) => a.title.localeCompare(b.title));
+            results.push(...funcResults);
         }
 
         // 3. EQUIPAMENTOS
         if (filter === 'ALL' || filter === 'EQUIPAMENTOS') {
+            const equipResults = [];
             equipamentos.forEach(eqp => {
                 const descNorm = normalizeText(eqp.descricao);
                 const modelNorm = normalizeText(eqp.modeloMarca || '');
@@ -170,7 +174,7 @@
                         statusLabel = func ? `Em uso: ${func.nome.split(' ')[0]}` : 'Em Uso';
                     }
 
-                    results.push({
+                    equipResults.push({
                         type: 'EQUIPAMENTO',
                         id: eqp.id,
                         title: `${eqp.descricao}${eqp.modeloMarca ? ' - ' + eqp.modeloMarca : ''}`,
@@ -184,15 +188,18 @@
                     });
                 }
             });
+            equipResults.sort((a, b) => a.title.localeCompare(b.title));
+            results.push(...equipResults);
         }
 
         // 4. SETORES
         if (filter === 'ALL' || filter === 'SETORES') {
+            const setorResults = [];
             setores.forEach(s => {
                 const setorNorm = normalizeText(s);
                 if (!query || setorNorm.includes(query)) {
                     const colabsCount = funcionarios.filter(f => (f.setor || '').toUpperCase() === s.toUpperCase()).length;
-                    results.push({
+                    setorResults.push({
                         type: 'SETOR',
                         id: s,
                         title: s,
@@ -204,17 +211,20 @@
                     });
                 }
             });
+            setorResults.sort((a, b) => a.title.localeCompare(b.title));
+            results.push(...setorResults);
         }
 
         // 5. EMPRESAS
         if (filter === 'ALL' || filter === 'EMPRESAS') {
+            const empResults = [];
             empresas.forEach(emp => {
                 const nameNorm = normalizeText(emp.nome);
                 const cnpjNorm = normalizeText(emp.cnpj || '');
                 const cityNorm = normalizeText(emp.cidade || '');
 
                 if (!query || nameNorm.includes(query) || cnpjNorm.includes(query) || cityNorm.includes(query)) {
-                    results.push({
+                    empResults.push({
                         type: 'EMPRESA',
                         id: emp.id,
                         title: emp.nome,
@@ -226,6 +236,8 @@
                     });
                 }
             });
+            empResults.sort((a, b) => a.title.localeCompare(b.title));
+            results.push(...empResults);
         }
 
         return results;
@@ -252,7 +264,7 @@
             return `
                 <div data-index="${idx}" class="palette-item flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-150 ${isSelected ? 'bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800' : 'hover:bg-slate-100/80 dark:hover:bg-slate-800/60 border border-transparent'}">
                     <div class="flex items-center gap-3.5 min-w-0">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isSelected ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'} transition-colors">
+                        <div class="palette-icon-box w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isSelected ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'} transition-colors">
                             <i data-lucide="${item.icon}" class="w-4 h-4"></i>
                         </div>
                         <div class="min-w-0">
@@ -266,7 +278,7 @@
                         <span class="inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded-md border ${item.badgeClass}">
                             ${item.badge}
                         </span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 dark:text-slate-600 ${isSelected ? 'opacity-100 text-indigo-500' : 'opacity-0'} transition-opacity"></i>
+                        <i data-lucide="chevron-right" class="palette-chevron w-4 h-4 text-slate-300 dark:text-slate-600 ${isSelected ? 'opacity-100 text-indigo-500' : 'opacity-0'} transition-opacity"></i>
                     </div>
                 </div>
             `;
@@ -294,20 +306,23 @@
         const items = container.querySelectorAll('.palette-item');
         items.forEach((el, idx) => {
             const isSelected = idx === selectedIndex;
+            const iconBox = el.querySelector('.palette-icon-box');
+            const chevron = el.querySelector('.palette-chevron');
+
             if (isSelected) {
                 el.className = 'palette-item flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-150 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800';
-                const iconBox = el.querySelector('div:first-child > div:first-child');
-                if (iconBox) iconBox.className = 'w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-indigo-600 text-white shadow-sm shadow-indigo-500/30 transition-colors';
-                const chevron = el.querySelector('i[data-lucide="chevron-right"]');
+                if (iconBox) {
+                    iconBox.className = 'palette-icon-box w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-indigo-600 text-white shadow-sm shadow-indigo-500/30 transition-colors';
+                }
                 if (chevron) {
                     chevron.classList.remove('opacity-0');
                     chevron.classList.add('opacity-100', 'text-indigo-500');
                 }
             } else {
                 el.className = 'palette-item flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-150 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 border border-transparent';
-                const iconBox = el.querySelector('div:first-child > div:first-child');
-                if (iconBox) iconBox.className = 'w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors';
-                const chevron = el.querySelector('i[data-lucide="chevron-right"]');
+                if (iconBox) {
+                    iconBox.className = 'palette-icon-box w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors';
+                }
                 if (chevron) {
                     chevron.classList.add('opacity-0');
                     chevron.classList.remove('opacity-100', 'text-indigo-500');
