@@ -1,6 +1,6 @@
 // js/views/setores.js
 
-const renderSetores = (container, headerActions) => {
+const renderSetores = (container, headerActions, params = {}) => {
     headerActions.innerHTML = `
         <button id="btn-header-novo-setor" class="btn-primary flex items-center gap-2">
             <i data-lucide="plus" class="w-4 h-4"></i>
@@ -13,7 +13,7 @@ const renderSetores = (container, headerActions) => {
         <div class="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div class="relative flex-1 max-w-md">
                 <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500"></i>
-                <input type="text" id="search-setor" placeholder="Buscar setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                <input type="text" id="search-setor" value="${params.search || ''}" placeholder="Buscar setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
             </div>
             <button id="btn-novo-setor" class="btn-primary flex items-center justify-center gap-2 sm:hidden">
                 <i data-lucide="plus" class="w-4 h-4"></i>
@@ -388,5 +388,11 @@ const renderSetores = (container, headerActions) => {
         renderTable(e.target.value);
     });
 
-    renderTable();
+    renderTable(params.search || '');
+
+    if (params.openColabs && params.setorName) {
+        setTimeout(() => {
+            abrirModalVerColaboradores(params.setorName);
+        }, 150);
+    }
 };

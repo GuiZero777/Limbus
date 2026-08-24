@@ -1,6 +1,6 @@
 // js/views/empresas.js
 
-const renderEmpresas = (container, headerActions) => {
+const renderEmpresas = (container, headerActions, params = {}) => {
     headerActions.innerHTML = `
         <button id="btn-add-empresa" class="btn-primary">
             <i data-lucide="plus" class="w-4 h-4"></i>
@@ -29,7 +29,7 @@ const renderEmpresas = (container, headerActions) => {
         } else {
             empresas.forEach(emp => {
                 tableHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
+                    <tr data-id="${emp.id}" class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
                         <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">${emp.nome}</td>
                         <td class="py-4 px-6 text-slate-600 dark:text-slate-300">${formatCNPJ(emp.cnpj)}</td>
                         <td class="py-4 px-6 text-slate-600 dark:text-slate-300">${emp.cidade} - ${emp.uf}</td>
@@ -47,6 +47,19 @@ const renderEmpresas = (container, headerActions) => {
         container.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
+
+        if (params.empresaId) {
+            setTimeout(() => {
+                const row = document.querySelector(`tr[data-id="${params.empresaId}"]`);
+                if (row) {
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    row.classList.add('bg-indigo-50/90', 'dark:bg-indigo-950/60', 'ring-2', 'ring-indigo-500', 'transition-all');
+                    setTimeout(() => {
+                        row.classList.remove('ring-2', 'ring-indigo-500');
+                    }, 3000);
+                }
+            }, 150);
+        }
 
         document.querySelectorAll('.btn-delete-empresa').forEach(btn => {
             btn.addEventListener('click', async (e) => {

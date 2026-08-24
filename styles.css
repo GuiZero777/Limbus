@@ -937,3 +937,31 @@ body {
     background: #4338ca;
 }
 
+/* =============================================
+   COMMAND PALETTE (BUSCA GLOBAL RÁPIDA)
+   ============================================= */
+#command-palette-box {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(99, 102, 241, 0.15);
+}
+
+#palette-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+#palette-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#palette-results::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.4);
+    border-radius: 9999px;
+}
+
+.dark #palette-results::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.5);
+}
+
+.palette-item {
+    user-select: none;
+}
+
