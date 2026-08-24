@@ -2,27 +2,38 @@
 
 const renderEquipamentos = (container, headerActions, params = {}) => {
     headerActions.innerHTML = `
-        <div class="flex flex-wrap items-center gap-4">
-            <div class="relative">
-                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                <input type="text" id="search-equip" value="${params.search || ''}" placeholder="Buscar equipamento..." class="pl-9 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none w-48 lg:w-64 dark:text-slate-100 dark:bg-slate-900">
-            </div>
-            <select id="filter-status-equip" class="py-2 px-3 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
-                <option value="ALL">Todos os Status</option>
-                <option value="DISPONIVEL">Disponíveis</option>
-                <option value="EM_USO">Em Uso</option>
-            </select>
-            <select id="sort-equip" class="py-2 px-3 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
-                <option value="NEWEST">Mais Recentes</option>
-                <option value="AZ">Ordem Alfabética (A-Z)</option>
-                <option value="ZA">Ordem Alfabética (Z-A)</option>
-            </select>
-            <button id="btn-add-equipamento" class="btn-primary">
-                <i data-lucide="plus" class="w-4 h-4"></i>
-                Novo Equipamento
-            </button>
-        </div>
+        <button id="btn-add-equipamento" class="btn-primary flex items-center gap-2 py-2 text-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Novo Equipamento</span>
+        </button>
     `;
+
+    // Renderizar a estrutura de filtros locais da página
+    container.innerHTML = `
+        <div class="mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3 flex-1">
+                <div class="relative flex-1 min-w-[220px] max-w-md">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="search-equip" value="${params.search || ''}" placeholder="Buscar por patrimônio, serial, modelo..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                </div>
+                <select id="filter-status-equip" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                    <option value="ALL">Todos os Status</option>
+                    <option value="DISPONIVEL">Disponíveis</option>
+                    <option value="EM_USO">Em Uso</option>
+                </select>
+                <select id="sort-equip" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                    <option value="NEWEST">Mais Recentes</option>
+                    <option value="AZ">Ordem Alfabética (A-Z)</option>
+                    <option value="ZA">Ordem Alfabética (Z-A)</option>
+                </select>
+            </div>
+        </div>
+        <div id="equipamentos-table-container"></div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+
+    const tableContainer = document.getElementById('equipamentos-table-container');
 
     const renderTable = () => {
         const filterText = document.getElementById('search-equip')?.value.toLowerCase() || '';
@@ -116,7 +127,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         }
 
         tableHTML += `</tbody></table></div>`;
-        container.innerHTML = tableHTML;
+        tableContainer.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
 
