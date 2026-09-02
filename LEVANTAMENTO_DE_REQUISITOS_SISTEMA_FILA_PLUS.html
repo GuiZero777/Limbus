@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levantamento de Requisitos — Sistema Fila+</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        body {
+            font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+            color: #222;
+            line-height: 1.5;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .page {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            background: #fff;
+            padding: 40px 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+        @media print {
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; padding: 0; margin: 0; max-width: 100%; page-break-after: always; }
+            .no-print { display: none; }
+        }
+        h1 {
+            color: #1e3a8a;
+            font-size: 20pt;
+            text-align: center;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        h2 {
+            color: #2b4c7e;
+            font-size: 15pt;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            font-size: 10pt;
+            margin-bottom: 25px;
+        }
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .header-table td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            font-size: 10pt;
+            background-color: #fafbfc;
+        }
+        .section-title {
+            color: #1e3a8a;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            border-bottom: 1.5px solid #2b4c7e;
+            padding-bottom: 4px;
+        }
+        p, li {
+            font-size: 10.5pt;
+            text-align: justify;
+        }
+        .callout {
+            background-color: #f0f4f8;
+            border-left: 4px solid #2b4c7e;
+            padding: 12px 16px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
+            color: #333;
+        }
+        table.content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 9.5pt;
+        }
+        table.content-table th {
+            background-color: #2b4c7e;
+            color: #fff;
+            text-align: left;
+            padding: 8px 10px;
+            border: 1px solid #2b4c7e;
+        }
+        table.content-table td {
+            border: 1px solid #d1d5db;
+            padding: 7px 10px;
+            vertical-align: top;
+        }
+        table.content-table tr:nth-child(even) td {
+            background-color: #f9fafb;
+        }
+        .badge-rf {
+            font-weight: bold;
+            color: #1e3a8a;
+            white-space: nowrap;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+        .checklist li::before {
+            content: "☑";
+            color: #16a34a;
+            font-size: 13pt;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .print-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-print {
+            background: #1e3a8a;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 11pt;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .btn-print:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="print-bar no-print">
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
+    </div>
+
+    <div class="page">
+        <h1>ATIVIDADE DE LABORATÓRIO</h1>
+        <h2>LEVANTAMENTO DE REQUISITOS — SISTEMA FILA+</h2>
+        <div class="subtitle">Duração: 2 horas | Trabalho em grupos de 4 a 5 alunos</div>
+
+        <table class="header-table">
+            <tr>
+                <td><strong>Curso:</strong> Análise e Desenvolvimento de Sistemas</td>
+                <td><strong>Turma:</strong> Projeto e Engenharia de Software</td>
+            </tr>
+            <tr>
+                <td><strong>Professor(a):</strong> Armando Cardoso Ribas</td>
+                <td><strong>Integrantes:</strong> Guilherme Vasconcellos Bardalho</td>
+            </tr>
+        </table>
+
+        <div class="section-title">1. Objetivo da atividade</div>
+        <p>Atuar como uma equipe de Analistas de Requisitos para investigar um problema, identificar stakeholders, escolher técnicas de levantamento e especificar requisitos funcionais e não funcionais. O grupo deverá também identificar ambiguidades, requisitos implícitos e conflitos entre stakeholders.</p>
+
+        <div class="section-title">2. Estudo de caso — Sistema Fila+</div>
+        <p>A universidade deseja desenvolver um novo sistema chamado Fila+, destinado a melhorar o atendimento aos estudantes. Atualmente, os alunos precisam ir presencialmente até a secretaria, retirar uma senha e permanecer no local aguardando atendimento.</p>
+        <div class="callout">
+            “Precisamos de um sistema moderno para diminuir as filas, melhorar o atendimento e permitir que os alunos acompanhem sua vez pelo celular.”
+        </div>
+        <p>A direção não especificou exatamente como o sistema deverá funcionar. A equipe de vocês foi contratada para realizar o levantamento de requisitos antes do início do desenvolvimento.</p>
+
+        <div class="section-title">3. Missão do grupo</div>
+        <p>Vocês deverão agir como uma equipe profissional de Analistas de Requisitos. Não basta imaginar funcionalidades: é necessário investigar o problema, formular perguntas, identificar necessidades explícitas e implícitas, reconhecer conflitos e transformar as informações em requisitos claros e verificáveis.</p>
+
+        <div class="section-title">4. Missão 1 — Identificação dos stakeholders</div>
+        <p>Stakeholders identificados pelo grupo (incluindo dois novos perfis essenciais):</p>
+        
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Stakeholder</th>
+                    <th style="width: 38%;">O que espera do sistema?</th>
+                    <th style="width: 37%;">Qual problema possui?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Estudantes</strong></td>
+                    <td>Querem ver pelo celular qual posição estão na fila, receber um aviso quando estiver perto da sua vez e não precisar ficar plantados esperando na secretaria.</td>
+                    <td>Ficam muito tempo em pé esperando, perdem o começo das aulas e nunca sabem que horas realmente vão ser atendidos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Atendentes da Secretaria</strong></td>
+                    <td>Querem uma tela simples para chamar a próxima pessoa, organizar os atendimentos por assunto e não ter aquela aglomeração cheia de gente reclamando no balcão.</td>
+                    <td>Trabalham sobrecarregados, sofrem com a bagunça no saguão e perdem tempo chamando senhas de pessoas que já foram embora.</td>
+                </tr>
+                <tr>
+                    <td><strong>Gestores da Universidade (Diretoria)</strong></td>
+                    <td>Querem acabar com as filas e reclamações, melhorar a imagem da faculdade e ter relatórios para saber o tempo que cada atendimento demora.</td>
+                    <td>Não têm números nem dados para saber se o atendimento está bom ou se precisa colocar mais atendentes em horários de pico.</td>
+                </tr>
+                <tr>
+                    <td><strong>Equipe de TI</strong></td>
+                    <td>Querem um sistema que não caia nos dias de matrícula, que seja seguro e fácil de conectar com o sistema de alunos que a faculdade já usa.</td>
+                    <td>Medo do servidor travar com muitos acessos ao mesmo tempo e dificuldade de integrar com o sistema antigo da faculdade.</td>
+                </tr>
+                <tr>
+                    <td><strong>Alunos com Deficiência / PCDs (Novo)</strong></td>
+                    <td>Precisam de prioridade garantida na fila por lei, um aplicativo fácil de usar (com leitor de tela/letras grandes) e aviso no celular.</td>
+                    <td>Dificuldade física de ficar em pé ou esperando muito tempo, além de totens normais que muitas vezes não são acessíveis.</td>
+                </tr>
+                <tr>
+                    <td><strong>Professores e Coordenadores (Novo)</strong></td>
+                    <td>Querem que os alunos cheguem no horário da aula e não usem mais a desculpa de que estavam presos esperando na secretaria.</td>
+                    <td>Aulas interrompidas por alunos chegando atrasados por causa da demora no atendimento da secretaria.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">5. Missão 2 — Elaboração das perguntas</div>
+        <p>10 perguntas práticas feitas aos stakeholders para entender as regras e o funcionamento do sistema:</p>
+        <ol>
+            <li><strong>Prioridades:</strong> Como vai funcionar a fila preferencial (PCDs, gestantes, idosos)? Vai ser chamada 1 preferencial para quantas normais?</li>
+            <li><strong>Tipos de Assunto:</strong> A fila vai ser dividida por assunto (financeiro, notas, documentos) ou qualquer atendente faz tudo?</li>
+            <li><strong>Login do Aluno:</strong> O aluno precisa logar com RA e senha no aplicativo ou qualquer pessoa pode pegar uma senha sem cadastro (ex: visitante)?</li>
+            <li><strong>Tempo de Espera no Guichê:</strong> Se o atendente chamar o aluno e ele não aparecer na hora, quantos minutos ele espera antes de cancelar a senha?</li>
+            <li><strong>Pegar senha de longe:</strong> O aluno vai poder pegar a senha de casa/ônibus ou ele precisa estar dentro da faculdade para conseguir entrar na fila?</li>
+            <li><strong>Trocar de Guichê:</strong> Se o aluno for no guichê errado, o atendente consegue transferir ele para outro atendente sem ele ter que ir para o fim da fila?</li>
+            <li><strong>Dias de Pico:</strong> Quantos alunos costumam ser atendidos por dia em época normal e quantos atendimentos acontecem nas semanas de matrícula?</li>
+            <li><strong>Formas de Aviso:</strong> Como o aluno vai ser avisado? Vai ser notificação no celular, mensagem no WhatsApp, ou só pela TV com som no saguão?</li>
+            <li><strong>Relatórios para o Diretor:</strong> Quais informações a diretoria quer ver no painel? (Ex: tempo médio de espera, horários com mais fila, quantidade de desistências)?</li>
+            <li><strong>Se a Internet Cair:</strong> O que acontece se acabar a luz ou a internet da faculdade cair no meio do dia? O sistema consegue salvar a ordem da fila?</li>
+        </ol>
+
+        <div class="section-title">6. Missão 3 — Escolha das técnicas de levantamento</div>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Técnica</th>
+                    <th style="width: 38%;">Como seria utilizada no Fila+?</th>
+                    <th style="width: 37%;">Por que é adequada?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Entrevista</strong></td>
+                    <td>Conversar cara a cara com os atendentes, o diretor e a equipe de TI com perguntas diretas sobre o dia a dia e as regras de atendimento.</td>
+                    <td>É a melhor forma de entender o que cada pessoa realmente precisa e tirar dúvidas sobre regras que não estão no papel.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Observação Direta</strong></td>
+                    <td>Passar algumas horas dentro da secretaria olhando o movimento real, cronometrando o tempo e vendo como os alunos se comportam.</td>
+                    <td>Permite enxergar problemas que ninguém conta nas entrevistas, como alunos que pegam a senha de papel e vão embora da faculdade.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Prototipagem (Desenhar as telas)</strong></td>
+                    <td>Fazer um desenho/modelo visual das telas do aplicativo e do painel do atendente para mostrar para eles antes de começar a programar.</td>
+                    <td>Ajuda os alunos e atendentes a verem como vai ficar na prática, evitando ter que refazer código depois por falta de entendimento.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">7. Missão 4 — Requisitos Funcionais</div>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 12%;">ID</th>
+                    <th style="width: 88%;">Requisito Funcional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="badge-rf">RF01</td>
+                    <td>O sistema deverá permitir que o aluno escolha o tipo de assunto que precisa resolver (ex: Financeiro, Documentos, Estágio) para pegar sua senha.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF02</td>
+                    <td>O sistema deverá mostrar na tela do celular do aluno a posição dele na fila e uma estimativa de quanto tempo falta para ele ser chamado.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF03</td>
+                    <td>O sistema deverá enviar uma notificação no celular do aluno quando faltarem 3 pessoas para a vez dele e quando a senha dele for chamada.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF04</td>
+                    <td>O sistema deverá permitir que o atendente clique para chamar a próxima senha, rechamar a mesma senha ou finalizar o atendimento.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF05</td>
+                    <td>O sistema deverá permitir que o aluno desista e cancele a sua senha pelo próprio aplicativo a qualquer momento.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF06</td>
+                    <td>O sistema deverá separar as senhas normais das preferenciais (PCDs, idosos, gestantes) e intercalar as chamadas seguindo a lei.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF07</td>
+                    <td>O sistema deverá mostrar na TV do saguão o número da senha chamada, o nome do aluno, o guichê e tocar um aviso sonoro.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF08</td>
+                    <td>O sistema deverá permitir que o atendente transfira um aluno para outro guichê sem que o aluno tenha que ir pro fim da fila.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF09</td>
+                    <td>O sistema deverá cancelar a senha do aluno automaticamente se ele for chamado 3 vezes e não aparecer no guichê em até 3 minutos.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RF10</td>
+                    <td>O sistema deverá gerar relatórios com gráficos mostrando o tempo médio de espera, tempo de atendimento e quantidade de faltas por dia.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">8. Missão 5 — Requisitos Não Funcionais</div>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 14%;">ID</th>
+                    <th style="width: 86%;">Requisito Não Funcional (Critério Claro e Verificável)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="badge-rf">RNF01</td>
+                    <td><strong>Tempo de Resposta:</strong> Quando o atendente chamar a próxima senha, a tela do celular do aluno deve atualizar em no máximo 2 segundos.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF02</td>
+                    <td><strong>Disponibilidade:</strong> O sistema precisa funcionar sem cair em 99,5% do tempo durante o horário de aulas (das 7h às 22h30).</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF03</td>
+                    <td><strong>Capacidade:</strong> O servidor deve aguentar pelo menos 1.000 alunos conectados no aplicativo ao mesmo tempo sem travar nos dias de matrícula.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF04</td>
+                    <td><strong>Segurança dos Dados:</strong> O sistema não pode mostrar dados pessoais como CPF nas TVs públicas e deve proteger as informações dos alunos.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF05</td>
+                    <td><strong>Acesso e Login:</strong> O sistema deve usar o mesmo login e senha que o aluno já usa no portal da faculdade, sem precisar criar outra conta.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF06</td>
+                    <td><strong>Acessibilidade:</strong> O aplicativo deve ter opção de aumentar o tamanho da letra, modo de alto contraste e funcionar com leitores de tela para cegos.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF07</td>
+                    <td><strong>Compatibilidade:</strong> O aplicativo deve funcionar em celulares Android (versão 8 em diante) e iPhone (iOS 14 em diante), e também no navegador.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF08</td>
+                    <td><strong>Recuperação após Quedas:</strong> Se faltar luz ou o servidor reiniciar, o sistema deve recuperar a ordem das senhas em até 30 segundos sem perder nada.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF09</td>
+                    <td><strong>Histórico e Auditoria:</strong> O sistema deve guardar o registro de todas as senhas chamadas, atendidas e canceladas por pelo menos 1 ano.</td>
+                </tr>
+                <tr>
+                    <td class="badge-rf">RNF10</td>
+                    <td><strong>Entrega de Avisos:</strong> As notificações no celular do aluno devem chegar com sucesso em pelo menos 98% das vezes que forem enviadas.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">9. Missão 6 — Requisitos ambíguos</div>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 6%;">Item</th>
+                    <th style="width: 26%;">Frase Original</th>
+                    <th style="width: 24%;">Classificação</th>
+                    <th style="width: 44%;">Se for ambíguo: como reescrever</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>A</strong></td>
+                    <td>O sistema deve ser rápido.</td>
+                    <td><span style="color:#b91c1c; font-weight:bold;">Ambíguo / Incompleto</span></td>
+                    <td>Qualquer tela ou botão clicado no sistema deve responder em menos de 2 segundos na internet normal.</td>
+                </tr>
+                <tr>
+                    <td><strong>B</strong></td>
+                    <td>O aluno deverá conseguir acompanhar sua posição na fila.</td>
+                    <td><span style="color:#16a34a; font-weight:bold;">Requisito Funcional</span></td>
+                    <td><em>(Não é ambíguo)</em> — O app deve mostrar o número da posição do aluno (ex: 'Você é o 4º') e atualizar a cada chamada.</td>
+                </tr>
+                <tr>
+                    <td><strong>C</strong></td>
+                    <td>O sistema deve ser seguro.</td>
+                    <td><span style="color:#b91c1c; font-weight:bold;">Ambíguo / Incompleto</span></td>
+                    <td>O sistema deve exigir senha segura, proteger os dados dos alunos e não expor o CPF de ninguém nas telas.</td>
+                </tr>
+                <tr>
+                    <td><strong>D</strong></td>
+                    <td>O sistema deverá permitir que o aluno cancele sua senha.</td>
+                    <td><span style="color:#16a34a; font-weight:bold;">Requisito Funcional</span></td>
+                    <td><em>(Não é ambíguo)</em> — O app deve ter um botão 'Cancelar Senha' com uma pergunta de confirmação antes de cancelar.</td>
+                </tr>
+                <tr>
+                    <td><strong>E</strong></td>
+                    <td>O sistema deverá ser fácil de utilizar.</td>
+                    <td><span style="color:#b91c1c; font-weight:bold;">Ambíguo / Incompleto</span></td>
+                    <td>Qualquer aluno novo deve conseguir pegar uma senha no app em no máximo 3 cliques e menos de 45 segundos, sem precisar de ajuda.</td>
+                </tr>
+                <tr>
+                    <td><strong>F</strong></td>
+                    <td>O sistema deverá permitir que o atendente chame o próximo aluno.</td>
+                    <td><span style="color:#16a34a; font-weight:bold;">Requisito Funcional</span></td>
+                    <td><em>(Não é ambíguo)</em> — A tela do atendente deve ter o botão 'Chamar Próximo', que atualiza a TV e avisa o aluno no celular.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">10. Missão 7 — O requisito escondido</div>
+        <p><strong>Situação que aconteceu:</strong> Ao acompanhar a secretaria, o grupo viu que muitos alunos pegavam a senha, saíam da faculdade e não voltavam quando eram chamados.</p>
+        <p><strong>Esse comportamento estava descrito no pedido inicial?</strong> <strong style="color:#b91c1c;">NÃO.</strong> O pedido da faculdade falava apenas em 'diminuir filas e acompanhar pelo celular'.</p>
+        <p><strong>Esse problema deveria gerar novos requisitos? Explique:</strong><br>
+        <strong>SIM.</strong> Se os alunos pegarem a senha e forem embora, o atendente vai ficar chamando o nada no guichê. Isso faz o atendente perder tempo, bagunça a previsão de horário dos outros alunos que estão esperando e deixa todo mundo irritado. Por isso, precisamos criar regras no sistema para lidar com isso.</p>
+        
+        <p><strong>Dois novos requisitos criados para resolver esse problema:</strong></p>
+        <ol>
+            <li><strong>RF_NOVO01 (Confirmar que já chegou):</strong> Quando faltarem 5 posições para a vez do aluno, o aplicativo deve pedir para ele clicar em 'Confirmar Presença' (comprovando que já está na faculdade pelo GPS ou QR Code). Se ele não confirmar em 5 minutos, a senha dele vai para o fim da fila.</li>
+            <li><strong>RF_NOVO02 (Cancelar quem sumir):</strong> Se o aluno for chamado no guichê e não aparecer em até 2 minutos após 2 chamadas, o sistema cancela a senha dele automaticamente e já libera o atendente para chamar a próxima pessoa.</li>
+        </ol>
+
+        <div class="section-title">11. Missão 8 — Conflito entre stakeholders</div>
+        <p><em>O diretor quer que o aluno possa entrar na fila de qualquer lugar pelo celular. O atendente é contra, porque diz que muita gente vai entrar e não vai aparecer. O aluno quer muito poder pegar de longe para não perder tempo esperando.</em></p>
+        
+        <p><strong>Existe um conflito de requisitos? Explique:</strong><br>
+        <strong>SIM.</strong> O diretor e o aluno querem o máximo de comodidade (pegar a senha de casa), mas o atendente quer que a pessoa só pegue se estiver presente, para não ficar chamando senha de quem não veio.</p>
+
+        <p><strong>Quais stakeholders estão envolvidos?</strong><br>
+        O Diretor da faculdade, os Estudantes e os Atendentes da secretaria.</p>
+
+        <p><strong>Qual solução o grupo propõe?</strong><br>
+        A solução é um meio-termo inteligente: O aluno <strong>PODE</strong> pegar a senha de casa ou do ônibus no celular. O aplicativo mostra quanto tempo falta. Mas, quando faltar 15 minutos (ou 5 pessoas na frente dele), o app manda um aviso dizendo: <em>'Você precisa confirmar que já está na faculdade'</em>. Se ele estiver no campus e confirmar no app, ele continua na fila e é chamado normalmente no guichê. Se ele não confirmar a tempo, a senha dele é cancelada para não atrapalhar o atendente nem os outros alunos.</p>
+
+        <p><strong>Essa solução gera novos requisitos? Quais?</strong><br>
+        <strong>SIM, gera 3 novas regras no sistema:</strong></p>
+        <ul>
+            <li><strong>RF_CONF01:</strong> O sistema deverá permitir que o aluno pegue a senha de onde estiver pelo celular, mostrando a previsão de horário para ele chegar à faculdade.</li>
+            <li><strong>RF_CONF02:</strong> O sistema deverá exigir que o aluno confirme presença (via GPS do celular ou lendo um QR Code no saguão) 15 minutos antes da vez dele.</li>
+            <li><strong>RF_CONF03:</strong> O sistema deverá cancelar a senha automaticamente se o aluno não confirmar que chegou dentro do prazo estipulado.</li>
+        </ul>
+
+        <div class="section-title">12. Entrega final (Checklist)</div>
+        <ul class="checklist">
+            <li>Pelo menos 6 stakeholders identificados.</li>
+            <li>10 perguntas de levantamento elaboradas.</li>
+            <li>3 técnicas de levantamento explicadas.</li>
+            <li>10 requisitos funcionais definidos.</li>
+            <li>10 requisitos não funcionais com regras claras.</li>
+            <li>Classificação e correção dos requisitos ambíguos.</li>
+            <li>2 requisitos implícitos/escondidos identificados.</li>
+            <li>Explicação do conflito entre stakeholders.</li>
+            <li>Solução prática para resolver o conflito.</li>
+            <li>Reflexão final respondida.</li>
+        </ul>
+
+        <div class="section-title">13. Reflexão final</div>
+        <p><strong>Por que não seria adequado iniciar o desenvolvimento do Fila+ apenas com a frase: <em>“Precisamos de um sistema moderno para diminuir as filas”</em>?</strong></p>
+        <div class="callout">
+            Porque essa frase é só uma vontade solta, não uma explicação de como o sistema deve funcionar. Ela não explica nenhuma regra de negócio (como funcionam as prioridades, como cancelar uma senha, o que fazer se o aluno faltar, ou como o atendente chama). Se a gente começasse a programar direto só com essa frase, cada pessoa da equipe ia imaginar o sistema de um jeito diferente. O resultado seria um código cheio de erros, perda de tempo e a entrega de um programa que não ia resolver a bagunça da secretaria.
+        </div>
+
+        <div class="section-title">14. Desafio final para discussão em sala</div>
+        <p><strong>Por que os requisitos podem ser diferentes mesmo quando o problema analisado é o mesmo?</strong></p>
+        <p>Porque cada grupo de analistas foca em um ponto de vista diferente. Um grupo pode focar mais no conforto do aluno (querendo que ele faça tudo pelo celular), outro grupo pode focar na rotina do atendente (para ele não se sobrecarregar), e outro pode focar na segurança e no servidor da TI. Como cada equipe conversa com pessoas diferentes e imagina soluções diferentes para os mesmos problemas, a lista de requisitos finais sempre vai ter diferenças.</p>
+
+        <div class="callout" style="text-align: center; font-weight: bold; border-left: none; border-top: 3px solid #2b4c7e; border-bottom: 3px solid #2b4c7e;">
+            Dica Final: Bom trabalho! Lembre-se: antes de desenvolver, é preciso entender o problema.
+        </div>
+    </div>
+</body>
+</html>

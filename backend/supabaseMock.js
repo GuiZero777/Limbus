@@ -35,11 +35,12 @@ let db = {
     funcionarios: readBOM(path.join(__dirname, 'backup_funcionarios.json')),
     equipamentos: readBOM(path.join(__dirname, 'backup_equipamentos.json')),
     historico: readBOM(path.join(__dirname, 'backup_historico.json')),
-    setores: loadSetores()
+    setores: loadSetores(),
+    insumos: readBOM(path.join(__dirname, 'backup_insumos.json'))
 };
 
 function resetMockDb() {
-    db = { empresas: [], funcionarios: [], equipamentos: [], historico: [], setores: [] };
+    db = { empresas: [], funcionarios: [], equipamentos: [], historico: [], setores: [], insumos: [] };
 }
 
 class QueryBuilder {
@@ -91,7 +92,7 @@ class QueryBuilder {
 
     persist() {
         if (process.env.NODE_ENV === 'test') return;
-        if (['empresas', 'funcionarios', 'equipamentos', 'historico', 'setores'].includes(this.table)) {
+        if (['empresas', 'funcionarios', 'equipamentos', 'historico', 'setores', 'insumos'].includes(this.table)) {
             fs.writeFileSync(path.join(__dirname, `backup_${this.table}.json`), JSON.stringify(db[this.table], null, 2), 'utf8');
         }
     }

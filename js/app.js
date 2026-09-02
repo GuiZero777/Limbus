@@ -13,6 +13,7 @@ const views = {
     'dashboard': { title: 'Início', breadcrumbs: ['Início'], render: renderDashboard },
     'empresas': { title: 'Gestão de Empresas', breadcrumbs: ['Início', 'Cadastros', 'Empresas'], render: renderEmpresas },
     'equipamentos': { title: 'Gestão de Equipamentos', breadcrumbs: ['Início', 'Cadastros', 'Equipamentos'], render: renderEquipamentos },
+    'insumos': { title: 'Gestão de Insumos de TI', breadcrumbs: ['Início', 'Cadastros', 'Insumos'], render: renderInsumos },
     'funcionarios': { title: 'Funcionários', breadcrumbs: ['Início', 'Funcionários'], render: renderFuncionarios },
     'gerador_termo': { title: 'Emissão de Termo', breadcrumbs: ['Início', 'Termos', 'Gerador'], render: renderGeradorTermo },
     'historico': { title: 'Histórico Geral', breadcrumbs: ['Início', 'Cadastros', 'Histórico'], render: renderHistoricoGeral },

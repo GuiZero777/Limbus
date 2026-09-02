@@ -67,16 +67,16 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         }
 
         let tableHTML = `
-            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table class="w-full text-left border-collapse">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[780px]">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
-                            <th class="py-3 px-6 font-semibold">Patrimônio</th>
-                            <th class="py-3 px-6 font-semibold">Descrição</th>
-                            <th class="py-3 px-6 font-semibold">Modelo/Marca</th>
-                            <th class="py-3 px-6 font-semibold">Serial Number</th>
-                            <th class="py-3 px-6 font-semibold text-center">Status</th>
-                            <th class="py-3 px-6 font-semibold text-right">Ações</th>
+                            <th class="py-3 px-4 font-semibold whitespace-nowrap">Patrimônio</th>
+                            <th class="py-3 px-4 font-semibold">Descrição</th>
+                            <th class="py-3 px-4 font-semibold">Modelo/Marca</th>
+                            <th class="py-3 px-4 font-semibold whitespace-nowrap">Serial Number</th>
+                            <th class="py-3 px-4 font-semibold text-center whitespace-nowrap">Status</th>
+                            <th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,38 +88,42 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
             equipamentos.forEach(eqp => {
                 const isDisponivel = eqp.status === 'DISPONIVEL';
                 const statusBadge = isDisponivel
-                    ? `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Disponível</span>`
-                    : `<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-medium bg-amber-100 text-amber-700 border border-amber-200"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Em Uso</span>`;
+                    ? `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span> Disponível</span>`
+                    : `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span> Em Uso</span>`;
 
                 let alocarBtn = '';
                 if (isDisponivel) {
                     alocarBtn = `
-                        <button data-id="${eqp.id}" class="btn-alocar-manual bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1 mr-2" title="Alocar Manualmente para funcionário (sem gerar termo)">
-                            <i data-lucide="user-check" class="w-4 h-4"></i> Alocar
+                        <button data-id="${eqp.id}" class="btn-alocar-manual bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1 shadow-2xs whitespace-nowrap" title="Alocar Manualmente para funcionário (sem gerar termo)">
+                            <i data-lucide="user-check" class="w-3.5 h-3.5"></i> <span>Alocar</span>
                         </button>`;
                 }
 
                 tableHTML += `
-                    <tr data-eqpid="${eqp.id}" class="border-b border-slate-100 hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
-                        <td class="py-4 px-6 font-semibold text-indigo-600 dark:text-indigo-400">${eqp.patrimonio || 'Sem Patr.'}</td>
-                        <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">
+                    <tr data-eqpid="${eqp.id}" class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                        <td class="py-3.5 px-4 font-semibold text-indigo-600 dark:text-indigo-400 whitespace-nowrap">${eqp.patrimonio || 'Sem Patr.'}</td>
+                        <td class="py-3.5 px-4 font-medium text-slate-800 dark:text-slate-100">
                             <span>${eqp.descricao}</span>
                             ${eqp.observacoes ? `<span class="block text-xs text-slate-400 italic mt-0.5" title="${eqp.observacoes}">${eqp.observacoes}</span>` : ''}
                         </td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300">${eqp.modeloMarca}</td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 font-mono text-xs">${eqp.serialNumber || 'Sem Serial'}</td>
-                        <td class="py-4 px-6 text-center">
-                            ${statusBadge}
-                            ${eqp.funcionarioId ? `<span class="block text-xs text-slate-400 mt-1">${getFuncionarioById(eqp.funcionarioId)?.nome || 'Excluído'}</span>` : ''}
+                        <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300">${eqp.modeloMarca}</td>
+                        <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 font-mono text-xs whitespace-nowrap">${eqp.serialNumber || 'Sem Serial'}</td>
+                        <td class="py-3.5 px-4 text-center whitespace-nowrap">
+                            <div class="flex flex-col items-center justify-center gap-1">
+                                ${eqp.funcionarioId ? `<span class="text-xs font-semibold text-slate-700 dark:text-slate-200 tracking-wide uppercase">${getFuncionarioById(eqp.funcionarioId)?.nome || 'Excluído'}</span>` : ''}
+                                ${statusBadge}
+                            </div>
                         </td>
-                        <td class="py-4 px-6 text-right flex justify-end items-center">
-                            ${alocarBtn}
-                            <button data-id="${eqp.id}" class="btn-edit-equip text-slate-400 hover:text-amber-500 p-2 rounded hover:bg-amber-50 transition-colors" title="Editar Equipamento">
-                                <i data-lucide="edit-2" class="w-4 h-4"></i>
-                            </button>
-                            <button data-id="${eqp.id}" class="btn-delete-equip text-red-500 hover:text-red-700 p-2 rounded hover:bg-red-50 transition-colors" title="Remover">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-1.5">
+                                ${alocarBtn}
+                                <button data-id="${eqp.id}" class="btn-edit-equip text-slate-500 hover:text-amber-600 dark:text-slate-400 dark:hover:text-amber-400 p-2 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/30 transition-colors" title="Editar Equipamento">
+                                    <i data-lucide="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button data-id="${eqp.id}" class="btn-delete-equip text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors" title="Remover">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -234,10 +238,25 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                         await editEquipamento(eqId, { status: 'EM_USO', funcionarioId: fId });
 
                         // 2. Add History Log
+                        const allocatedFunc = getFuncionarioById(fId);
+                        const allocatedEqp = getEquipamentoById(eqId);
                         await addHistorico({
                             tipo: 'ALOCACAO_MANUAL',
                             funcionarioId: fId,
+                            funcionarioSnapshot: allocatedFunc ? {
+                                id: allocatedFunc.id,
+                                nome: allocatedFunc.nome,
+                                funcao: allocatedFunc.funcao || 'Não Informado',
+                                setor: allocatedFunc.setor || null
+                            } : null,
                             equipamentoId: eqId,
+                            equipamentoSnapshot: allocatedEqp ? {
+                                id: allocatedEqp.id,
+                                descricao: allocatedEqp.descricao,
+                                modeloMarca: allocatedEqp.modeloMarca,
+                                patrimonio: allocatedEqp.patrimonio || null,
+                                serialNumber: allocatedEqp.serialNumber || null
+                            } : null,
                             data: dataEntrega
                         });
 
@@ -438,20 +457,34 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                     if (previousFuncId !== newFuncId) {
                         const todayStr = new Date().toISOString().split('T')[0];
                         if (previousFuncId) {
+                            const prevFunc = getFuncionarioById(previousFuncId);
                             // Registrar devolução
                             await addHistorico({
                                 tipo: 'DEVOLUCAO',
                                 funcionarioId: previousFuncId,
+                                funcionarioSnapshot: prevFunc ? {
+                                    id: prevFunc.id,
+                                    nome: prevFunc.nome,
+                                    funcao: prevFunc.funcao || 'Não Informado',
+                                    setor: prevFunc.setor || null
+                                } : null,
                                 equipamentoId: id,
                                 equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                                 data: todayStr
                             });
                         }
                         if (newFuncId) {
+                            const nextFunc = getFuncionarioById(newFuncId);
                             // Registrar alocação manual
                             await addHistorico({
                                 tipo: 'ALOCACAO_MANUAL',
                                 funcionarioId: newFuncId,
+                                funcionarioSnapshot: nextFunc ? {
+                                    id: nextFunc.id,
+                                    nome: nextFunc.nome,
+                                    funcao: nextFunc.funcao || 'Não Informado',
+                                    setor: nextFunc.setor || null
+                                } : null,
                                 equipamentoId: id,
                                 equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                                 data: todayStr
@@ -464,10 +497,17 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                     
                     // Se já foi cadastrado com dono, logar no histórico
                     if (newFuncId) {
+                        const nextFunc = getFuncionarioById(newFuncId);
                         const todayStr = new Date().toISOString().split('T')[0];
                         await addHistorico({
                             tipo: 'ALOCACAO_MANUAL',
                             funcionarioId: newFuncId,
+                            funcionarioSnapshot: nextFunc ? {
+                                id: nextFunc.id,
+                                nome: nextFunc.nome,
+                                funcao: nextFunc.funcao || 'Não Informado',
+                                setor: nextFunc.setor || null
+                            } : null,
                             equipamentoId: newEqp.id,
                             equipamentoSnapshot: { id: newEqp.id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                             data: todayStr

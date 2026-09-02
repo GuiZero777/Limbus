@@ -12,7 +12,8 @@ const StoreState = {
     equipamentos: [],
     funcionarios: [],
     historico: [],
-    setores: []
+    setores: [],
+    insumos: []
 };
 
 // --- Auxiliar de Resposta ---
@@ -30,12 +31,13 @@ const checkResponse = async (res, defaultMsg = 'Erro na requisição') => {
 // --- Inicialização ---
 const initializeStore = async () => {
     try {
-        const [empRes, equipRes, funcRes, histRes, setRes] = await Promise.all([
+        const [empRes, equipRes, funcRes, histRes, setRes, insRes] = await Promise.all([
             fetch(`${API_URL}/empresas`),
             fetch(`${API_URL}/equipamentos`),
             fetch(`${API_URL}/funcionarios`),
             fetch(`${API_URL}/historico`),
-            fetch(`${API_URL}/setores`)
+            fetch(`${API_URL}/setores`),
+            fetch(`${API_URL}/insumos`)
         ]);
 
         StoreState.empresas = await empRes.json();
@@ -43,6 +45,7 @@ const initializeStore = async () => {
         StoreState.funcionarios = await funcRes.json();
         StoreState.historico = await histRes.json();
         StoreState.setores = await setRes.json();
+        StoreState.insumos = await insRes.json();
 
         console.log('Dados carregados com sucesso do Backend.');
     } catch (err) {
@@ -269,3 +272,59 @@ const removeSetor = async (name) => {
         }
     });
 };
+
+// --- Insumos ---
+const getInsumos = () => {
+    const funcionarios = StoreState.funcionarios || [];
+    return (StoreState.insumos || []).map(insumo => {
+        const emUso = funcionarios.reduce((acc, f) => {
+            const match = (f.insumos || []).find(i => i.insumoId === insumo.id || i.id === insumo.id);
+            return acc + (match ? (parseInt(match.quantidade, 10) || 1) : 0);
+        }, 0);
+        const quantidadeTotal = parseInt(insumo.quantidade, 10) || 0;
+        const disponivel = Math.max(0, quantidadeTotal - emUso);
+        return {
+            ...insumo,
+            quantidade: quantidadeTotal,
+            emUso,
+            disponivel
+        };
+    });
+};
+
+const getInsumoById = (id) => getInsumos().find(i => i.id === id);
+
+const addInsumo = async (insumoData) => {
+    const res = await fetch(`${API_URL}/insumos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(insumoData)
+    });
+    await checkResponse(res, 'Falha ao adicionar insumo');
+    const saved = await res.json();
+    if (!StoreState.insumos) StoreState.insumos = [];
+    StoreState.insumos.push(saved);
+    return saved;
+};
+
+const editInsumo = async (id, insumoData) => {
+    const res = await fetch(`${API_URL}/insumos/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(insumoData)
+    });
+    await checkResponse(res, 'Falha ao editar insumo');
+    const saved = await res.json();
+    const idx = (StoreState.insumos || []).findIndex(i => i.id === id);
+    if (idx !== -1) {
+        StoreState.insumos[idx] = { ...StoreState.insumos[idx], ...saved };
+    }
+    return saved;
+};
+
+const removeInsumo = async (id) => {
+    const res = await fetch(`${API_URL}/insumos/${id}`, { method: 'DELETE' });
+    await checkResponse(res, 'Falha ao remover insumo');
+    StoreState.insumos = (StoreState.insumos || []).filter(i => i.id !== id);
+};
+

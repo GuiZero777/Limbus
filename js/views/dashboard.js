@@ -21,7 +21,10 @@ const renderDashboard = (container, headerActions) => {
     const activityHTML = historico.length === 0
         ? '<p class="text-sm text-slate-400 dark:text-slate-500 py-6 text-center">Nenhuma atividade recente.</p>'
         : historico.map(h => {
-            const fnc = funcionarios.find(f => f.id === h.funcionarioId) || { nome: 'Desconhecido' };
+            const liveFunc = funcionarios.find(f => f.id === h.funcionarioId);
+            const snapFunc = typeof h.funcionarioSnapshot === 'string' ? JSON.parse(h.funcionarioSnapshot) : h.funcionarioSnapshot;
+            const funcNome = liveFunc?.nome || snapFunc?.nome || 'Colaborador Desligado';
+
             const dataStr = formatInputDate(h.data);
             let dotColor = '', label = '', badgeBg = '';
             if (h.tipo === 'ENTREGA' || h.tipo === 'ALOCACAO_MANUAL') {
@@ -39,7 +42,7 @@ const renderDashboard = (container, headerActions) => {
                     <div class="flex items-center gap-3 min-w-0">
                         <span class="w-2.5 h-2.5 rounded-full ${dotColor} flex-shrink-0"></span>
                         <div class="truncate">
-                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">${fnc.nome}</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">${funcNome}</p>
                             <p class="text-xs text-slate-400 dark:text-slate-500">${dataStr} • ${eqpCount} item${eqpCount > 1 ? 's' : ''}</p>
                         </div>
                     </div>

@@ -29,14 +29,30 @@
             type: 'ACTION',
             id: 'act-novo-equip',
             title: 'Novo Equipamento',
-            subtitle: 'Adicionar notebook, smartphone ou periférico ao inventário',
-            icon: 'plus-circle',
+            subtitle: 'Adicionar notebook, smartphone ou monitor patrimoniado',
+            icon: 'laptop',
             badge: 'Ação',
             badgeClass: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
             run: () => {
                 navigate('equipamentos');
                 setTimeout(() => {
                     const btnAdd = document.getElementById('btn-add-equipamento');
+                    if (btnAdd) btnAdd.click();
+                }, 150);
+            }
+        },
+        {
+            type: 'ACTION',
+            id: 'act-novo-insumo',
+            title: 'Novo Insumo de TI',
+            subtitle: 'Cadastrar mouse, teclado, suporte ou fone de ouvido em lote',
+            icon: 'box',
+            badge: 'Ação',
+            badgeClass: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+            run: () => {
+                navigate('insumos');
+                setTimeout(() => {
+                    const btnAdd = document.getElementById('btn-header-novo-insumo') || document.getElementById('btn-novo-insumo');
                     if (btnAdd) btnAdd.click();
                 }, 150);
             }
@@ -238,6 +254,33 @@
             });
             empResults.sort((a, b) => a.title.localeCompare(b.title));
             results.push(...empResults);
+        }
+
+        // 6. INSUMOS DE TI
+        if (filter === 'ALL' || filter === 'INSUMOS') {
+            const insumos = typeof getInsumos === 'function' ? getInsumos() : [];
+            const insResults = [];
+            insumos.forEach(ins => {
+                const nameNorm = normalizeText(ins.nome || '');
+                const marcaNorm = normalizeText(ins.marca || '');
+
+                if (!query || nameNorm.includes(query) || marcaNorm.includes(query)) {
+                    insResults.push({
+                        type: 'INSUMO',
+                        id: ins.id,
+                        title: ins.nome,
+                        subtitle: `${ins.marca || 'Sem marca'} • ${ins.disponivel} disponíveis em estoque (${ins.emUso} em uso)`,
+                        icon: 'box',
+                        badge: `${ins.disponivel} disp.`,
+                        badgeClass: ins.disponivel > 0
+                            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
+                            : 'bg-red-50 text-red-700 dark:bg-red-950/60 dark:text-red-300 border-red-200 dark:border-red-800',
+                        run: () => navigate('insumos', { search: ins.nome })
+                    });
+                }
+            });
+            insResults.sort((a, b) => a.title.localeCompare(b.title));
+            results.push(...insResults);
         }
 
         return results;

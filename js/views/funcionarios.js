@@ -62,16 +62,16 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
         const equipamentos = getEquipamentos();
 
         let tableHTML = `
-            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table class="w-full text-left border-collapse">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[760px]">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
-                            <th class="py-3 px-6 font-semibold">Nome</th>
-                            <th class="py-3 px-6 font-semibold hidden md:table-cell">Setor</th>
-                            <th class="py-3 px-6 font-semibold hidden md:table-cell">Função</th>
-                            <th class="py-3 px-6 font-semibold text-center hidden lg:table-cell">Admissão</th>
-                            <th class="py-3 px-6 font-semibold text-center">Status</th>
-                            <th class="py-3 px-6 font-semibold text-right">Ações</th>
+                            <th class="py-3 px-4 font-semibold">Nome</th>
+                            <th class="py-3 px-4 font-semibold hidden md:table-cell">Setor</th>
+                            <th class="py-3 px-4 font-semibold hidden md:table-cell">Função</th>
+                            <th class="py-3 px-4 font-semibold text-center whitespace-nowrap hidden lg:table-cell">Admissão</th>
+                            <th class="py-3 px-4 font-semibold text-center whitespace-nowrap">Status</th>
+                            <th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,24 +84,24 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                 const eqps = equipamentos.filter(eq => eq.funcionarioId === fnc.id && eq.status === 'EM_USO');
                 let statusBadge = '';
                 if (eqps.length === 0) {
-                    statusBadge = '<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-700/60 dark:text-slate-400 px-2.5 py-1 rounded-full font-medium">Sem itens</span>';
+                    statusBadge = '<span class="inline-flex items-center text-xs text-slate-500 bg-slate-100 dark:bg-slate-700/60 dark:text-slate-400 px-3 py-1 rounded-full font-medium whitespace-nowrap">Sem itens</span>';
                 } else {
                     const tooltipText = eqps.map(eq => {
                         const patr = eq.patrimonio ? `Patr: ${eq.patrimonio}` : 'S/ Patr.';
                         const sn = eq.serialNumber ? `S/N: ${eq.serialNumber}` : 'S/ S/N';
                         return `${eq.descricao} ${eq.modeloMarca || ''} [${patr} | ${sn}]`;
                     }).join(' &#10; ');
-                    statusBadge = `<span class="badge-em-uso text-xs bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-700/50 px-2.5 py-1 rounded-full font-medium cursor-help" title="${tooltipText}">💻 ${eqps.length} item(s)</span>`;
+                    statusBadge = `<span class="badge-em-uso inline-flex items-center gap-1.5 text-xs bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-700/50 px-3 py-1 rounded-full font-semibold whitespace-nowrap cursor-help" title="${tooltipText}"><i data-lucide="laptop" class="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-400"></i><span>${eqps.length} ${eqps.length === 1 ? 'item' : 'itens'}</span></span>`;
                 }
 
                 tableHTML += `
                     <tr class="row-funcionario border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer" data-id="${fnc.id}">
-                        <td class="py-4 px-6 font-semibold text-slate-800 dark:text-slate-100">${fnc.nome}</td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.setor || '<span class="text-slate-400 dark:text-slate-500 italic">Não Informado</span>'}</td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.funcao}</td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300 text-center hidden lg:table-cell">${formatInputDate(fnc.dataAdmissao)}</td>
-                        <td class="py-4 px-6 text-center">${statusBadge}</td>
-                        <td class="py-4 px-6 text-right">
+                        <td class="py-3.5 px-4 font-semibold text-slate-800 dark:text-slate-100">${fnc.nome}</td>
+                        <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.setor || '<span class="text-slate-400 dark:text-slate-500 italic">Não Informado</span>'}</td>
+                        <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.funcao}</td>
+                        <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 text-center whitespace-nowrap hidden lg:table-cell">${formatInputDate(fnc.dataAdmissao)}</td>
+                        <td class="py-3.5 px-4 text-center whitespace-nowrap">${statusBadge}</td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
                             <div class="flex items-center justify-end gap-1" onclick="event.stopPropagation()">
                                 <button data-id="${fnc.id}" class="btn-gerar text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 p-2 rounded hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors" title="Gerar Termo de Entrega">
                                     <i data-lucide="file-text" class="w-4 h-4"></i>
@@ -766,6 +766,7 @@ const renderFuncionarioImport = () => {
 // --- Perfil do Funcionário (Histórico & Devolução) ---
 window.renderFuncionarioPerfil = (id) => {
     const funcionario = getFuncionarioById(id);
+    if (!funcionario) return;
     const equipamentos = getEquipamentos();
     const equipamentosEmPosse = equipamentos.filter(e => e.funcionarioId === id && e.status === 'EM_USO');
 
@@ -787,8 +788,49 @@ window.renderFuncionarioPerfil = (id) => {
             }
 
             let eqpContent = '';
-            if (h.equipamentosIds && h.equipamentosIds.length > 0) {
-                const eqps = h.equipamentosIds.map(eId => equipamentos.find(e => e.id === eId) || { id: eId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' });
+            let snapshots = h.equipamentosSnapshots;
+            if (typeof snapshots === 'string') {
+                try { snapshots = JSON.parse(snapshots); } catch (e) { snapshots = []; }
+            }
+
+            if (Array.isArray(snapshots) && snapshots.length > 0) {
+                const eqpHTML = snapshots.map(eq => `
+                    <div class="flex flex-col gap-0.5 py-1">
+                        <div class="flex items-center gap-1.5">
+                            <button data-eqpid="${eq.id || ''}" class="${eq.id ? 'btn-jump-equip hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline' : ''} text-xs font-bold text-slate-800 dark:text-slate-100 inline-flex items-center gap-1 text-left flex-wrap">
+                                <span>${eq.descricao}${eq.modeloMarca ? ' - ' + eq.modeloMarca : ''}</span>
+                                ${eq.id ? '<i data-lucide="external-link" class="w-3 h-3 opacity-50 shrink-0"></i>' : ''}
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs flex-wrap">
+                            ${eq.patrimonio ? `
+                            <span class="inline-flex items-center font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+                                <span class="text-indigo-400 font-sans font-normal mr-1">Patr:</span> ${eq.patrimonio}
+                            </span>` : ''}
+                            ${eq.serialNumber ? `
+                            <span class="inline-flex items-center font-mono text-[10px] text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-700">
+                                <span class="text-slate-400 font-sans font-normal mr-1">S/N:</span> ${eq.serialNumber}
+                            </span>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                eqpContent = `
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold uppercase tracking-wider ${corTexto}">${acao}</span>
+                            <span class="text-xs text-slate-500 font-medium">(${snapshots.length} ${snapshots.length === 1 ? 'item' : 'itens'}):</span>
+                        </div>
+                        <div class="mt-1 pl-3 border-l-2 border-slate-200 dark:border-slate-700 space-y-1">
+                            ${eqpHTML}
+                        </div>
+                    </div>
+                `;
+            } else if (h.equipamentosIds && h.equipamentosIds.length > 0) {
+                let eqIds = h.equipamentosIds;
+                if (typeof eqIds === 'string') {
+                    try { eqIds = JSON.parse(eqIds); } catch (e) { eqIds = []; }
+                }
+                const eqps = eqIds.map(eId => equipamentos.find(e => e.id === eId) || { id: eId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' });
                 const eqpHTML = eqps.map(eq => `
                     <div class="flex flex-col gap-0.5 py-1">
                         <div class="flex items-center gap-1.5">
@@ -813,7 +855,7 @@ window.renderFuncionarioPerfil = (id) => {
                     <div class="flex flex-col gap-1">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-bold uppercase tracking-wider ${corTexto}">${acao}</span>
-                            <span class="text-xs text-slate-500 font-medium">(${eqps.length} itens):</span>
+                            <span class="text-xs text-slate-500 font-medium">(${eqps.length} ${eqps.length === 1 ? 'item' : 'itens'}):</span>
                         </div>
                         <div class="mt-1 pl-3 border-l-2 border-slate-200 dark:border-slate-700 space-y-1">
                             ${eqpHTML}
@@ -821,7 +863,14 @@ window.renderFuncionarioPerfil = (id) => {
                     </div>
                 `;
             } else {
-                const eqp = equipamentos.find(e => e.id === h.equipamentoId) || { id: h.equipamentoId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' };
+                let eqp = equipamentos.find(e => e.id === h.equipamentoId);
+                if (!eqp) {
+                    let snap = h.equipamentoSnapshot;
+                    if (typeof snap === 'string') {
+                        try { snap = JSON.parse(snap); } catch(e) {}
+                    }
+                    eqp = snap || { id: h.equipamentoId, descricao: 'Equipamento Excluído', modeloMarca: '', patrimonio: '', serialNumber: '' };
+                }
                 eqpContent = `
                     <div class="flex flex-col gap-1">
                         <div class="flex items-center gap-2 flex-wrap">
@@ -860,24 +909,28 @@ window.renderFuncionarioPerfil = (id) => {
              `;
         }).join('');
 
+    let insumosRaw = funcionario.insumos;
+    if (typeof insumosRaw === 'string') {
+        try { insumosRaw = JSON.parse(insumosRaw); } catch(e) { insumosRaw = []; }
+    }
+    const insumosEmPosse = Array.isArray(insumosRaw) ? insumosRaw.filter(i => (parseInt(i.quantidade, 10) || 0) > 0) : [];
+    const totalItensEmPosse = equipamentosEmPosse.length + insumosEmPosse.length;
+
     let posseHTML = '';
-    if (equipamentosEmPosse.length === 0) {
-        posseHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 py-4 text-center border border-dashed border-slate-300 dark:border-slate-600 rounded-lg">Nenhum equipamento em posse atualmente.</p>';
+    if (totalItensEmPosse === 0) {
+        posseHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 py-4 text-center border border-dashed border-slate-300 dark:border-slate-600 rounded-lg">Nenhum equipamento ou insumo em posse atualmente.</p>';
     } else {
-        const itensHTML = equipamentosEmPosse.map(eqp => `
+        const itensEqpHTML = equipamentosEmPosse.map(eqp => `
                 <div class="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700/80 rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all group">
                     <div class="flex items-start gap-3.5 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-100 dark:border-indigo-900/40 mt-0.5">
                             <i data-lucide="laptop" class="w-5 h-5"></i>
                         </div>
                         <div class="min-w-0 flex flex-col gap-1">
-                            <!-- 1. Nome do Equipamento & Modelo no Topo -->
                             <button data-eqpid="${eqp.id}" class="btn-jump-equip text-left font-bold text-sm text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-1.5 transition-colors group flex-wrap" title="Ver na aba de Equipamentos">
                                 <span>${eqp.descricao}${eqp.modeloMarca ? ' - ' + eqp.modeloMarca : ''}</span>
                                 <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0"></i>
                             </button>
-                            
-                            <!-- 2. Linha de Metadados: Patrimônio seguido de Serial Number -->
                             <div class="flex items-center gap-2 text-xs flex-wrap">
                                 <span class="inline-flex items-center font-mono text-xs font-semibold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
                                     <span class="text-indigo-400 font-sans font-normal mr-1">Patr:</span> ${eqp.patrimonio || 'Sem Patr.'}
@@ -894,7 +947,30 @@ window.renderFuncionarioPerfil = (id) => {
                     </button>
                 </div>
              `).join('');
-        posseHTML = '<div class="space-y-3">' + itensHTML + '</div>';
+
+        const itensInsumosHTML = insumosEmPosse.map(ins => `
+                <div class="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700/80 rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all group">
+                    <div class="flex items-start gap-3.5 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-100 dark:border-emerald-900/40 mt-0.5">
+                            <i data-lucide="box" class="w-5 h-5"></i>
+                        </div>
+                        <div class="min-w-0 flex flex-col gap-1">
+                            <span class="font-bold text-sm text-slate-800 dark:text-slate-100">${ins.nome}</span>
+                            <div class="flex items-center gap-2 text-xs flex-wrap">
+                                <span class="text-slate-500 dark:text-slate-400">${ins.marca || 'Sem marca'}</span>
+                                <span class="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
+                                    ${ins.quantidade} ${ins.quantidade === 1 ? 'unidade' : 'unidades'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-insumoid="${ins.insumoId || ins.id}" data-insumonome="${ins.nome}" data-insumomarca="${ins.marca || ''}" class="btn-devolver-insumo shrink-0 ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shadow-sm" title="Registrar devolução do insumo">
+                        <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver
+                    </button>
+                </div>
+             `).join('');
+
+        posseHTML = '<div class="space-y-3">' + itensEqpHTML + itensInsumosHTML + '</div>';
     }
 
     const modalContentHTML = `
@@ -921,7 +997,7 @@ window.renderFuncionarioPerfil = (id) => {
                                 <i data-lucide="box" class="w-5 h-5 text-primary"></i>
                                 <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100">Posse Atual</h4>
                             </div>
-                            ${equipamentosEmPosse.length > 1 ? `
+                            ${totalItensEmPosse > 1 ? `
                             <button id="btn-devolver-todos" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1 shadow-sm">
                                 <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver Todos
                             </button>
@@ -961,7 +1037,7 @@ window.renderFuncionarioPerfil = (id) => {
         });
     });
 
-    // Eventos de Devolução
+    // Eventos de Devolução de Equipamento Patrimoniado
     document.querySelectorAll('.btn-devolver').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             const eqpId = e.currentTarget.dataset.eqpid;
@@ -970,23 +1046,31 @@ window.renderFuncionarioPerfil = (id) => {
             const ok = await showConfirm('Confirmar devolução de ' + eqp.descricao + '? O equipamento ficará disponível no estoque.', { title: 'Devolver equipamento', confirmText: 'Devolver' });
             if (ok) {
                 try {
-                    // 1. Atualizar status do equipamento
                     await editEquipamento(eqpId, { status: 'DISPONIVEL', funcionarioId: null });
 
-                    // 2. Registrar no histórico
                     await addHistorico({
                         tipo: 'DEVOLUCAO',
                         funcionarioId: id,
+                        funcionarioSnapshot: {
+                            id: funcionario.id,
+                            nome: funcionario.nome,
+                            funcao: funcionario.funcao || 'Não Informado',
+                            setor: funcionario.setor || null
+                        },
                         equipamentoId: eqpId,
-                        equipamentoSnapshot: { id: eqp.id, descricao: eqp.descricao, modeloMarca: eqp.modeloMarca },
+                        equipamentoSnapshot: {
+                            id: eqp.id,
+                            descricao: eqp.descricao,
+                            modeloMarca: eqp.modeloMarca,
+                            patrimonio: eqp.patrimonio || null,
+                            serialNumber: eqp.serialNumber || null
+                        },
                         data: new Date().toISOString().split('T')[0]
                     });
 
                     showToast('Equipamento devolvido com sucesso.', 'success');
-
-                    // 3. Atualizar a tela
                     renderFuncionarioPerfil(id);
-                    // Atualizar tabela por trás se o usuário estiver na tela de funcionários
+
                     const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
                     if (currentView === 'funcionarios') {
                         renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));
@@ -1000,26 +1084,113 @@ window.renderFuncionarioPerfil = (id) => {
         });
     });
 
+    // Eventos de Devolução de Insumo
+    document.querySelectorAll('.btn-devolver-insumo').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const insumoId = e.currentTarget.dataset.insumoid;
+            const insumoNome = e.currentTarget.dataset.insumonome;
+            const insumoMarca = e.currentTarget.dataset.insumomarca;
+
+            const ok = await showConfirm(`Confirmar devolução de 1 unidade de "${insumoNome}"? O item retornará ao estoque de insumos.`, { title: 'Devolver Insumo', confirmText: 'Devolver' });
+            if (ok) {
+                try {
+                    const currentInsumos = Array.isArray(funcionario.insumos) ? [...funcionario.insumos] : [];
+                    const idx = currentInsumos.findIndex(i => (i.insumoId === insumoId || i.id === insumoId));
+                    if (idx !== -1) {
+                        const currentQtd = parseInt(currentInsumos[idx].quantidade, 10) || 1;
+                        if (currentQtd > 1) {
+                            currentInsumos[idx].quantidade = currentQtd - 1;
+                        } else {
+                            currentInsumos.splice(idx, 1);
+                        }
+                    }
+
+                    await editFuncionario(id, { insumos: currentInsumos });
+                    funcionario.insumos = currentInsumos;
+
+                    await addHistorico({
+                        tipo: 'DEVOLUCAO',
+                        funcionarioId: id,
+                        funcionarioSnapshot: {
+                            id: funcionario.id,
+                            nome: funcionario.nome,
+                            funcao: funcionario.funcao || 'Não Informado',
+                            setor: funcionario.setor || null
+                        },
+                        equipamentoSnapshot: {
+                            descricao: insumoNome,
+                            modeloMarca: insumoMarca || '',
+                            patrimonio: null,
+                            serialNumber: null
+                        },
+                        data: new Date().toISOString().split('T')[0]
+                    });
+
+                    showToast('Insumo devolvido com sucesso.', 'success');
+                    renderFuncionarioPerfil(id);
+
+                    const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
+                    if (currentView === 'funcionarios') {
+                        renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));
+                    } else if (currentView === 'insumos') {
+                        renderInsumos(document.getElementById('content-area'), document.getElementById('header-actions'));
+                    }
+                } catch (err) {
+                    showToast(err.message, 'error');
+                }
+            }
+        });
+    });
+
     const btnDevolverTodos = document.getElementById('btn-devolver-todos');
     if (btnDevolverTodos) {
         btnDevolverTodos.addEventListener('click', async () => {
-            const okAll = await showConfirm('Confirmar devolução COMPLETA de todos os equipamentos em posse deste funcionário?', { title: 'Devolução completa', type: 'danger', confirmText: 'Devolver Todos' });
+            const okAll = await showConfirm('Confirmar devolução COMPLETA de todos os equipamentos e insumos em posse deste funcionário?', { title: 'Devolução completa', type: 'danger', confirmText: 'Devolver Todos' });
             if (okAll) {
                 const todayStrInput = new Date().toISOString().split('T')[0];
                 const dataRealStr = formatInputDate(todayStrInput);
                 const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 try {
-                    // 1. Atualizar e Histórico
+                    // 1. Atualizar Equipamentos
                     for (const eqp of equipamentosEmPosse) {
                         await editEquipamento(eqp.id, { status: 'DISPONIVEL', funcionarioId: null });
                     }
 
+                    // 2. Limpar Insumos do Funcionário
+                    await editFuncionario(id, { insumos: [] });
+                    funcionario.insumos = [];
+
+                    // 3. Montar snapshots combinados
+                    const eqpSnaps = equipamentosEmPosse.map(eq => ({
+                        id: eq.id,
+                        descricao: eq.descricao,
+                        modeloMarca: eq.modeloMarca,
+                        patrimonio: eq.patrimonio || null,
+                        serialNumber: eq.serialNumber || null
+                    }));
+
+                    const insumoSnaps = insumosEmPosse.map(ins => ({
+                        id: ins.insumoId || ins.id,
+                        descricao: ins.quantidade > 1 ? `${ins.nome} (${ins.quantidade} un)` : ins.nome,
+                        modeloMarca: ins.marca || '',
+                        patrimonio: null,
+                        serialNumber: null
+                    }));
+
+                    const allReturnedSnaps = [...eqpSnaps, ...insumoSnaps];
+
                     await addHistorico({
                         tipo: 'DEVOLUCAO_COMPLETA',
                         funcionarioId: id,
+                        funcionarioSnapshot: {
+                            id: funcionario.id,
+                            nome: funcionario.nome,
+                            funcao: funcionario.funcao || 'Não Informado',
+                            setor: funcionario.setor || null
+                        },
                         equipamentosIds: equipamentosEmPosse.map(e => e.id),
-                        equipamentosSnapshots: equipamentosEmPosse.map(eq => ({ id: eq.id, descricao: eq.descricao, modeloMarca: eq.modeloMarca })),
+                        equipamentosSnapshots: allReturnedSnaps,
                         data: todayStrInput
                     });
                 } catch (err) {
@@ -1027,13 +1198,24 @@ window.renderFuncionarioPerfil = (id) => {
                     return;
                 }
 
-                const itensDevolvidos = equipamentosEmPosse.map(eqp => `
-                                    <tr>
-                                        <td><strong>${eqp.descricao}</strong></td>
-                                        <td>${eqp.modeloMarca}</td>
-                                        <td>(   ) OK  (   ) Avariado</td>
-                                    </tr>
-                                `).join('');
+                const itensDevolvidosHTML = [
+                    ...equipamentosEmPosse.map(eqp => `
+                        <tr>
+                            <td><strong>${eqp.patrimonio || '-'}</strong></td>
+                            <td>${eqp.descricao}</td>
+                            <td>${eqp.modeloMarca || '-'}</td>
+                            <td>(   ) OK  (   ) Avariado</td>
+                        </tr>
+                    `),
+                    ...insumosEmPosse.map(ins => `
+                        <tr>
+                            <td>-</td>
+                            <td>${ins.nome} ${ins.quantidade > 1 ? `(${ins.quantidade} un)` : ''}</td>
+                            <td>${ins.marca || '-'}</td>
+                            <td>(   ) OK  (   ) Avariado</td>
+                        </tr>
+                    `)
+                ].join('');
 
                 // 2. Gerar Recibo de Devolução (PDF Window)
                 const printWindow = window.open('', '_blank');
@@ -1052,10 +1234,10 @@ window.renderFuncionarioPerfil = (id) => {
                             .info-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
                             .info-box p { margin: 5px 0; }
                             table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-                            th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: left; }
+                            th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
                             th { background-color: #f1f5f9; font-weight: bold; text-transform: uppercase; font-size: 12px; color: #475569; }
-                            td { font-size: 14px; }
-                            .signatures { margin-top: 80px; display: flex; justify-content: space-between; }
+                            td { font-size: 13px; }
+                            .signatures { margin-top: 60px; display: flex; justify-content: space-between; }
                             .signature-line { width: 45%; border-top: 1px solid #000; text-align: center; padding-top: 10px; }
                             .signature-line p { margin: 0; font-weight: bold; font-size: 14px; }
                             .signature-line span { font-size: 12px; color: #64748b; }
@@ -1065,7 +1247,7 @@ window.renderFuncionarioPerfil = (id) => {
                     <body onload="window.print()">
                         <div class="header">
                             <h1>Recibo de Devolução Completa</h1>
-                            <p>Limbus - Gestão de Equipamentos</p>
+                            <p>Limbus - Gestão de Ativos e Insumos de TI</p>
                         </div>
                         
                         <div class="info-box">
@@ -1074,28 +1256,28 @@ window.renderFuncionarioPerfil = (id) => {
                             <p><strong>Data e Hora da Devolução:</strong> ${dataRealStr} às ${timeStr}</p>
                         </div>
 
-                        <h3>Itens Devolvidos</h3>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Equipamento</th>
-                                    <th>Modelo / Marca</th>
-                                    <th>Status Recebido</th>
+                                    <th width="20%">Patrimônio</th>
+                                    <th width="40%">Descrição do Item</th>
+                                    <th width="25%">Modelo / Marca</th>
+                                    <th width="15%">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${itensDevolvidos}
+                                ${itensDevolvidosHTML}
                             </tbody>
                         </table>
 
                         <div class="signatures">
                             <div class="signature-line">
                                 <p>${funcionario.nome}</p>
-                                <span>Assinatura do Funcionário</span>
+                                <span>Assinatura do Colaborador</span>
                             </div>
                             <div class="signature-line">
                                 <p>Responsável TI</p>
-                                <span>Assinatura do Recebedor</span>
+                                <span>Assinatura e Carimbo TI</span>
                             </div>
                         </div>
                     </body>
@@ -1103,12 +1285,11 @@ window.renderFuncionarioPerfil = (id) => {
                     `;
                     printWindow.document.write(htmlContent);
                     printWindow.document.close();
-                } else {
-                    showToast('Equipamentos devolvidos, mas não foi possível abrir o Recibo (pop-up bloqueado).', 'warning');
                 }
 
-                // 3. Atualizar a tela
-                renderFuncionarioPerfil(id);
+                showToast('Devolução completa realizada com sucesso!', 'success');
+                hideModal();
+
                 const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
                 if (currentView === 'funcionarios') {
                     renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));

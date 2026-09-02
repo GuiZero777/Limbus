@@ -133,7 +133,11 @@ app.delete('/api/empresas/:id', handle(async (req, res) => {
 app.get('/api/funcionarios', handle(async (req, res) => {
     const { data, error } = await supabase.from('funcionarios').select('*');
     if (error) throw error;
-    res.json(data || []);
+    const parsed = (data || []).map(f => ({
+        ...f,
+        insumos: Array.isArray(f.insumos) ? f.insumos : (typeof f.insumos === 'string' ? JSON.parse(f.insumos || '[]') : [])
+    }));
+    res.json(parsed);
 }));
 
 app.post('/api/funcionarios', handle(async (req, res) => {
@@ -141,14 +145,15 @@ app.post('/api/funcionarios', handle(async (req, res) => {
     const funcao       = str(req.body.funcao,        'funcao', { max: 100 });
     const dataAdmissao = date(req.body.dataAdmissao, 'dataAdmissao');
     const setor        = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
+    const insumos      = Array.isArray(req.body.insumos) ? req.body.insumos : [];
 
     const id = generateId();
     const { error } = await supabase.from('funcionarios').insert([{
-        id, nome, funcao, dataAdmissao, setor
+        id, nome, funcao, dataAdmissao, setor, insumos
     }]);
 
     if (error) throw error;
-    res.status(201).json({ id, nome, funcao, dataAdmissao, setor });
+    res.status(201).json({ id, nome, funcao, dataAdmissao, setor, insumos });
 }));
 
 app.post('/api/funcionarios/bulk', handle(async (req, res) => {
@@ -168,7 +173,7 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
         const dataAdmissao = date(func.dataAdmissao,             'dataAdmissao');
         const setor        = func.setor ? str(func.setor, 'setor', { max: 100 }) : null;
         const id = generateId();
-        toInsert.push({ id, nome, funcao, dataAdmissao, setor });
+        toInsert.push({ id, nome, funcao, dataAdmissao, setor, insumos: [] });
     }
 
     if (toInsert.length > 0) {
@@ -180,14 +185,18 @@ app.post('/api/funcionarios/bulk', handle(async (req, res) => {
 }));
 
 app.put('/api/funcionarios/:id', handle(async (req, res) => {
-    const id           = uuid(req.params.id,          'id');
-    const nome         = str(req.body.nome,            'nome',   { max: 150 });
-    const funcao       = str(req.body.funcao,           'funcao', { max: 100 });
-    const dataAdmissao = date(req.body.dataAdmissao,   'dataAdmissao');
-    const setor        = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
+    const id = uuid(req.params.id, 'id');
+    const updatePayload = {};
+    if (req.body.nome !== undefined) updatePayload.nome = str(req.body.nome, 'nome', { max: 150 });
+    if (req.body.funcao !== undefined) updatePayload.funcao = str(req.body.funcao, 'funcao', { max: 100 });
+    if (req.body.dataAdmissao !== undefined) updatePayload.dataAdmissao = date(req.body.dataAdmissao, 'dataAdmissao');
+    if (req.body.setor !== undefined) updatePayload.setor = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
+    if (req.body.insumos !== undefined) {
+        updatePayload.insumos = Array.isArray(req.body.insumos) ? req.body.insumos : [];
+    }
 
     const { data, error } = await supabase.from('funcionarios')
-        .update({ nome, funcao, dataAdmissao, setor })
+        .update(updatePayload)
         .eq('id', id)
         .select()
         .maybeSingle();
@@ -200,6 +209,26 @@ app.put('/api/funcionarios/:id', handle(async (req, res) => {
 
 app.delete('/api/funcionarios/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
+    
+    // Obter dados do funcionário para garantir snapshot histórico imutável
+    const { data: func } = await supabase.from('funcionarios').select('*').eq('id', id).maybeSingle();
+    if (func) {
+        const { data: histList } = await supabase.from('historico').select('*').eq('funcionarioId', id);
+        if (histList && histList.length > 0) {
+            for (const h of histList) {
+                if (!h.funcionarioSnapshot) {
+                    const snap = JSON.stringify({
+                        id: func.id,
+                        nome: func.nome,
+                        funcao: func.funcao || 'Não Informado',
+                        setor: func.setor || null
+                    });
+                    await supabase.from('historico').update({ funcionarioSnapshot: snap }).eq('id', h.id);
+                }
+            }
+        }
+    }
+
     const { error } = await supabase.from('funcionarios').delete().eq('id', id);
     if (error) throw error;
     res.status(204).send();
@@ -263,6 +292,56 @@ app.delete('/api/setores/:name', handle(async (req, res) => {
         .update({ setor: null })
         .eq('setor', name);
 
+    if (error) throw error;
+    res.status(204).send();
+}));
+
+// =============================================================
+// INSUMOS (PERIFÉRICOS & CONSUMÍVEIS SEM PATRIMÔNIO)
+// =============================================================
+
+app.get('/api/insumos', handle(async (req, res) => {
+    const { data, error } = await supabase.from('insumos').select('*');
+    if (error) throw error;
+    res.json(data || []);
+}));
+
+app.post('/api/insumos', handle(async (req, res) => {
+    const nome       = str(req.body.nome, 'nome', { max: 150 });
+    const marca      = req.body.marca ? str(req.body.marca, 'marca', { max: 100 }) : '';
+    const quantidade = Math.max(0, parseInt(req.body.quantidade, 10) || 0);
+
+    const id = generateId();
+    const { error } = await supabase.from('insumos').insert([{
+        id, nome, marca, quantidade
+    }]);
+
+    if (error) throw error;
+    res.status(201).json({ id, nome, marca, quantidade });
+}));
+
+app.put('/api/insumos/:id', handle(async (req, res) => {
+    const id = uuid(req.params.id, 'id');
+    const updatePayload = {};
+    if (req.body.nome !== undefined) updatePayload.nome = str(req.body.nome, 'nome', { max: 150 });
+    if (req.body.marca !== undefined) updatePayload.marca = req.body.marca ? str(req.body.marca, 'marca', { max: 100 }) : '';
+    if (req.body.quantidade !== undefined) updatePayload.quantidade = Math.max(0, parseInt(req.body.quantidade, 10) || 0);
+
+    const { data, error } = await supabase.from('insumos')
+        .update(updatePayload)
+        .eq('id', id)
+        .select()
+        .maybeSingle();
+
+    if (error) throw error;
+    if (!data) throw new ValidationError('Insumo não encontrado');
+
+    res.json(data);
+}));
+
+app.delete('/api/insumos/:id', handle(async (req, res) => {
+    const id = uuid(req.params.id, 'id');
+    const { error } = await supabase.from('insumos').delete().eq('id', id);
     if (error) throw error;
     res.status(204).send();
 }));
@@ -360,6 +439,9 @@ app.get('/api/historico', handle(async (req, res) => {
         if (typeof h.equipamentoSnapshot === 'string') {
             try { h.equipamentoSnapshot = JSON.parse(h.equipamentoSnapshot); } catch(e) {}
         }
+        if (typeof h.funcionarioSnapshot === 'string') {
+            try { h.funcionarioSnapshot = JSON.parse(h.funcionarioSnapshot); } catch(e) {}
+        }
         return h;
     });
     res.json(parsed);
@@ -374,6 +456,7 @@ app.post('/api/historico', handle(async (req, res) => {
     let equipamentosIds = req.body.equipamentosIds ?? null;
     let equipamentoSnapshot = req.body.equipamentoSnapshot ?? null;
     let equipamentosSnapshots = req.body.equipamentosSnapshots ?? null;
+    let funcionarioSnapshot = req.body.funcionarioSnapshot ?? null;
 
     if (equipamentoId !== null) {
         equipamentoId = uuid(equipamentoId, 'equipamentoId');
@@ -384,15 +467,30 @@ app.post('/api/historico', handle(async (req, res) => {
         equipamentosIds = equipamentosIds.map((eid, i) => uuid(eid, `equipamentosIds[${i}]`));
     }
 
+    // Auto-preenchimento do snapshot do funcionário se não fornecido
+    if (!funcionarioSnapshot) {
+        const { data: funcData } = await supabase.from('funcionarios').select('*').eq('id', funcionarioId).maybeSingle();
+        if (funcData) {
+            funcionarioSnapshot = {
+                id: funcData.id,
+                nome: funcData.nome,
+                funcao: funcData.funcao || 'Não Informado',
+                setor: funcData.setor || null
+            };
+        }
+    }
+
     const stringifiedIds = equipamentosIds ? JSON.stringify(equipamentosIds) : null;
     const stringifiedSnapshots = equipamentosSnapshots ? JSON.stringify(equipamentosSnapshots) : null;
     const stringifiedSnapshot = equipamentoSnapshot ? JSON.stringify(equipamentoSnapshot) : null;
+    const stringifiedFuncSnapshot = funcionarioSnapshot ? JSON.stringify(funcionarioSnapshot) : null;
 
     const id = generateId();
     const timestamp = new Date().toISOString();
 
     const { error } = await supabase.from('historico').insert([{
-        id, tipo, 'funcionarioId': funcionarioId, 'equipamentoId': equipamentoId, 'equipamentosIds': stringifiedIds, data: dataVal, timestamp,
+        id, tipo, 'funcionarioId': funcionarioId, 'funcionarioSnapshot': stringifiedFuncSnapshot,
+        'equipamentoId': equipamentoId, 'equipamentosIds': stringifiedIds, data: dataVal, timestamp,
         'equipamentoSnapshot': stringifiedSnapshot, 'equipamentosSnapshots': stringifiedSnapshots
     }]);
 
@@ -402,7 +500,7 @@ app.post('/api/historico', handle(async (req, res) => {
     }
 
     res.status(201).json({
-        id, tipo, funcionarioId, equipamentoId, equipamentosIds, data: dataVal, timestamp,
+        id, tipo, funcionarioId, funcionarioSnapshot, equipamentoId, equipamentosIds, data: dataVal, timestamp,
         equipamentoSnapshot, equipamentosSnapshots
     });
 }));

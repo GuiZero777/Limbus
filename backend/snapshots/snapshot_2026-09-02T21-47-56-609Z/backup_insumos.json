@@ -1,0 +1,44 @@
+[
+  {
+    "id": "10000000-0000-0000-0000-000000000001",
+    "nome": "Mouse USB",
+    "marca": "Logitech",
+    "quantidade": 10
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000002",
+    "nome": "Teclado USB",
+    "marca": "Dell KB216",
+    "quantidade": 25
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000003",
+    "nome": "Kit Teclado e Mouse",
+    "marca": "Logitech",
+    "quantidade": 20
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000004",
+    "nome": "Suporte de Notebook",
+    "marca": "Articulado Alumínio",
+    "quantidade": 20
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000005",
+    "nome": "Mousepad",
+    "marca": "Mais Internet",
+    "quantidade": 40
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000006",
+    "nome": "Headset",
+    "marca": "HyperX",
+    "quantidade": 20
+  },
+  {
+    "id": "e2b566cb-c84a-442f-b5d8-e8f5e937a0c6",
+    "nome": "Headset",
+    "marca": "USB",
+    "quantidade": 1
+  }
+]

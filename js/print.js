@@ -188,23 +188,26 @@ const generateAndPrintTermo = (funcionario, empresa, equipamentos, dataEntrega) 
         <table>
             <thead>
                 <tr>
-                    <th width="40%">DESCRIÇÃO DO EQUIPAMENTO</th>
-                    <th width="25%">MODELO/MARCA</th>
-                    <th width="15%">DATA</th>
-                    <th width="20%">ASSINATURA</th>
+                    <th width="18%">PATRIMÔNIO</th>
+                    <th width="32%">DESCRIÇÃO DO EQUIPAMENTO</th>
+                    <th width="24%">MODELO / MARCA</th>
+                    <th width="13%">DATA</th>
+                    <th width="13%">ASSINATURA</th>
                 </tr>
             </thead>
             <tbody>
                 ${equipamentos.map(eq => `
                     <tr>
-                        <td>${eq.descricao}</td>
-                        <td>${eq.modeloMarca}</td>
+                        <td><strong>${eq.patrimonio || ''}</strong></td>
+                        <td>${eq.descricao || eq.nome || ''}</td>
+                        <td>${eq.modeloMarca || eq.marca || ''}</td>
                         <td><strong>${formatInputDate(dataEquipamento)}</strong></td>
                         <td></td>
                     </tr>
                 `).join('')}
                 ${Array(Math.max(0, 5 - equipamentos.length)).fill(`
                     <tr>
+                        <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>

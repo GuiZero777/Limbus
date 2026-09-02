@@ -1,13 +1,30 @@
 // js/ui.js
 
 // === MODAL SYSTEM ===
-const showModal = (contentHTML) => {
+const showModal = (contentOrTitle, bodyContent = null) => {
     const modalContainer = document.getElementById('modal-container');
     const modalContent = document.getElementById('modal-content');
 
-    modalContent.innerHTML = contentHTML;
+    let finalHTML = contentOrTitle;
+    if (bodyContent !== null) {
+        finalHTML = `
+            <div class="p-6">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700/80">
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">${contentOrTitle}</h3>
+                    <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                ${bodyContent}
+            </div>
+        `;
+    }
+
+    modalContent.innerHTML = finalHTML;
     modalContainer.classList.remove('hidden');
     modalContainer.classList.add('flex');
+
+    if (window.lucide) window.lucide.createIcons({ nodes: [modalContent] });
 
     // Add enter animation classes
     setTimeout(() => {
