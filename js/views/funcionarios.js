@@ -997,11 +997,16 @@ window.renderFuncionarioPerfil = (id) => {
                                 <i data-lucide="box" class="w-5 h-5 text-primary"></i>
                                 <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100">Posse Atual</h4>
                             </div>
-                            ${totalItensEmPosse > 1 ? `
-                            <button id="btn-devolver-todos" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1 shadow-sm">
-                                <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver Todos
-                            </button>
-                            ` : ''}
+                            <div class="flex items-center gap-2">
+                                <button id="btn-alocar-insumo-perfil" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-2.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1 shadow-2xs" title="Entregar um insumo ou periférico diretamente a este colaborador">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i> Alocar Insumo
+                                </button>
+                                ${totalItensEmPosse > 1 ? `
+                                <button id="btn-devolver-todos" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1 shadow-2xs">
+                                    <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver Todos
+                                </button>
+                                ` : ''}
+                            </div>
                         </div>
                         ${posseHTML}
                     </div>
@@ -1141,6 +1146,21 @@ window.renderFuncionarioPerfil = (id) => {
             }
         });
     });
+
+    const btnAlocarInsumo = document.getElementById('btn-alocar-insumo-perfil');
+    if (btnAlocarInsumo) {
+        btnAlocarInsumo.addEventListener('click', () => {
+            showAlocarInsumoParaFuncionarioModal(funcionario, () => {
+                renderFuncionarioPerfil(id);
+                const currentView = document.querySelector('a.nav-btn.active')?.dataset.view;
+                if (currentView === 'funcionarios') {
+                    renderFuncionarios(document.getElementById('content-area'), document.getElementById('header-actions'));
+                } else if (currentView === 'insumos') {
+                    renderInsumos(document.getElementById('content-area'), document.getElementById('header-actions'));
+                }
+            });
+        });
+    }
 
     const btnDevolverTodos = document.getElementById('btn-devolver-todos');
     if (btnDevolverTodos) {
@@ -1299,4 +1319,154 @@ window.renderFuncionarioPerfil = (id) => {
             }
         });
     }
+};
+
+const showAlocarInsumoParaFuncionarioModal = (funcionario, onComplete) => {
+    const insumosDisponiveis = getInsumos().filter(ins => ins.disponivel > 0).sort((a, b) => a.nome.localeCompare(b.nome));
+
+    if (insumosDisponiveis.length === 0) {
+        showToast('Não há insumos com estoque disponível no momento.', 'warning');
+        return;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    const formHTML = `
+        <div class="p-6">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700/80">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-100 dark:border-indigo-900/40">
+                        <i data-lucide="box" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Alocar Insumo</h3>
+                </div>
+                <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="bg-indigo-50/70 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-200 p-3.5 rounded-xl mb-4 text-xs sm:text-sm border border-indigo-100 dark:border-indigo-900/50">
+                <strong>Destinatário:</strong> ${funcionario.nome} &bull; ${funcionario.funcao || 'Sem cargo'} (${funcionario.setor || 'Sem setor'})
+            </div>
+
+            <form id="form-alocar-insumo-func" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Escolha o Insumo *</label>
+                    <select name="insumoId" id="select-insumo-escolhido" required class="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 outline-none text-sm dark:text-slate-100 font-medium">
+                        <option value="" disabled selected>Selecione um insumo disponível...</option>
+                        ${insumosDisponiveis.map(ins => `<option value="${ins.id}" data-max="${ins.disponivel}" data-nome="${ins.nome}" data-marca="${ins.marca || ''}">${ins.nome} ${ins.marca ? `(${ins.marca})` : ''} - [${ins.disponivel} disp.]</option>`).join('')}
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Quantidade *</label>
+                        <input type="number" id="input-qtd-aloc" name="quantidade" min="1" max="${insumosDisponiveis[0]?.disponivel || 1}" value="1" required class="w-full px-3.5 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 outline-none text-sm dark:text-slate-100">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Data da Entrega *</label>
+                        <input type="date" name="dataEntrega" required max="${todayStr}" value="${todayStr}" class="w-full px-3.5 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 outline-none text-sm dark:text-slate-100">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/60">
+                    <button type="button" class="btn-cancel px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors">Cancelar</button>
+                    <button type="submit" class="btn-primary px-5 py-2 text-sm text-white font-medium rounded-lg shadow-sm flex items-center gap-2">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Confirmar Entrega</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+
+    showModal(formHTML);
+    if (window.lucide) window.lucide.createIcons();
+
+    const selectInsumo = document.getElementById('select-insumo-escolhido');
+    const inputQtd = document.getElementById('input-qtd-aloc');
+
+    selectInsumo?.addEventListener('change', (e) => {
+        const selectedOpt = e.target.selectedOptions[0];
+        const maxDisp = parseInt(selectedOpt?.dataset.max, 10) || 1;
+        inputQtd.max = maxDisp;
+        if (parseInt(inputQtd.value, 10) > maxDisp) inputQtd.value = maxDisp;
+    });
+
+    document.getElementById('form-alocar-insumo-func')?.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const formData = new FormData(ev.target);
+        const insumoId = formData.get('insumoId');
+        const qtd = parseInt(formData.get('quantidade'), 10) || 1;
+        const dataEntrega = formData.get('dataEntrega');
+
+        const selectedOpt = selectInsumo.selectedOptions[0];
+        const insumoNome = selectedOpt?.dataset.nome || 'Insumo';
+        const insumoMarca = selectedOpt?.dataset.marca || '';
+        const maxDisp = parseInt(selectedOpt?.dataset.max, 10) || 1;
+
+        if (qtd <= 0 || qtd > maxDisp) {
+            showToast(`Quantidade inválida. Máximo disponível: ${maxDisp}`, 'warning');
+            return;
+        }
+
+        try {
+            let currentInsumos = Array.isArray(funcionario.insumos) ? [...funcionario.insumos] : [];
+            if (typeof funcionario.insumos === 'string') {
+                try { currentInsumos = JSON.parse(funcionario.insumos); } catch (e) { currentInsumos = []; }
+            }
+
+            const existingIdx = currentInsumos.findIndex(i => (i.insumoId === insumoId || i.id === insumoId));
+            if (existingIdx !== -1) {
+                currentInsumos[existingIdx].quantidade = (parseInt(currentInsumos[existingIdx].quantidade, 10) || 0) + qtd;
+            } else {
+                currentInsumos.push({
+                    insumoId: insumoId,
+                    nome: insumoNome,
+                    marca: insumoMarca,
+                    quantidade: qtd
+                });
+            }
+
+            await editFuncionario(funcionario.id, { insumos: currentInsumos });
+            funcionario.insumos = currentInsumos;
+
+            const descStr = qtd > 1 ? `${insumoNome} (${qtd} un)` : insumoNome;
+            await addHistorico({
+                tipo: 'ALOCACAO_MANUAL',
+                funcionarioId: funcionario.id,
+                funcionarioSnapshot: {
+                    id: funcionario.id,
+                    nome: funcionario.nome,
+                    funcao: funcionario.funcao || 'Não Informado',
+                    setor: funcionario.setor || null
+                },
+                equipamentoSnapshot: {
+                    id: insumoId,
+                    descricao: descStr,
+                    modeloMarca: insumoMarca,
+                    patrimonio: null,
+                    serialNumber: null
+                },
+                equipamentosSnapshots: [{
+                    id: insumoId,
+                    descricao: descStr,
+                    modeloMarca: insumoMarca,
+                    patrimonio: null,
+                    serialNumber: null
+                }],
+                data: dataEntrega
+            });
+
+            showToast(`${qtd}x "${insumoNome}" alocado(s) com sucesso para ${funcionario.nome}!`, 'success');
+            if (onComplete) onComplete();
+        } catch (err) {
+            showToast(err.message, 'error');
+        }
+    });
+
+    document.querySelector('.btn-cancel')?.addEventListener('click', () => {
+        if (onComplete) onComplete();
+        else hideModal();
+    });
 };

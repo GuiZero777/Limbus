@@ -4294,5 +4294,53 @@
     "timestamp": "2026-09-02T21:11:37.882Z",
     "equipamentoSnapshot": "{\"id\":\"2bf45840-d4ff-453a-bacf-1b81aff66ee9\",\"descricao\":\"Monitor\",\"modeloMarca\":\"LG 24MP400-B\",\"patrimonio\":\"40382\",\"serialNumber\":\"308AZUJ4P846\"}",
     "equipamentosSnapshots": null
+  },
+  {
+    "id": "5c6c96a7-31e1-4cc9-bb4e-5c51add0215a",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "funcionarioSnapshot": "{\"id\":\"8e8504d5-95c3-4ebe-935e-1d329ce0d6af\",\"nome\":\"MIHAY FERREIRA\",\"funcao\":\"Não Informado\",\"setor\":\"COMERCIAL\"}",
+    "equipamentoId": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
+    "equipamentosIds": null,
+    "data": "2026-09-10",
+    "timestamp": "2026-09-10T18:36:32.012Z",
+    "equipamentoSnapshot": "{\"id\":\"71054f4f-b7ad-4a5f-b7f0-8e0645822c4f\",\"descricao\":\"Monitor\",\"modeloMarca\":\"Moob M24F\",\"patrimonio\":\"28184\",\"serialNumber\":\"M24FAB100BR20101121\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "a9dcad15-2221-48d1-971d-0a5db74809d0",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "funcionarioSnapshot": "{\"id\":\"555816e5-550d-47e1-b89c-ea73961f0466\",\"nome\":\"KAUÃ DE OLIVEIRA DOURADO\",\"funcao\":\"Vendedor\",\"setor\":\"COMERCIAL\"}",
+    "equipamentoId": "06576130-8bd8-4048-8d5f-19f6c43c9310",
+    "equipamentosIds": null,
+    "data": "2026-09-16",
+    "timestamp": "2026-09-16T16:32:55.997Z",
+    "equipamentoSnapshot": "{\"id\":\"06576130-8bd8-4048-8d5f-19f6c43c9310\",\"descricao\":\"Notebook e Fonte\",\"modeloMarca\":\"Lenovo Ideapad 1 15IAU7\",\"patrimonio\":\"49190\",\"serialNumber\":\"PE9015328130\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "7e13b49c-7c00-415c-af1b-d4e14635178c",
+    "tipo": "DEVOLUCAO",
+    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "funcionarioSnapshot": "{\"id\":\"555816e5-550d-47e1-b89c-ea73961f0466\",\"nome\":\"KAUÃ DE OLIVEIRA DOURADO\",\"funcao\":\"Vendedor\",\"setor\":\"COMERCIAL\"}",
+    "equipamentoId": "c88608ed-ed94-4cd0-a5cf-ed78ba224f9e",
+    "equipamentosIds": null,
+    "data": "2026-09-16",
+    "timestamp": "2026-09-16T16:33:14.271Z",
+    "equipamentoSnapshot": "{\"id\":\"c88608ed-ed94-4cd0-a5cf-ed78ba224f9e\",\"descricao\":\"All in one e Fonte\",\"modeloMarca\":\"Samsung DP500A2L-KW1BR\",\"patrimonio\":\"6159\",\"serialNumber\":\"07CH9QCH800840\"}",
+    "equipamentosSnapshots": null
+  },
+  {
+    "id": "d3619342-2a74-46f2-bbcd-a544ca4f5c6f",
+    "tipo": "ENTREGA",
+    "funcionarioId": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
+    "funcionarioSnapshot": "{\"id\":\"d755e1a6-d45d-4f26-ab1e-2ab664432f2e\",\"nome\":\"Kelly Tobias Bonanati\",\"funcao\":\"Vendedor interno\",\"setor\":\"COMERCIAL\"}",
+    "equipamentoId": null,
+    "equipamentosIds": "[\"c88608ed-ed94-4cd0-a5cf-ed78ba224f9e\",\"06576130-8bd8-4048-8d5f-19f6c43c9310\"]",
+    "data": "2026-09-15",
+    "timestamp": "2026-09-16T16:34:52.849Z",
+    "equipamentoSnapshot": null,
+    "equipamentosSnapshots": "[{\"id\":\"c88608ed-ed94-4cd0-a5cf-ed78ba224f9e\",\"descricao\":\"All in one e Fonte\",\"modeloMarca\":\"Samsung DP500A2L-KW1BR\",\"patrimonio\":\"6159\",\"serialNumber\":\"07CH9QCH800840\"},{\"id\":\"06576130-8bd8-4048-8d5f-19f6c43c9310\",\"descricao\":\"Notebook e Fonte\",\"modeloMarca\":\"Lenovo Ideapad 1 15IAU7\",\"patrimonio\":\"49190\",\"serialNumber\":\"PE9015328130\"},{\"id\":\"10000000-0000-0000-0000-000000000003\",\"descricao\":\"Kit Teclado e Mouse\",\"modeloMarca\":\"Logitech\",\"patrimonio\":\"\",\"serialNumber\":null},{\"id\":\"10000000-0000-0000-0000-000000000004\",\"descricao\":\"Suporte de Notebook\",\"modeloMarca\":\"Articulado Alumínio\",\"patrimonio\":\"\",\"serialNumber\":null},{\"id\":\"10000000-0000-0000-0000-000000000005\",\"descricao\":\"Mousepad\",\"modeloMarca\":\"Mais Internet\",\"patrimonio\":\"\",\"serialNumber\":null},{\"id\":\"4b42d9b0-a9ff-430b-8614-d1762ae64a2c\",\"descricao\":\"Headset USB\",\"modeloMarca\":\"Yealink\",\"patrimonio\":\"\",\"serialNumber\":null}]"
   }
 ]

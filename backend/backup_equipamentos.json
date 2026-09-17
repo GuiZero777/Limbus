@@ -14,7 +14,7 @@
     "descricao": "All in one e Fonte",
     "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "funcionarioId": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
     "patrimonio": "6159",
     "serialNumber": "07CH9QCH800840",
     "observacoes": null
@@ -573,8 +573,8 @@
     "id": "71054f4f-b7ad-4a5f-b7f0-8e0645822c4f",
     "descricao": "Monitor",
     "modeloMarca": "Moob M24F",
-    "status": "EM_USO",
-    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "28184",
     "serialNumber": "M24FAB100BR20101121",
     "observacoes": null
@@ -1034,7 +1034,7 @@
     "descricao": "Notebook e Fonte",
     "modeloMarca": "Lenovo Ideapad 1 15IAU7",
     "status": "EM_USO",
-    "funcionarioId": "555816e5-550d-47e1-b89c-ea73961f0466",
+    "funcionarioId": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
     "patrimonio": "49190",
     "serialNumber": "PE9015328130",
     "observacoes": "EQUIPAMENTO ENTREGUE NOVO"

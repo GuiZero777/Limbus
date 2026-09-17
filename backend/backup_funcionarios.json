@@ -728,5 +728,38 @@
         "quantidade": 1
       }
     ]
+  },
+  {
+    "id": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
+    "nome": "Kelly Tobias Bonanati",
+    "funcao": "Vendedor interno",
+    "dataAdmissao": "2026-09-15",
+    "setor": "COMERCIAL",
+    "insumos": [
+      {
+        "insumoId": "10000000-0000-0000-0000-000000000003",
+        "nome": "Kit Teclado e Mouse",
+        "marca": "Logitech",
+        "quantidade": 1
+      },
+      {
+        "insumoId": "10000000-0000-0000-0000-000000000004",
+        "nome": "Suporte de Notebook",
+        "marca": "Articulado Alumínio",
+        "quantidade": 1
+      },
+      {
+        "insumoId": "10000000-0000-0000-0000-000000000005",
+        "nome": "Mousepad",
+        "marca": "Mais Internet",
+        "quantidade": 1
+      },
+      {
+        "insumoId": "4b42d9b0-a9ff-430b-8614-d1762ae64a2c",
+        "nome": "Headset USB",
+        "marca": "Yealink",
+        "quantidade": 1
+      }
+    ]
   }
 ]

@@ -139,7 +139,11 @@ const renderInsumos = (container, headerActions, params = {}) => {
                             </div>
                         </td>
                         <td class="py-4 px-6 text-right">
-                            <div class="flex justify-end gap-1.5">
+                            <div class="flex justify-end items-center gap-1.5">
+                                <button data-id="${ins.id}" class="btn-alocar-insumo-rapido inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${ins.disponivel > 0 ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 shadow-2xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-60'} transition-all" title="${ins.disponivel > 0 ? 'Alocar este insumo para um colaborador' : 'Estoque disponível esgotado'}" ${ins.disponivel === 0 ? 'disabled' : ''}>
+                                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                                    <span>Alocar</span>
+                                </button>
                                 <button data-id="${ins.id}" class="btn-add-estoque-rapido text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 p-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors" title="Adicionar / Ajustar Estoque">
                                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                                 </button>
@@ -168,6 +172,15 @@ const renderInsumos = (container, headerActions, params = {}) => {
     };
 
     const bindInsumoEvents = () => {
+        document.querySelectorAll('.btn-alocar-insumo-rapido').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.dataset.id;
+                const insumo = getInsumoById(id);
+                if (!insumo) return;
+                showAlocarInsumoModal(insumo);
+            });
+        });
+
         document.querySelectorAll('.btn-add-estoque-rapido').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
@@ -218,6 +231,165 @@ const renderInsumos = (container, headerActions, params = {}) => {
                 }
             });
         });
+    };
+
+    const showAlocarInsumoModal = (insumo) => {
+        const funcionarios = getFuncionarios().sort((a, b) => a.nome.localeCompare(b.nome));
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        if (insumo.disponivel <= 0) {
+            showToast('Este insumo está com o estoque disponível esgotado.', 'warning');
+            return;
+        }
+
+        const formHTML = `
+            <div class="p-6">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700/80">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-100 dark:border-indigo-900/40">
+                            <i data-lucide="user-plus" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Alocar Insumo</h3>
+                    </div>
+                    <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="bg-indigo-50/70 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-200 p-3.5 rounded-xl mb-4 text-xs sm:text-sm border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-between">
+                    <div>
+                        <strong>Insumo:</strong> ${insumo.nome} ${insumo.marca ? `(${insumo.marca})` : ''}
+                    </div>
+                    <span class="inline-flex items-center font-bold px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs">
+                        ${insumo.disponivel} disponível(is)
+                    </span>
+                </div>
+
+                <form id="form-alocar-insumo" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Quem está recebendo este insumo? *</label>
+                        <input type="text" id="search-alocar-insumo-func" placeholder="Buscar funcionário por nome ou setor..." class="w-full border border-slate-300 dark:border-slate-600 rounded-t-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-primary outline-none mb-0 border-b-0 dark:text-slate-100 dark:bg-slate-900" autocomplete="off">
+                        <select name="funcionarioId" id="select-alocar-insumo-func" required size="5" class="w-full border border-slate-300 dark:border-slate-600 rounded-b-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                            <option value="" disabled>Selecione um colaborador abaixo...</option>
+                            ${funcionarios.map(f => `<option value="${f.id}">${f.nome} &bull; ${f.funcao || 'Sem cargo'} (${f.setor || 'Sem setor'})</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Quantidade *</label>
+                            <input type="number" name="quantidade" min="1" max="${insumo.disponivel}" value="1" required class="w-full px-3.5 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 outline-none text-sm dark:text-slate-100">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Data da Entrega *</label>
+                            <input type="date" name="dataEntrega" required max="${todayStr}" value="${todayStr}" class="w-full px-3.5 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 outline-none text-sm dark:text-slate-100">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/60">
+                        <button type="button" class="btn-cancel px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors">Cancelar</button>
+                        <button type="submit" class="btn-primary px-5 py-2 text-sm text-white font-medium rounded-lg shadow-sm flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                            <span>Confirmar Alocação</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        showModal(formHTML);
+        if (window.lucide) window.lucide.createIcons();
+
+        document.getElementById('search-alocar-insumo-func')?.addEventListener('input', (ev) => {
+            const term = (typeof normalizeText === 'function' ? normalizeText(ev.target.value) : ev.target.value.toLowerCase()).trim();
+            const options = document.getElementById('select-alocar-insumo-func').options;
+            for (let i = 1; i < options.length; i++) {
+                const opt = options[i];
+                const optText = typeof normalizeText === 'function' ? normalizeText(opt.text) : opt.text.toLowerCase();
+                opt.style.display = optText.includes(term) ? '' : 'none';
+            }
+        });
+
+        document.getElementById('form-alocar-insumo')?.addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+            const formData = new FormData(ev.target);
+            const fId = formData.get('funcionarioId');
+            const qtd = parseInt(formData.get('quantidade'), 10) || 1;
+            const dataEntrega = formData.get('dataEntrega');
+
+            if (!fId) {
+                showToast('Selecione um funcionário da lista.', 'warning');
+                return;
+            }
+
+            if (qtd <= 0 || qtd > insumo.disponivel) {
+                showToast(`Quantidade inválida. Máximo disponível: ${insumo.disponivel}`, 'warning');
+                return;
+            }
+
+            const targetFunc = getFuncionarioById(fId);
+            if (!targetFunc) {
+                showToast('Funcionário não encontrado.', 'error');
+                return;
+            }
+
+            try {
+                let currentInsumos = Array.isArray(targetFunc.insumos) ? [...targetFunc.insumos] : [];
+                if (typeof targetFunc.insumos === 'string') {
+                    try { currentInsumos = JSON.parse(targetFunc.insumos); } catch (e) { currentInsumos = []; }
+                }
+
+                const existingIdx = currentInsumos.findIndex(i => (i.insumoId === insumo.id || i.id === insumo.id));
+                if (existingIdx !== -1) {
+                    currentInsumos[existingIdx].quantidade = (parseInt(currentInsumos[existingIdx].quantidade, 10) || 0) + qtd;
+                } else {
+                    currentInsumos.push({
+                        insumoId: insumo.id,
+                        nome: insumo.nome,
+                        marca: insumo.marca || '',
+                        quantidade: qtd
+                    });
+                }
+
+                await editFuncionario(fId, { insumos: currentInsumos });
+                targetFunc.insumos = currentInsumos;
+
+                const descStr = qtd > 1 ? `${insumo.nome} (${qtd} un)` : insumo.nome;
+                await addHistorico({
+                    tipo: 'ALOCACAO_MANUAL',
+                    funcionarioId: fId,
+                    funcionarioSnapshot: {
+                        id: targetFunc.id,
+                        nome: targetFunc.nome,
+                        funcao: targetFunc.funcao || 'Não Informado',
+                        setor: targetFunc.setor || null
+                    },
+                    equipamentoSnapshot: {
+                        id: insumo.id,
+                        descricao: descStr,
+                        modeloMarca: insumo.marca || '',
+                        patrimonio: null,
+                        serialNumber: null
+                    },
+                    equipamentosSnapshots: [{
+                        id: insumo.id,
+                        descricao: descStr,
+                        modeloMarca: insumo.marca || '',
+                        patrimonio: null,
+                        serialNumber: null
+                    }],
+                    data: dataEntrega
+                });
+
+                showToast(`${qtd}x "${insumo.nome}" alocado(s) com sucesso para ${targetFunc.nome}!`, 'success');
+                hideModal();
+                renderInsumos(container, headerActions, { search: searchInput?.value || '' });
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        });
+
+        document.querySelector('.btn-cancel')?.addEventListener('click', hideModal);
     };
 
     const showInsumoFormModal = (insumo = null) => {

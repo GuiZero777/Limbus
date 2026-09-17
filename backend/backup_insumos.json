@@ -39,6 +39,12 @@
     "id": "e2b566cb-c84a-442f-b5d8-e8f5e937a0c6",
     "nome": "Headset",
     "marca": "USB",
-    "quantidade": 1
+    "quantidade": 2
+  },
+  {
+    "id": "4b42d9b0-a9ff-430b-8614-d1762ae64a2c",
+    "nome": "Headset USB",
+    "marca": "Yealink",
+    "quantidade": 8
   }
 ]
