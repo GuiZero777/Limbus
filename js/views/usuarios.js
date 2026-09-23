@@ -31,7 +31,7 @@ const renderUsuarios = async (container, headerActions) => {
                     <h2 class="text-2xl font-bold text-white flex items-center gap-2">
                         <i data-lucide="shield-check" class="text-indigo-400"></i> Controle de Usuários e Acessos
                     </h2>
-                    <p class="text-slate-400 text-sm mt-1">Cadastre e gerencie os operadores que podem utilizar o Limbus.</p>
+                    <p class="text-slate-400 text-sm mt-1">Cadastre e gerencie operadores e visualizadores do Limbus.</p>
                 </div>
                 <button id="btn-novo-usuario" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition-all">
                     <i data-lucide="user-plus" class="w-4 h-4"></i> Novo Usuário
@@ -42,7 +42,7 @@ const renderUsuarios = async (container, headerActions) => {
             <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
                 <div class="p-4 border-b border-slate-800 flex items-center justify-between">
                     <span class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                        <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i> Usuários Ativos no Sistema
+                        <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i> Usuários Cadastrados
                     </span>
                     <button id="btn-refresh-usuarios" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors" title="Recarregar lista">
                         <i data-lucide="refresh-cw" class="w-4 h-4"></i>
@@ -54,7 +54,7 @@ const renderUsuarios = async (container, headerActions) => {
                             <tr>
                                 <th class="px-6 py-4">Usuário / Nome</th>
                                 <th class="px-6 py-4">Login</th>
-                                <th class="px-6 py-4">Perfil / Cargo</th>
+                                <th class="px-6 py-4">Perfil de Acesso</th>
                                 <th class="px-6 py-4">Último Acesso</th>
                                 <th class="px-6 py-4">Status</th>
                                 <th class="px-6 py-4 text-right">Ações</th>
@@ -105,6 +105,13 @@ const carregarListaUsuarios = async () => {
             return;
         }
 
+        const getPerfilBadge = (perfil) => {
+            if (perfil === 'admin') {
+                return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Administrador</span>`;
+            }
+            return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Operador</span>`;
+        };
+
         tbody.innerHTML = usuarios.map(u => `
             <tr class="hover:bg-slate-800/40 transition-colors">
                 <td class="px-6 py-4">
@@ -114,7 +121,6 @@ const carregarListaUsuarios = async () => {
                         </div>
                         <div>
                             <p class="font-semibold text-white">${u.nome}</p>
-                            <p class="text-xs text-slate-400">${u.cargo || 'TI'}</p>
                         </div>
                     </div>
                 </td>
@@ -122,13 +128,7 @@ const carregarListaUsuarios = async () => {
                     ${u.usuario}
                 </td>
                 <td class="px-6 py-4">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        u.perfil === 'admin' 
-                            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' 
-                            : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
-                    }">
-                        ${u.perfil === 'admin' ? 'Administrador' : 'Operador'}
-                    </span>
+                    ${getPerfilBadge(u.perfil)}
                 </td>
                 <td class="px-6 py-4 text-xs text-slate-400">
                     ${u.ultimo_login ? new Date(u.ultimo_login).toLocaleString('pt-BR') : 'Nunca acessou'}
@@ -188,11 +188,7 @@ const abrirModalUsuario = (usuarioParaEditar = null) => {
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">Login / Nome de Usuário</label>
-                        <input type="text" id="input-user-login" required ${isEdit ? 'readonly disabled class="opacity-60 cursor-not-allowed"' : ''} value="${usuarioParaEditar?.usuario || ''}" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-slate-500" placeholder="Ex: guilherme ou g.bardalho">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Cargo / Departamento</label>
-                        <input type="text" id="input-user-cargo" value="${usuarioParaEditar?.cargo || 'TI'}" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-slate-500" placeholder="Ex: Suporte TI">
+                        <input type="text" id="input-user-login" required ${isEdit ? 'readonly disabled class="opacity-60 cursor-not-allowed"' : ''} value="${usuarioParaEditar?.usuario || ''}" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-slate-500" placeholder="Ex: guilherme ou visualizador">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
@@ -239,7 +235,6 @@ const abrirModalUsuario = (usuarioParaEditar = null) => {
         e.preventDefault();
         const nome = document.getElementById('input-user-nome').value;
         const usuario = document.getElementById('input-user-login').value;
-        const cargo = document.getElementById('input-user-cargo').value;
         const perfil = document.getElementById('input-user-perfil').value;
         const ativo = document.getElementById('input-user-ativo').value === 'true';
         const senha = document.getElementById('input-user-senha').value;
@@ -251,7 +246,7 @@ const abrirModalUsuario = (usuarioParaEditar = null) => {
             btn.textContent = 'Salvando...';
 
             if (isEdit) {
-                const body = { nome, cargo, perfil, ativo };
+                const body = { nome, perfil, ativo };
                 if (senha && senha.trim().length >= 4) body.nova_senha = senha.trim();
                 const res = await fetch(`/api/usuarios/${usuarioParaEditar.id}`, {
                     method: 'PUT',
@@ -270,7 +265,7 @@ const abrirModalUsuario = (usuarioParaEditar = null) => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${Auth.getToken()}`
                     },
-                    body: JSON.stringify({ nome, usuario, cargo, perfil, senha })
+                    body: JSON.stringify({ nome, usuario, perfil, senha })
                 });
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Erro ao criar usuário');
