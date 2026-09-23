@@ -3,9 +3,10 @@
 // GESTÃO DE USUÁRIOS E ACESSOS (Apenas Administradores)
 // ---------------------------------------------------------
 
-const renderUsuarios = async () => {
-    const mainContent = document.getElementById('main-content');
+const renderUsuarios = async (container, headerActions) => {
+    const mainContent = container || document.getElementById('content-area');
     if (!mainContent) return;
+    if (headerActions) headerActions.innerHTML = '';
 
     const currentUser = Auth.getUser();
     if (!currentUser || currentUser.perfil !== 'admin') {
