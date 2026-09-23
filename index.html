@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limbus - Gerador de Termos</title>
+    <title>Limbus - Gestão de Ativos e TI</title>
     <link rel="icon" type="image/png" href="logo_32.webp">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Main Scripts (Sequential) -->
     <script src="js/utils.js?v=2.0.2" defer></script>
+    <script src="js/auth.js?v=2.0.2" defer></script>
     <script src="js/store.js?v=2.0.2" defer></script>
     <script src="js/ui.js?v=2.0.2" defer></script>
     <script src="js/print.js?v=2.0.2" defer></script>
@@ -53,6 +54,7 @@
     <script src="js/views/gerador.js?v=2.0.2" defer></script>
     <script src="js/views/historico.js?v=2.0.2" defer></script>
     <script src="js/views/setores.js?v=2.0.2" defer></script>
+    <script src="js/views/usuarios.js?v=2.0.2" defer></script>
     <script src="js/search.js?v=2.0.2" defer></script>
     <script src="js/app.js?v=2.0.2" defer></script>
 </head>
@@ -63,121 +65,202 @@
     <!-- Toast Notifications Container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Sidebar Navigation -->
-    <aside
-        class="w-64 bg-dark dark:bg-slate-900 text-white flex flex-col h-full shadow-xl z-20 print:hidden transition-all duration-300 border-r border-slate-800">
-        <div class="p-6 border-b border-slate-800 flex justify-center items-center">
-            <h1 class="text-3xl font-bold tracking-tight sidebar-brand">
-                Limbus
-            </h1>
+    <!-- TELA DE LOGIN (Exibida quando não autenticado) -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 px-4">
+        <!-- Fundo decorativo sutil -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
         </div>
-        <nav class="flex-1 py-6 px-4 space-y-2">
-            <a href="#" data-view="dashboard"
-                class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all active relative">
-                <i data-lucide="layout-dashboard"></i>
-                <span>Início</span>
-            </a>
-            <a href="#" data-view="funcionarios"
-                class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                <i data-lucide="users"></i>
-                <span>Funcionários</span>
-            </a>
-            <div class="pt-4 mt-4 border-t border-slate-800">
-                <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cadastros Base</p>
-                <a href="#" data-view="empresas"
-                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                    <i data-lucide="building-2"></i>
-                    <span>Empresas (CNPJ)</span>
-                </a>
-                <a href="#" data-view="equipamentos"
-                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                    <i data-lucide="laptop"></i>
-                    <span>Equipamentos</span>
-                </a>
-                <a href="#" data-view="insumos"
-                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                    <i data-lucide="box"></i>
-                    <span>Insumos de TI</span>
-                </a>
-                <a href="#" data-view="setores"
-                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                    <i data-lucide="folder"></i>
-                    <span>Setores</span>
-                </a>
-                <a href="#" data-view="historico"
-                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
-                    <i data-lucide="history"></i>
-                    <span>Histórico Geral</span>
-                </a>
-            </div>
-        </nav>
-        <div class="p-4 border-t border-slate-800 text-xs text-slate-500 text-center flex flex-col items-center gap-3">
-            <div class="server-status">
-                <span class="server-status-dot"></span>
-                <span class="text-slate-400">Servidor online</span>
-            </div>
-            <span class="text-slate-600">Limbus V 2.0.0</span>
-            <button onclick="showInfoModal()"
-                class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">Saiba Mais</button>
-        </div>
-    </aside>
 
-    <!-- Main Content Area -->
-    <main
-        class="flex-1 flex flex-col h-full relative overflow-y-auto bg-slate-50 dark:bg-slate-950 print:bg-white print:overflow-visible transition-colors duration-200">
-        <!-- Top Header Container -->
-        <header
-            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-3.5 flex items-center justify-between gap-6 shadow-sm sticky top-0 z-10 print:hidden transition-colors duration-200">
-
-            <!-- Left: Page Title & Breadcrumb -->
-            <div class="flex-1 min-w-[180px] max-w-xs flex flex-col justify-center">
-                <div id="breadcrumb"
-                    class="hidden items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium pb-0.5"></div>
-                <h2 id="page-title" class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 placeholder-title tracking-tight">
-                    Início</h2>
+        <div class="relative w-full max-w-md bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-8 rounded-3xl shadow-2xl animate-fade-in">
+            <!-- Brand / Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600/15 border border-indigo-500/30 text-indigo-400 mb-3 shadow-inner">
+                    <i data-lucide="shield-lock" class="w-7 h-7"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-white sidebar-brand">Limbus</h1>
+                <p class="text-xs text-slate-400 mt-1 font-medium">Gestão Corporativa de Ativos & TI</p>
             </div>
 
-            <!-- Center: Wide & Clean Global Search (A "meiota" da barra de navegação geral) -->
-            <div class="flex-1 max-w-xl mx-2 hidden md:flex items-center justify-center">
-                <button id="btn-global-search" onclick="openCommandPalette()"
-                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 hover:text-slate-700 dark:hover:text-slate-200 border border-slate-200/90 dark:border-slate-700/80 text-sm font-medium transition-all shadow-2xs group cursor-pointer"
-                    title="Buscar no sistema (Ctrl+K ou /)">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <i data-lucide="search" class="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0"></i>
-                        <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium truncate">Buscar por funcionário, patrimônio, serial, setor, empresa...</span>
+            <!-- Login Form -->
+            <form id="form-login-app" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="login-input-usuario">Usuário</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <input type="text" id="login-input-usuario" required autocomplete="username"
+                            class="w-full pl-10 pr-3.5 py-3 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none placeholder-slate-500 transition-all"
+                            placeholder="Digite seu usuário">
                     </div>
-                    <kbd class="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-mono font-semibold text-slate-400 dark:text-slate-500 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-xs shrink-0 ml-2">
-                        <span>Ctrl</span><span>K</span>
-                    </kbd>
-                </button>
-            </div>
+                </div>
 
-            <!-- Right: Actions & Theme Toggle -->
-            <div class="flex-1 min-w-[180px] flex items-center justify-end gap-3">
-                <div id="header-actions" class="flex items-center gap-2"></div>
-                <!-- Mobile Search Trigger -->
-                <button onclick="openCommandPalette()"
-                    class="md:hidden p-2.5 rounded-xl text-slate-500 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-400 transition-all duration-200"
-                    title="Buscar no sistema (Ctrl+K)">
-                    <i data-lucide="search" class="w-5 h-5"></i>
-                </button>
-                <button id="theme-toggle"
-                    class="p-2.5 rounded-xl text-slate-500 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition-all duration-200 shrink-0"
-                    title="Alternar Tema Claro/Escuro">
-                    <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
-                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
-                </button>
-            </div>
-        </header>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="login-input-senha">Senha</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <i data-lucide="lock" class="w-4 h-4"></i>
+                        </div>
+                        <input type="password" id="login-input-senha" required autocomplete="current-password"
+                            class="w-full pl-10 pr-10 py-3 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none placeholder-slate-500 transition-all"
+                            placeholder="••••••••">
+                        <button type="button" id="btn-toggle-login-pass" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 transition-colors">
+                            <i data-lucide="eye" id="icon-eye-login" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
 
-        <!-- Dynamic Content Container -->
-        <div id="content-area" class="flex-1 p-8 print:p-0">
-            <!-- As telas serão renderizadas aqui via JS -->
-            <div class="flex items-center justify-center h-full text-slate-400">
-                <i data-lucide="loader-2" class="animate-spin w-8 h-8"></i>
+                <div id="login-error-alert" class="hidden p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                    <span id="login-error-text">Credenciais inválidas.</span>
+                </div>
+
+                <button type="submit" id="btn-submit-login"
+                    class="w-full mt-2 py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                    <span>Entrar no Sistema</span>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-4 border-t border-slate-800 text-center">
+                <p class="text-[11px] text-slate-500">Sessão protegida e persistente por 24 horas</p>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- APLICAÇÃO PRINCIPAL (Sidebar + Main) -->
+    <div id="app-wrapper" class="flex w-full h-full">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="w-64 bg-dark dark:bg-slate-900 text-white flex flex-col h-full shadow-xl z-20 print:hidden transition-all duration-300 border-r border-slate-800">
+            <div class="p-6 border-b border-slate-800 flex justify-center items-center">
+                <h1 class="text-3xl font-bold tracking-tight sidebar-brand">
+                    Limbus
+                </h1>
+            </div>
+            <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+                <a href="#" data-view="dashboard"
+                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all active relative">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Início</span>
+                </a>
+                <a href="#" data-view="funcionarios"
+                    class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                    <i data-lucide="users"></i>
+                    <span>Funcionários</span>
+                </a>
+                <div class="pt-4 mt-4 border-t border-slate-800">
+                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cadastros Base</p>
+                    <a href="#" data-view="empresas"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="building-2"></i>
+                        <span>Empresas (CNPJ)</span>
+                    </a>
+                    <a href="#" data-view="equipamentos"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="laptop"></i>
+                        <span>Equipamentos</span>
+                    </a>
+                    <a href="#" data-view="insumos"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="box"></i>
+                        <span>Insumos de TI</span>
+                    </a>
+                    <a href="#" data-view="setores"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="folder"></i>
+                        <span>Setores</span>
+                    </a>
+                    <a href="#" data-view="historico"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="history"></i>
+                        <span>Histórico Geral</span>
+                    </a>
+                </div>
+
+                <!-- Gestão de Usuários (Apenas Admin) -->
+                <div id="nav-usuarios-container" class="pt-4 mt-4 border-t border-slate-800" style="display: none;">
+                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Administração</p>
+                    <a href="#" data-view="usuarios"
+                        class="nav-btn flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all relative">
+                        <i data-lucide="shield-check"></i>
+                        <span>Usuários & Acessos</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Rodapé da Sidebar: Info do Usuário Logado -->
+            <div class="p-3 border-t border-slate-800 flex flex-col gap-2">
+                <div id="sidebar-user-info"></div>
+                <div class="flex items-center justify-between text-[11px] text-slate-500 px-1 pt-1">
+                    <div class="server-status flex items-center gap-1.5">
+                        <span class="server-status-dot"></span>
+                        <span class="text-slate-400">Online</span>
+                    </div>
+                    <span class="text-slate-600">v2.1.0</span>
+                    <button onclick="showInfoModal()" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">Sobre</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main
+            class="flex-1 flex flex-col h-full relative overflow-y-auto bg-slate-50 dark:bg-slate-950 print:bg-white print:overflow-visible transition-colors duration-200">
+            <!-- Top Header Container -->
+            <header
+                class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-3.5 flex items-center justify-between gap-6 shadow-sm sticky top-0 z-10 print:hidden transition-colors duration-200">
+
+                <!-- Left: Page Title & Breadcrumb -->
+                <div class="flex-1 min-w-[180px] max-w-xs flex flex-col justify-center">
+                    <div id="breadcrumb"
+                        class="hidden items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium pb-0.5"></div>
+                    <h2 id="page-title" class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 placeholder-title tracking-tight">
+                        Início</h2>
+                </div>
+
+                <!-- Center: Wide & Clean Global Search -->
+                <div class="flex-1 max-w-xl mx-2 hidden md:flex items-center justify-center">
+                    <button id="btn-global-search" onclick="openCommandPalette()"
+                        class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 hover:text-slate-700 dark:hover:text-slate-200 border border-slate-200/90 dark:border-slate-700/80 text-sm font-medium transition-all shadow-2xs group cursor-pointer"
+                        title="Buscar no sistema (Ctrl+K ou /)">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0"></i>
+                            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium truncate">Buscar por funcionário, patrimônio, serial, setor, empresa...</span>
+                        </div>
+                        <kbd class="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-mono font-semibold text-slate-400 dark:text-slate-500 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-xs shrink-0 ml-2">
+                            <span>Ctrl</span><span>K</span>
+                        </kbd>
+                    </button>
+                </div>
+
+                <!-- Right: Actions & Theme Toggle -->
+                <div class="flex-1 min-w-[180px] flex items-center justify-end gap-3">
+                    <div id="header-actions" class="flex items-center gap-2"></div>
+                    <!-- Mobile Search Trigger -->
+                    <button onclick="openCommandPalette()"
+                        class="md:hidden p-2.5 rounded-xl text-slate-500 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-400 transition-all duration-200"
+                        title="Buscar no sistema (Ctrl+K)">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button id="theme-toggle"
+                        class="p-2.5 rounded-xl text-slate-500 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition-all duration-200 shrink-0"
+                        title="Alternar Tema Claro/Escuro">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Container -->
+            <div id="content-area" class="flex-1 p-8 print:p-0">
+                <div class="flex items-center justify-center h-full text-slate-400">
+                    <i data-lucide="loader-2" class="animate-spin w-8 h-8"></i>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <!-- Modal Container for generic forms -->
     <div id="modal-container"

@@ -3,7 +3,7 @@
 // NOVA VERSÃO: Integrando com o Backend Node.js
 // ---------------------------------------------------------
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = '/api';
 
 // --- Estado Global na Memória ---
 // Usamos uma cache local para manter as buscas rápidas, mas sempre sincronizadas com a API
@@ -16,8 +16,22 @@ const StoreState = {
     insumos: []
 };
 
+// --- Auxiliar de Headers com Autenticação ---
+const getAuthHeaders = (extra = {}) => {
+    const token = typeof Auth !== 'undefined' ? Auth.getToken() : localStorage.getItem('limbus_auth_token');
+    const headers = { ...extra };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // --- Auxiliar de Resposta ---
 const checkResponse = async (res, defaultMsg = 'Erro na requisição') => {
+    if (res.status === 401) {
+        if (typeof Auth !== 'undefined') Auth.logout();
+        throw new Error('Sessão expirada. Faça login novamente.');
+    }
     if (!res.ok) {
         let errMsg = defaultMsg;
         try {
@@ -31,13 +45,14 @@ const checkResponse = async (res, defaultMsg = 'Erro na requisição') => {
 // --- Inicialização ---
 const initializeStore = async () => {
     try {
+        const headers = getAuthHeaders();
         const [empRes, equipRes, funcRes, histRes, setRes, insRes] = await Promise.all([
-            fetch(`${API_URL}/empresas`),
-            fetch(`${API_URL}/equipamentos`),
-            fetch(`${API_URL}/funcionarios`),
-            fetch(`${API_URL}/historico`),
-            fetch(`${API_URL}/setores`),
-            fetch(`${API_URL}/insumos`)
+            fetch(`${API_URL}/empresas`, { headers }),
+            fetch(`${API_URL}/equipamentos`, { headers }),
+            fetch(`${API_URL}/funcionarios`, { headers }),
+            fetch(`${API_URL}/historico`, { headers }),
+            fetch(`${API_URL}/setores`, { headers }),
+            fetch(`${API_URL}/insumos`, { headers })
         ]);
 
         StoreState.empresas = await empRes.json();
@@ -49,8 +64,7 @@ const initializeStore = async () => {
 
         console.log('Dados carregados com sucesso do Backend.');
     } catch (err) {
-        console.error('Falha ao inicializar o banco de dados do Backend. Verifique se o servidor Node.js está rodando na porta 3000.', err);
-        alert('O servidor de banco de dados não está respondendo. Verifique se o backend está rodando!');
+        console.error('Falha ao inicializar o banco de dados do Backend.', err);
     }
 };
 
@@ -61,7 +75,7 @@ const getEmpresaById = (id) => StoreState.empresas.find(e => e.id === id);
 const addEmpresa = async (empresa) => {
     const res = await fetch(`${API_URL}/empresas`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(empresa)
     });
     await checkResponse(res, 'Falha ao adicionar empresa');
@@ -71,7 +85,10 @@ const addEmpresa = async (empresa) => {
 };
 
 const removeEmpresa = async (id) => {
-    const res = await fetch(`${API_URL}/empresas/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_URL}/empresas/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+    });
     await checkResponse(res, 'Falha ao remover empresa');
     StoreState.empresas = StoreState.empresas.filter(e => e.id !== id);
 };
@@ -83,7 +100,7 @@ const getEquipamentoById = (id) => StoreState.equipamentos.find(e => e.id === id
 const addEquipamento = async (equipamento) => {
     const res = await fetch(`${API_URL}/equipamentos`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(equipamento)
     });
     await checkResponse(res, 'Falha ao adicionar equipamento');
@@ -95,12 +112,11 @@ const addEquipamento = async (equipamento) => {
 const editEquipamento = async (id, equipamentoUpdateData) => {
     const res = await fetch(`${API_URL}/equipamentos/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(equipamentoUpdateData)
     });
     await checkResponse(res, 'Falha ao atualizar equipamento');
     const saved = await res.json();
-    // Update Local Cache
     const idx = StoreState.equipamentos.findIndex(e => e.id === id);
     if (idx !== -1) {
         StoreState.equipamentos[idx] = { ...StoreState.equipamentos[idx], ...saved };
@@ -108,7 +124,10 @@ const editEquipamento = async (id, equipamentoUpdateData) => {
 };
 
 const removeEquipamento = async (id) => {
-    const res = await fetch(`${API_URL}/equipamentos/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_URL}/equipamentos/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+    });
     await checkResponse(res, 'Falha ao remover equipamento');
     StoreState.equipamentos = StoreState.equipamentos.filter(e => e.id !== id);
 };
@@ -120,7 +139,7 @@ const getFuncionarioById = (id) => StoreState.funcionarios.find(f => f.id === id
 const addFuncionario = async (funcionario) => {
     const res = await fetch(`${API_URL}/funcionarios`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(funcionario)
     });
     await checkResponse(res, 'Falha ao adicionar funcionário');
@@ -133,7 +152,7 @@ const removeFuncionario = async (id, motivo = 'Desligamento') => {
     const targetFunc = StoreState.funcionarios.find(f => f.id === id);
     const res = await fetch(`${API_URL}/funcionarios/${id}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ motivo })
     });
     await checkResponse(res, 'Falha ao remover funcionário');
@@ -172,7 +191,7 @@ const removeFuncionario = async (id, motivo = 'Desligamento') => {
 const bulkAddFuncionarios = async (funcionariosArray) => {
     const res = await fetch(`${API_URL}/funcionarios/bulk`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ funcionarios: funcionariosArray })
     });
     await checkResponse(res, 'Falha ao importar funcionários em lote');
@@ -186,7 +205,7 @@ const bulkAddFuncionarios = async (funcionariosArray) => {
 const editFuncionario = async (id, updateData) => {
     const res = await fetch(`${API_URL}/funcionarios/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(updateData)
     });
     await checkResponse(res, 'Falha ao editar funcionário');
@@ -204,13 +223,12 @@ const getHistorico = () => StoreState.historico;
 const addHistorico = async (historicoData) => {
     const res = await fetch(`${API_URL}/historico`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(historicoData)
     });
     await checkResponse(res, 'Falha ao adicionar histórico');
     const saved = await res.json();
     
-    // Parse the returned array if it exists as our server returns untouched JSON on POST bodies typically
     if(typeof saved.equipamentosIds === 'string' && saved.equipamentosIds) {
          saved.equipamentosIds = JSON.parse(saved.equipamentosIds);
     }
@@ -220,13 +238,19 @@ const addHistorico = async (historicoData) => {
 };
 
 const removeHistoricoEntry = async (id) => {
-    const res = await fetch(`${API_URL}/historico/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_URL}/historico/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+    });
     await checkResponse(res, 'Falha ao remover entrada do histórico');
     StoreState.historico = StoreState.historico.filter(h => h.id !== id);
 };
 
 const clearHistorico = async () => {
-    const res = await fetch(`${API_URL}/historico`, { method: 'DELETE' });
+    const res = await fetch(`${API_URL}/historico`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+    });
     await checkResponse(res, 'Falha ao limpar histórico');
     StoreState.historico = [];
 };
@@ -241,7 +265,7 @@ const getSetores = () => {
 const addSetor = async (nome) => {
     const res = await fetch(`${API_URL}/setores`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ nome })
     });
     await checkResponse(res, 'Falha ao adicionar setor');
@@ -254,12 +278,11 @@ const addSetor = async (nome) => {
 const editSetor = async (oldName, newName) => {
     const res = await fetch(`${API_URL}/setores/${encodeURIComponent(oldName)}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ newName })
     });
     await checkResponse(res, 'Falha ao editar setor');
     
-    // Atualizar na lista de setores
     if (StoreState.setores) {
         StoreState.setores.forEach(s => {
             if (s.nome === oldName) {
@@ -268,7 +291,6 @@ const editSetor = async (oldName, newName) => {
         });
     }
 
-    // Atualizar localmente os funcionários associados
     StoreState.funcionarios.forEach(f => {
         if (f.setor === oldName) {
             f.setor = newName;
@@ -278,16 +300,15 @@ const editSetor = async (oldName, newName) => {
 
 const removeSetor = async (name) => {
     const res = await fetch(`${API_URL}/setores/${encodeURIComponent(name)}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: getAuthHeaders()
     });
     await checkResponse(res, 'Falha ao remover setor');
     
-    // Remover da lista de setores
     if (StoreState.setores) {
         StoreState.setores = StoreState.setores.filter(s => s.nome !== name);
     }
 
-    // Remover localmente o setor dos funcionários
     StoreState.funcionarios.forEach(f => {
         if (f.setor === name) {
             f.setor = null;
@@ -319,7 +340,7 @@ const getInsumoById = (id) => getInsumos().find(i => i.id === id);
 const addInsumo = async (insumoData) => {
     const res = await fetch(`${API_URL}/insumos`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(insumoData)
     });
     await checkResponse(res, 'Falha ao adicionar insumo');
@@ -332,7 +353,7 @@ const addInsumo = async (insumoData) => {
 const editInsumo = async (id, insumoData) => {
     const res = await fetch(`${API_URL}/insumos/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify(insumoData)
     });
     await checkResponse(res, 'Falha ao editar insumo');
@@ -345,8 +366,10 @@ const editInsumo = async (id, insumoData) => {
 };
 
 const removeInsumo = async (id) => {
-    const res = await fetch(`${API_URL}/insumos/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_URL}/insumos/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+    });
     await checkResponse(res, 'Falha ao remover insumo');
     StoreState.insumos = (StoreState.insumos || []).filter(i => i.id !== id);
 };
-

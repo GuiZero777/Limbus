@@ -3,7 +3,8 @@
 // Elements
 const contentArea = document.getElementById('content-area');
 const pageTitle = document.getElementById('page-title');
-const navBtns = document.querySelectorAll('.nav-btn');
+const loginScreen = document.getElementById('login-screen');
+const appWrapper = document.getElementById('app-wrapper');
 
 // State
 let currentView = 'dashboard';
@@ -17,7 +18,8 @@ const views = {
     'funcionarios': { title: 'Funcionários', breadcrumbs: ['Início', 'Funcionários'], render: renderFuncionarios },
     'gerador_termo': { title: 'Emissão de Termo', breadcrumbs: ['Início', 'Termos', 'Gerador'], render: renderGeradorTermo },
     'historico': { title: 'Histórico Geral', breadcrumbs: ['Início', 'Cadastros', 'Histórico'], render: renderHistoricoGeral },
-    'setores': { title: 'Gestão de Setores', breadcrumbs: ['Início', 'Cadastros', 'Setores'], render: renderSetores }
+    'setores': { title: 'Gestão de Setores', breadcrumbs: ['Início', 'Cadastros', 'Setores'], render: renderSetores },
+    'usuarios': { title: 'Usuários & Acessos', breadcrumbs: ['Início', 'Administração', 'Usuários'], render: renderUsuarios }
 };
 
 // Dark Mode handling
@@ -53,7 +55,6 @@ const renderBreadcrumbs = (viewDef, params) => {
     const breadcrumbEl = document.getElementById('breadcrumb');
     if (!breadcrumbEl || !viewDef.breadcrumbs) return;
 
-    // Se estiver no dashboard principal, oculta as migalhas pra ficar mais limpo
     if (currentView === 'dashboard') {
         breadcrumbEl.classList.add('hidden');
         breadcrumbEl.classList.remove('flex');
@@ -65,8 +66,6 @@ const renderBreadcrumbs = (viewDef, params) => {
 
     let crumbs = [...viewDef.breadcrumbs];
 
-    // Complementos dinâmicos baseados no tipo de view que abrir por app.js/views.js
-    // Exemplo: se abrir gerador de termo de um func especifico
     if (currentView === 'gerador_termo' && params.funcId) {
         const funcionarios = getFuncionarios ? getFuncionarios() : [];
         const func = funcionarios.find(f => f.id === params.funcId);
@@ -92,11 +91,12 @@ const navigate = (viewName, params = {}) => {
     viewParams = params;
 
     // Update Title & Breadcrumbs
-    pageTitle.textContent = views[viewName].title;
+    if (pageTitle) pageTitle.textContent = views[viewName].title;
     renderBreadcrumbs(views[viewName], params);
 
     // Update Nav Activity
-    navBtns.forEach(btn => {
+    const allNavBtns = document.querySelectorAll('.nav-btn');
+    allNavBtns.forEach(btn => {
         if (btn.dataset.view === viewName) {
             btn.classList.add('active');
         } else {
@@ -105,40 +105,122 @@ const navigate = (viewName, params = {}) => {
     });
 
     // Render View with transition
-    contentArea.classList.remove('view-fade-in');
-    contentArea.innerHTML = '';
-    const HeaderActionsArea = document.getElementById('header-actions');
-    HeaderActionsArea.innerHTML = '';
+    if (contentArea) {
+        contentArea.classList.remove('view-fade-in');
+        contentArea.innerHTML = '';
+        const HeaderActionsArea = document.getElementById('header-actions');
+        if (HeaderActionsArea) HeaderActionsArea.innerHTML = '';
 
-    // Force reflow to restart animation
-    void contentArea.offsetWidth;
-    contentArea.classList.add('view-fade-in');
+        void contentArea.offsetWidth;
+        contentArea.classList.add('view-fade-in');
 
-    views[viewName].render(contentArea, HeaderActionsArea, params);
+        views[viewName].render(contentArea, HeaderActionsArea, params);
+    }
 
-    // Refresh Icons (important when injecting new HTML)
+    // Refresh Icons
     if (window.lucide) {
         window.lucide.createIcons();
     }
 };
 
 const setupNavigation = () => {
-    navBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.onclick = (e) => {
             e.preventDefault();
             const view = btn.dataset.view;
             if (view) navigate(view);
-        });
+        };
     });
 };
 
+// =============================================================
+// CONTROLE DE LOGIN / AUTENTICAÇÃO
+// =============================================================
+
+const showLoginScreen = () => {
+    if (loginScreen) loginScreen.style.display = 'flex';
+    if (appWrapper) appWrapper.style.display = 'none';
+};
+
+const hideLoginScreen = () => {
+    if (loginScreen) loginScreen.style.display = 'none';
+    if (appWrapper) appWrapper.style.display = 'flex';
+};
+
+const setupLoginHandlers = () => {
+    const formLogin = document.getElementById('form-login-app');
+    const inputUsuario = document.getElementById('login-input-usuario');
+    const inputSenha = document.getElementById('login-input-senha');
+    const btnTogglePass = document.getElementById('btn-toggle-login-pass');
+    const iconEye = document.getElementById('icon-eye-login');
+    const errorAlert = document.getElementById('login-error-alert');
+    const errorText = document.getElementById('login-error-text');
+    const btnSubmit = document.getElementById('btn-submit-login');
+
+    if (btnTogglePass && inputSenha) {
+        btnTogglePass.addEventListener('click', () => {
+            const isPassword = inputSenha.type === 'password';
+            inputSenha.type = isPassword ? 'text' : 'password';
+            if (iconEye) {
+                iconEye.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+                if (window.lucide) window.lucide.createIcons();
+            }
+        });
+    }
+
+    if (formLogin) {
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const usuario = inputUsuario.value.trim();
+            const senha = inputSenha.value;
+
+            if (!usuario || !senha) return;
+
+            if (errorAlert) errorAlert.classList.add('hidden');
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Autenticando...</span>`;
+                if (window.lucide) window.lucide.createIcons();
+            }
+
+            try {
+                await Auth.login(usuario, senha);
+                hideLoginScreen();
+                Auth.renderUserInfo();
+                await initializeStore();
+                setupNavigation();
+                navigate('dashboard');
+            } catch (err) {
+                if (errorText) errorText.textContent = err.message || 'Credenciais inválidas';
+                if (errorAlert) errorAlert.classList.remove('hidden');
+            } finally {
+                if (btnSubmit) {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span>Entrar no Sistema</span>`;
+                    if (window.lucide) window.lucide.createIcons();
+                }
+            }
+        });
+    }
+};
+
 const init = async () => {
+    setupLoginHandlers();
+
+    if (!Auth.isAuthenticated()) {
+        showLoginScreen();
+        if (window.lucide) window.lucide.createIcons();
+        return;
+    }
+
+    hideLoginScreen();
+    Auth.renderUserInfo();
     await initializeStore();
     setupNavigation();
     navigate('dashboard');
 };
 
-// Global Exposure for inner-HTML onclick bindings if needed, though event delegation is preferred
+// Global Exposure
 window.navigate = navigate;
 
 document.addEventListener('DOMContentLoaded', init);

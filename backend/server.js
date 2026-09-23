@@ -3,6 +3,14 @@ const cors = require('cors');
 const path = require('path');
 const { supabase, getDbConnection } = require('./database');
 const crypto = require('crypto');
+const {
+    hashPassword,
+    verifyPassword,
+    generateToken,
+    verifyToken,
+    getLocalUsers,
+    saveLocalUsers
+} = require('./auth');
 
 const app = express();
 
@@ -528,6 +536,226 @@ app.delete('/api/historico/:id', handle(async (req, res) => {
 app.delete('/api/historico', handle(async (req, res) => {
     const { error } = await supabase.from('historico').delete().neq('id', '00000000-0000-0000-0000-000000000000'); // hacky way to delete all in supabase JS
     if (error) throw error;
+    res.status(204).send();
+}));
+
+// =============================================================
+// AUTENTICAÇÃO E USUÁRIOS
+// =============================================================
+
+async function getAllUsers() {
+    try {
+        const { data, error } = await supabase.from('usuarios').select('*');
+        if (!error && Array.isArray(data) && data.length > 0) {
+            return { users: data, source: 'supabase' };
+        }
+    } catch (e) {}
+    return { users: getLocalUsers(), source: 'local' };
+}
+
+async function findUserByLogin(login) {
+    try {
+        const { data, error } = await supabase.from('usuarios').select('*').ilike('usuario', login).limit(1);
+        if (!error && Array.isArray(data) && data.length > 0) {
+            return { user: data[0], source: 'supabase' };
+        }
+    } catch (e) {}
+    const local = getLocalUsers();
+    const found = local.find(u => u.usuario && u.usuario.toLowerCase() === (login || '').toLowerCase());
+    return { user: found || null, source: 'local' };
+}
+
+async function saveUser(userObj, source) {
+    if (source === 'supabase') {
+        try {
+            const { error } = await supabase.from('usuarios').upsert([userObj]);
+            if (!error) return;
+        } catch (e) {}
+    }
+    const local = getLocalUsers();
+    const idx = local.findIndex(u => u.id === userObj.id);
+    if (idx >= 0) {
+        local[idx] = userObj;
+    } else {
+        local.push(userObj);
+    }
+    saveLocalUsers(local);
+}
+
+const authMiddleware = (requiredRole = null) => (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    if (!token) {
+        return res.status(401).json({ error: 'Sessão expirada ou não autenticada' });
+    }
+    const payload = verifyToken(token);
+    if (!payload) {
+        return res.status(401).json({ error: 'Sessão expirada (> 24h). Por favor, faça login novamente.' });
+    }
+    if (requiredRole && payload.perfil !== requiredRole && payload.perfil !== 'admin') {
+        return res.status(403).json({ error: 'Permissão insuficiente' });
+    }
+    req.user = payload;
+    next();
+};
+
+app.post('/api/auth/login', handle(async (req, res) => {
+    const { usuario, senha } = req.body;
+    if (!usuario || !senha) {
+        return res.status(400).json({ error: 'Usuário e senha são obrigatórios' });
+    }
+
+    const { user, source } = await findUserByLogin(usuario.trim());
+    if (!user || !verifyPassword(senha, user.senha_hash)) {
+        return res.status(401).json({ error: 'Usuário ou senha incorretos' });
+    }
+
+    if (user.ativo === false) {
+        return res.status(403).json({ error: 'Acesso desativado pelo administrador' });
+    }
+
+    user.ultimo_login = new Date().toISOString();
+    await saveUser(user, source);
+
+    const token = generateToken(user);
+    res.json({
+        token,
+        user: {
+            id: user.id,
+            nome: user.nome,
+            usuario: user.usuario,
+            cargo: user.cargo || 'TI',
+            perfil: user.perfil || 'operador'
+        }
+    });
+}));
+
+app.get('/api/auth/me', authMiddleware(), handle(async (req, res) => {
+    res.json({ user: req.user });
+}));
+
+app.post('/api/auth/alterar-senha', authMiddleware(), handle(async (req, res) => {
+    const { senha_atual, nova_senha } = req.body;
+    if (!senha_atual || !nova_senha) {
+        return res.status(400).json({ error: 'Senha atual e nova senha são obrigatórias' });
+    }
+    if (nova_senha.length < 4) {
+        return res.status(400).json({ error: 'A nova senha deve ter no mínimo 4 caracteres' });
+    }
+
+    const { user, source } = await findUserByLogin(req.user.usuario);
+    if (!user || !verifyPassword(senha_atual, user.senha_hash)) {
+        return res.status(400).json({ error: 'Senha atual incorreta' });
+    }
+
+    user.senha_hash = hashPassword(nova_senha);
+    await saveUser(user, source);
+
+    res.json({ success: true, message: 'Senha alterada com sucesso' });
+}));
+
+app.get('/api/usuarios', authMiddleware('admin'), handle(async (req, res) => {
+    const { users } = await getAllUsers();
+    const safeUsers = users.map(u => ({
+        id: u.id,
+        nome: u.nome,
+        usuario: u.usuario,
+        cargo: u.cargo || 'TI',
+        perfil: u.perfil || 'operador',
+        ativo: u.ativo !== false,
+        ultimo_login: u.ultimo_login || null,
+        created_at: u.created_at || null
+    }));
+    res.json(safeUsers);
+}));
+
+app.post('/api/usuarios', authMiddleware('admin'), handle(async (req, res) => {
+    const { nome, usuario, senha, cargo, perfil } = req.body;
+    if (!nome || !usuario || !senha) {
+        return res.status(400).json({ error: 'Nome, usuário e senha são obrigatórios' });
+    }
+
+    const { user: existing } = await findUserByLogin(usuario.trim());
+    if (existing) {
+        return res.status(400).json({ error: 'Já existe um usuário cadastrado com esse login' });
+    }
+
+    const newUser = {
+        id: generateId(),
+        nome: nome.trim(),
+        usuario: usuario.trim().toLowerCase(),
+        senha_hash: hashPassword(senha),
+        cargo: (cargo || 'Operador de TI').trim(),
+        perfil: perfil === 'admin' ? 'admin' : 'operador',
+        ativo: true,
+        created_at: new Date().toISOString()
+    };
+
+    const { source } = await getAllUsers();
+    await saveUser(newUser, source);
+
+    res.status(201).json({
+        id: newUser.id,
+        nome: newUser.nome,
+        usuario: newUser.usuario,
+        cargo: newUser.cargo,
+        perfil: newUser.perfil,
+        ativo: newUser.ativo,
+        created_at: newUser.created_at
+    });
+}));
+
+app.put('/api/usuarios/:id', authMiddleware('admin'), handle(async (req, res) => {
+    const id = req.params.id;
+    const { nome, cargo, perfil, ativo, nova_senha } = req.body;
+
+    const { users, source } = await getAllUsers();
+    const target = users.find(u => u.id === id);
+    if (!target) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    if (nome) target.nome = nome.trim();
+    if (cargo) target.cargo = cargo.trim();
+    if (perfil) target.perfil = perfil === 'admin' ? 'admin' : 'operador';
+    if (ativo !== undefined) target.ativo = Boolean(ativo);
+    if (nova_senha && nova_senha.trim().length >= 4) {
+        target.senha_hash = hashPassword(nova_senha.trim());
+    }
+
+    await saveUser(target, source);
+
+    res.json({
+        id: target.id,
+        nome: target.nome,
+        usuario: target.usuario,
+        cargo: target.cargo,
+        perfil: target.perfil,
+        ativo: target.ativo,
+        ultimo_login: target.ultimo_login
+    });
+}));
+
+app.delete('/api/usuarios/:id', authMiddleware('admin'), handle(async (req, res) => {
+    const id = req.params.id;
+    const { users, source } = await getAllUsers();
+    const target = users.find(u => u.id === id);
+    if (!target) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    if (target.usuario === 'admin' && users.filter(u => u.perfil === 'admin' && u.ativo).length <= 1) {
+        return res.status(400).json({ error: 'Não é possível excluir o único administrador ativo' });
+    }
+
+    if (source === 'supabase') {
+        try {
+            await supabase.from('usuarios').delete().eq('id', id);
+        } catch (e) {}
+    }
+    const updated = users.filter(u => u.id !== id);
+    saveLocalUsers(updated);
+
     res.status(204).send();
 }));
 
