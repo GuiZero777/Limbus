@@ -14,7 +14,7 @@
     "descricao": "All in one e Fonte",
     "modeloMarca": "Samsung DP500A2L-KW1BR",
     "status": "EM_USO",
-    "funcionarioId": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
+    "funcionarioId": "b2c32698-d7e3-471f-b220-79c4391bbfca",
     "patrimonio": "6159",
     "serialNumber": "07CH9QCH800840",
     "observacoes": null
@@ -523,8 +523,8 @@
     "id": "90b7feb3-29fa-48bf-a24d-34555586a616",
     "descricao": "Monitor",
     "modeloMarca": "LG 20MK400H-B",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "0c262a4f-deaf-4cf2-b7bb-c0eb4991490c",
     "patrimonio": "28167",
     "serialNumber": "009SPCA0H899",
     "observacoes": null
@@ -1033,8 +1033,8 @@
     "id": "06576130-8bd8-4048-8d5f-19f6c43c9310",
     "descricao": "Notebook e Fonte",
     "modeloMarca": "Lenovo Ideapad 1 15IAU7",
-    "status": "EM_USO",
-    "funcionarioId": "d755e1a6-d45d-4f26-ab1e-2ab664432f2e",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "49190",
     "serialNumber": "PE9015328130",
     "observacoes": "EQUIPAMENTO ENTREGUE NOVO"
@@ -1043,8 +1043,8 @@
     "id": "2d9ba82d-69a8-4713-bc81-74b5e9454fcb",
     "descricao": "Notebook",
     "modeloMarca": "Lenovo Ideapad 1 15IAU7",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "bf0d3e59-ce2b-496e-8fbb-70d518cf664d",
     "patrimonio": "49189",
     "serialNumber": "PE9015307084",
     "observacoes": "EQUIPAMENTO ENTREGUE NOVO / senha adm: N@boT3mpErad0"
@@ -1124,7 +1124,7 @@
     "descricao": "Notebook",
     "modeloMarca": "Dell Inspiron 3520",
     "status": "EM_USO",
-    "funcionarioId": "7c3148e2-3ea3-4e22-a975-2297568005cf",
+    "funcionarioId": "93f059b2-a5e1-4efb-8586-d0038fa0daae",
     "patrimonio": "43836",
     "serialNumber": "CV8R044",
     "observacoes": "Equipamento entregue novo"
@@ -1181,10 +1181,10 @@
   },
   {
     "id": "40ea0a26-10a2-43c8-b9b8-a5e42af1c79b",
-    "descricao": "Notebook",
+    "descricao": "Notebook e Fonte",
     "modeloMarca": "Lenovo Ideapad 3",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "b2c32698-d7e3-471f-b220-79c4391bbfca",
     "patrimonio": "28753",
     "serialNumber": "PE08RNJB",
     "observacoes": "Estava com Vand"
@@ -1511,10 +1511,10 @@
   },
   {
     "id": "640b4963-0ba4-4981-9671-ea53419e2136",
-    "descricao": "Notebook",
+    "descricao": "Notebook e Fonte",
     "modeloMarca": "Lenovo Ideapad 3",
     "status": "EM_USO",
-    "funcionarioId": "8e8504d5-95c3-4ebe-935e-1d329ce0d6af",
+    "funcionarioId": "0c262a4f-deaf-4cf2-b7bb-c0eb4991490c",
     "patrimonio": "29752",
     "serialNumber": "PE08L065",
     "observacoes": "Equipamento semi novo estava com Suris"
@@ -1623,8 +1623,8 @@
     "id": "f4cf2068-d6a3-4284-b534-1edcf114af71",
     "descricao": "Notebook",
     "modeloMarca": "DELL VOSTRO 15 3515",
-    "status": "EM_USO",
-    "funcionarioId": "27caadcf-5fef-4b4f-b122-e799122e5510",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
     "patrimonio": "31881",
     "serialNumber": null,
     "observacoes": null
@@ -1731,10 +1731,10 @@
   },
   {
     "id": "d00c87dd-4c69-4d3d-8b20-241d945036d9",
-    "descricao": "Smartphone",
+    "descricao": "Smartphone e Carregador",
     "modeloMarca": "Samsung A15",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "1dd8de30-94da-45b3-8df7-165360a81d87",
     "patrimonio": "49191",
     "serialNumber": "RQ8X901Z96H",
     "observacoes": "Celular novo"
@@ -1821,10 +1821,10 @@
   },
   {
     "id": "e5acad1d-b1c5-4d2d-a4e9-16694120a660",
-    "descricao": "Smartphone",
+    "descricao": "Smartphone e Carregador",
     "modeloMarca": "Samsung A15",
-    "status": "DISPONIVEL",
-    "funcionarioId": null,
+    "status": "EM_USO",
+    "funcionarioId": "c261989d-3158-426a-9b51-9086fa4c4e39",
     "patrimonio": "45319",
     "serialNumber": "RQ8X703JBLB",
     "observacoes": "Aparelho entregue novo / cobrancasmaisinternet@gmail.com Capivara@123 / Usado em conjunto com Marcos Vinicius"
@@ -2614,7 +2614,7 @@
     "descricao": "Notebook",
     "modeloMarca": "Lenovo ThinkPad T480",
     "status": "EM_USO",
-    "funcionarioId": "dc938811-8dff-4d5a-8e78-8f4e322a524e",
+    "funcionarioId": "1dd8de30-94da-45b3-8df7-165360a81d87",
     "patrimonio": "63351",
     "serialNumber": "PE04MKF8",
     "observacoes": null
@@ -2627,6 +2627,26 @@
     "funcionarioId": "c2377d12-5f23-4ef2-9c77-d53d7df1a10b",
     "patrimonio": "64054",
     "serialNumber": null,
+    "observacoes": null
+  },
+  {
+    "id": "711a52bf-1f4a-45b1-a555-19e9e49c130b",
+    "descricao": "Notebook de Prova TESTE-1790098952031",
+    "modeloMarca": "Dell Inspiron 15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "PATR-99999",
+    "serialNumber": "SN-PROVA-123",
+    "observacoes": null
+  },
+  {
+    "id": "d5c8fa0c-99de-4fcc-a1f6-47131a83aaf9",
+    "descricao": "Notebook de Prova TESTE-1790099724062",
+    "modeloMarca": "Dell Inspiron 15",
+    "status": "DISPONIVEL",
+    "funcionarioId": null,
+    "patrimonio": "PATR-99999",
+    "serialNumber": "SN-PROVA-123",
     "observacoes": null
   }
 ]

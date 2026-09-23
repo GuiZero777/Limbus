@@ -82,6 +82,8 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                             const snapFunc = typeof h.funcionarioSnapshot === 'string' ? JSON.parse(h.funcionarioSnapshot) : h.funcionarioSnapshot;
                             const funcNome = liveFunc?.nome || snapFunc?.nome || 'Colaborador Desligado';
                             const isDesligado = !liveFunc && !!snapFunc?.nome;
+                            const motivo = snapFunc?.motivoExclusao || snapFunc?.motivo || 'Desligamento';
+                            const isCustomMotivo = isDesligado && motivo && motivo.trim().toLowerCase() !== 'desligamento';
 
                             const dataStr = formatInputDate(h.data);
                             const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -99,10 +101,10 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
                             if (Array.isArray(snapshots) && snapshots.length > 0) {
                                 eqpContent = snapshots.map(eq => {
-                                    const patrStr = eq.patrimonio ? ' [Patr: ' + eq.patrimonio + ']' : '';
-                                    const metaStr = (eq.modeloMarca || '') + (eq.serialNumber ? ' &bull; S/N: ' + eq.serialNumber : '');
-                                    return '<strong>' + eq.descricao + patrStr + '</strong>' + (metaStr ? '<br><span style="color:#666; font-size:11px;">' + metaStr + '</span>' : '');
-                                }).join('<div style="margin: 5px 0; border-top: 1px dotted #ccc;"></div>');
+                                    const tagInfo = eq.patrimonio ? ' [Patr: ' + eq.patrimonio + ']' : '';
+                                    const serialInfo = eq.serialNumber ? ' &bull; S/N: ' + eq.serialNumber : '';
+                                    return '<strong>' + eq.descricao + tagInfo + '</strong><br><span style="color:#666; font-size:11px;">' + (eq.modeloMarca || '') + serialInfo + '</span>';
+                                }).join('<br>');
                             } else {
                                 let eqIds = h.equipamentosIds;
                                 if (typeof eqIds === 'string') {
@@ -110,7 +112,11 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                                 }
                                 if (Array.isArray(eqIds) && eqIds.length > 0) {
                                     const eqps = eqIds.map(eId => equipamentos.find(e => e.id === eId) || { descricao: 'Equip. Excluído', modeloMarca: '' });
-                                    eqpContent = eqps.map(eq => '<strong>' + eq.descricao + (eq.patrimonio ? ' [Patr: ' + eq.patrimonio + ']' : '') + '</strong><br><span style="color:#666; font-size:11px;">' + (eq.modeloMarca || '') + (eq.serialNumber ? ' &bull; S/N: ' + eq.serialNumber : '') + '</span>').join('<div style="margin: 5px 0; border-top: 1px dotted #ccc;"></div>');
+                                    eqpContent = eqps.map(eq => {
+                                        const tagInfo = eq.patrimonio ? ' [Patr: ' + eq.patrimonio + ']' : '';
+                                        const serialInfo = eq.serialNumber ? ' &bull; S/N: ' + eq.serialNumber : '';
+                                        return '<strong>' + eq.descricao + tagInfo + '</strong><br><span style="color:#666; font-size:11px;">' + (eq.modeloMarca || '') + serialInfo + '</span>';
+                                    }).join('<br>');
                                 } else {
                                     let eqp = equipamentos.find(e => e.id === h.equipamentoId);
                                     if (!eqp) {
@@ -121,11 +127,13 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                                 }
                             }
 
+                            const motivoPrintLabel = isDesligado ? (isCustomMotivo ? ` <span style="color:#666; font-size:10px;">(Excluído: ${motivo})</span>` : ' <span style="color:#888; font-size:10px;">(Desligado)</span>') : '';
+
                             return `
                                 <tr>
                                     <td><strong>${dataStr}</strong><br><span style="color:#666; font-size:11px;">${timeStr}</span></td>
                                     <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
-                                    <td><strong>${funcNome}</strong>${isDesligado ? ' <span style="color:#888; font-size:10px;">(Desligado)</span>' : ''}</td>
+                                    <td><strong>${funcNome}</strong>${motivoPrintLabel}</td>
                                     <td>${eqpContent}</td>
                                 </tr>
                              `;
@@ -169,6 +177,24 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
             const snapFunc = typeof h.funcionarioSnapshot === 'string' ? JSON.parse(h.funcionarioSnapshot) : h.funcionarioSnapshot;
             const funcNome = liveFunc?.nome || snapFunc?.nome || 'Colaborador Desligado';
             const isDesligado = !liveFunc && !!snapFunc?.nome;
+            const motivo = snapFunc?.motivoExclusao || snapFunc?.motivo || 'Desligamento';
+            const isCustomMotivo = isDesligado && motivo && motivo.trim().toLowerCase() !== 'desligamento';
+
+            let desligadoBadgeHTML = '';
+            if (isDesligado) {
+                if (isCustomMotivo) {
+                    const safeMotivo = window.escapeHtml ? window.escapeHtml(motivo) : motivo;
+                    const safeNome = window.escapeHtml ? window.escapeHtml(funcNome) : funcNome;
+                    desligadoBadgeHTML = `
+                        <button type="button" class="btn-ver-motivo-desligamento inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-700 dark:text-indigo-300 px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 rounded border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all cursor-pointer shadow-2xs group" data-nome="${safeNome}" data-motivo="${safeMotivo}" title="Clique para ver o motivo registrado da exclusão">
+                            <span>Excluído</span>
+                            <i data-lucide="info" class="w-3 h-3 text-indigo-500 group-hover:scale-110 transition-transform"></i>
+                        </button>
+                    `;
+                } else {
+                    desligadoBadgeHTML = `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-normal px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800/80 rounded border border-slate-200 dark:border-slate-700/60" title="Colaborador desligado da empresa">Desligado</span>`;
+                }
+            }
 
             const dataStr = formatInputDate(h.data);
             const timeStr = new Date(h.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -234,7 +260,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                     <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <span>${funcNome}</span>
-                            ${isDesligado ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-normal px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800/80 rounded border border-slate-200 dark:border-slate-700/60" title="Colaborador desligado/excluído do cadastro">Desligado</span>` : ''}
+                            ${desligadoBadgeHTML}
                         </div>
                     </td>
                     <td class="py-4 px-6">
@@ -285,6 +311,53 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
 
     startInput?.addEventListener('change', updateFilters);
     endInput?.addEventListener('change', updateFilters);
+
+    // Modal para Ver Motivo do Desligamento / Exclusão Personalizado
+    document.querySelectorAll('.btn-ver-motivo-desligamento').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const nome = e.currentTarget.dataset.nome || 'Colaborador';
+            const motivo = e.currentTarget.dataset.motivo || 'Desligamento';
+
+            const modalHTML = `
+                <div class="p-6">
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700/80">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-100 dark:border-indigo-900/40">
+                                <i data-lucide="info" class="w-5 h-5"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Motivo da Exclusão</h3>
+                        </div>
+                        <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider font-semibold mb-1">Colaborador</p>
+                            <p class="text-base font-bold text-slate-800 dark:text-slate-100">${nome}</p>
+                        </div>
+
+                        <div class="p-4 bg-indigo-50/50 dark:bg-indigo-950/30 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
+                            <p class="text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider font-semibold mb-1.5 flex items-center gap-1.5">
+                                <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                Motivo Registrado
+                            </p>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 font-medium whitespace-pre-wrap leading-relaxed">${motivo}</p>
+                        </div>
+
+                        <div class="flex justify-end pt-2">
+                            <button type="button" onclick="hideModal()" class="btn-primary px-5 py-2 text-sm text-white font-medium rounded-lg">Entendido</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showModal(modalHTML);
+            if (window.lucide) window.lucide.createIcons();
+        });
+    });
 
     // Remover entrada individual do Histórico
     document.querySelectorAll('.btn-delete-hist').forEach(btn => {

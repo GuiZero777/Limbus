@@ -129,22 +129,44 @@ const addFuncionario = async (funcionario) => {
     return saved;
 };
 
-const removeFuncionario = async (id) => {
-    const res = await fetch(`${API_URL}/funcionarios/${id}`, { method: 'DELETE' });
+const removeFuncionario = async (id, motivo = 'Desligamento') => {
+    const targetFunc = StoreState.funcionarios.find(f => f.id === id);
+    const res = await fetch(`${API_URL}/funcionarios/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ motivo })
+    });
     await checkResponse(res, 'Falha ao remover funcionário');
-    StoreState.funcionarios = StoreState.funcionarios.filter(f => f.id !== id);
-    
-    // Em um banco puramente SQL haveria ON DELETE CASCADE nas tabelas filhas (que fizemos), 
-    // Mas a cache do histórico também precisa ser limpa aqui no frontend se quisermos consistência sem reload
-    StoreState.historico = StoreState.historico.filter(h => h.funcionarioId !== id);
-    
-    // Também desvincular equipamentos que estavam na mão dele localmente
+
+    // Desvincular equipamentos que estavam na mão dele localmente
     StoreState.equipamentos.forEach(eq => {
-        if(eq.funcionarioId === id) {
+        if (eq.funcionarioId === id) {
             eq.status = 'DISPONIVEL';
             eq.funcionarioId = null;
         }
     });
+
+    // Manter o histórico do funcionário e enriquecer o snapshot com o motivo do desligamento
+    StoreState.historico.forEach(h => {
+        if (h.funcionarioId === id) {
+            let snap = h.funcionarioSnapshot;
+            if (typeof snap === 'string') {
+                try { snap = JSON.parse(snap); } catch(e) { snap = {}; }
+            }
+            snap = snap || {};
+            h.funcionarioSnapshot = {
+                id: id,
+                nome: targetFunc?.nome || snap.nome || 'Colaborador Desligado',
+                funcao: targetFunc?.funcao || snap.funcao || 'Não Informado',
+                setor: targetFunc?.setor || snap.setor || null,
+                ...snap,
+                desligado: true,
+                motivoExclusao: motivo
+            };
+        }
+    });
+
+    StoreState.funcionarios = StoreState.funcionarios.filter(f => f.id !== id);
 };
 
 const bulkAddFuncionarios = async (funcionariosArray) => {

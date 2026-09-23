@@ -142,23 +142,16 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
         });
 
         document.querySelectorAll('.btn-delete').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
+            btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
-                const eqps = getEquipamentos().filter(eq => eq.funcionarioId === id && eq.status === 'EM_USO');
-                if (eqps.length > 0) {
-                    showToast('O funcionário possui equipamentos em uso. Recolha-os antes de excluir.', 'error');
-                    return;
-                }
-                const ok = await showConfirm('Tem certeza que deseja remover este funcionário? O histórico será mantido.', { title: 'Remover funcionário', type: 'danger', confirmText: 'Remover' });
-                if (ok) {
-                    try {
-                        await removeFuncionario(id);
-                        showToast('Funcionário removido com sucesso.', 'success');
-                        renderTable(document.getElementById('search-func')?.value || '');
-                    } catch (err) {
-                        showToast(err.message, 'error');
-                    }
-                }
+                const func = getFuncionarioById(id);
+                if (!func) return;
+
+                showConfirmExclusaoFuncionarioModal(func, async (motivo) => {
+                    await removeFuncionario(id, motivo);
+                    showToast(`Colaborador "${func.nome}" excluído com sucesso.`, 'success');
+                    renderTable(document.getElementById('search-func')?.value || '');
+                });
             });
         });
 
@@ -1380,4 +1373,149 @@ const showAlocarInsumoParaFuncionarioModal = (funcionario, onComplete) => {
         if (onComplete) onComplete();
         else hideModal();
     });
+};
+
+const showConfirmExclusaoFuncionarioModal = (func, onConfirm) => {
+    const eqps = getEquipamentos().filter(eq => eq.funcionarioId === func.id && eq.status === 'EM_USO');
+    let insumosList = func.insumos;
+    if (typeof insumosList === 'string') {
+        try { insumosList = JSON.parse(insumosList); } catch(e) { insumosList = []; }
+    }
+    const insumos = Array.isArray(insumosList) ? insumosList.filter(i => (parseInt(i.quantidade, 10) || 0) > 0) : [];
+    const totalItens = eqps.length + insumos.length;
+
+    let avisoItensHTML = '';
+    if (totalItens > 0) {
+        avisoItensHTML = `
+            <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 mb-5">
+                <div class="flex items-start gap-3">
+                    <div class="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 shrink-0 mt-0.5">
+                        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    </div>
+                    <div class="text-xs space-y-1.5 flex-1 min-w-0">
+                        <p class="font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">
+                            Atenção: Itens em Posse (${totalItens} ${totalItens === 1 ? 'item' : 'itens'})
+                        </p>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Este colaborador ainda possui itens sob sua responsabilidade. Ao confirmar a exclusão, todos os equipamentos e insumos abaixo serão <strong>desvinculados e retornarão automaticamente ao estoque disponível</strong>:
+                        </p>
+                        <div class="max-h-32 overflow-y-auto pr-1 space-y-1 pt-1 border-t border-amber-200/60 dark:border-amber-800/40">
+                            ${eqps.map(e => `
+                                <div class="flex items-center justify-between font-mono bg-white/60 dark:bg-slate-900/40 px-2 py-1 rounded text-[11px]">
+                                    <span class="truncate font-sans font-medium text-slate-800 dark:text-slate-200">${e.descricao} ${e.modeloMarca ? `(${e.modeloMarca})` : ''}</span>
+                                    <span class="text-[10px] font-bold text-amber-700 dark:text-amber-400 shrink-0 ml-2">Patr: ${e.patrimonio || 'S/ Patr.'}</span>
+                                </div>
+                            `).join('')}
+                            ${insumos.map(i => `
+                                <div class="flex items-center justify-between font-mono bg-white/60 dark:bg-slate-900/40 px-2 py-1 rounded text-[11px]">
+                                    <span class="truncate font-sans font-medium text-slate-800 dark:text-slate-200">${i.nome}</span>
+                                    <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 shrink-0 ml-2">${i.quantidade} un.</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    const modalHTML = `
+        <div class="p-6">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700/80">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center border border-red-100 dark:border-red-900/40">
+                        <i data-lucide="user-x" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Excluir Colaborador</h3>
+                        <p class="text-xs text-slate-400">${func.nome} &bull; ${func.funcao || 'Sem cargo'}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            ${avisoItensHTML}
+
+            <form id="form-excluir-funcionario" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Motivo do Desligamento / Exclusão *</label>
+                    
+                    <div class="space-y-2.5">
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 cursor-pointer hover:border-indigo-300 dark:hover:border-indigo-600 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-50/40 dark:has-[:checked]:bg-indigo-950/20 shadow-2xs">
+                            <input type="radio" name="opcaoMotivo" value="Desligamento" checked class="w-4 h-4 text-primary focus:ring-primary radio-motivo">
+                            <div>
+                                <span class="block text-sm font-bold text-slate-800 dark:text-slate-100">Desligamento da Empresa</span>
+                                <span class="block text-xs text-slate-500 dark:text-slate-400">O colaborador encerrou o vínculo com a empresa.</span>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 cursor-pointer hover:border-indigo-300 dark:hover:border-indigo-600 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-50/40 dark:has-[:checked]:bg-indigo-950/20 shadow-2xs">
+                            <input type="radio" name="opcaoMotivo" value="Outro" class="w-4 h-4 text-primary focus:ring-primary mt-1 radio-motivo">
+                            <div class="flex-1 min-w-0">
+                                <span class="block text-sm font-bold text-slate-800 dark:text-slate-100">Outro Motivo (Personalizado)</span>
+                                <span class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Informe um motivo personalizado para ficar registrado no histórico.</span>
+                                <div id="container-motivo-custom" class="hidden mt-2">
+                                    <textarea id="input-motivo-custom" placeholder="Ex: Transferência de filial, afastamento, erro de duplicidade no cadastro..." rows="2" class="w-full px-3 py-2 text-xs border border-indigo-200 dark:border-indigo-800 rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary outline-none transition-all"></textarea>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/60">
+                    <button type="button" class="btn-cancel px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors">Cancelar</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 text-sm font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        <span>Confirmar Exclusão</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+
+    showModal(modalHTML);
+    if (window.lucide) window.lucide.createIcons();
+
+    const radios = document.querySelectorAll('.radio-motivo');
+    const containerCustom = document.getElementById('container-motivo-custom');
+    const inputCustom = document.getElementById('input-motivo-custom');
+
+    radios.forEach(r => {
+        r.addEventListener('change', () => {
+            if (r.value === 'Outro' && r.checked) {
+                containerCustom.classList.remove('hidden');
+                inputCustom.focus();
+            } else {
+                containerCustom.classList.add('hidden');
+            }
+        });
+    });
+
+    document.getElementById('form-excluir-funcionario')?.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const formData = new FormData(ev.target);
+        const opcao = formData.get('opcaoMotivo');
+        let motivoFinal = 'Desligamento';
+
+        if (opcao === 'Outro') {
+            const customText = inputCustom.value.trim();
+            if (!customText) {
+                showToast('Por favor, informe o motivo personalizado no campo de texto.', 'warning');
+                inputCustom.focus();
+                return;
+            }
+            motivoFinal = customText;
+        }
+
+        try {
+            await onConfirm(motivoFinal);
+            hideModal();
+        } catch (err) {
+            showToast(err.message, 'error');
+        }
+    });
+
+    document.querySelector('.btn-cancel')?.addEventListener('click', hideModal);
 };

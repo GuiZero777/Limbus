@@ -209,22 +209,35 @@ app.put('/api/funcionarios/:id', handle(async (req, res) => {
 
 app.delete('/api/funcionarios/:id', handle(async (req, res) => {
     const id = uuid(req.params.id, 'id');
+    const motivo = req.body?.motivo || req.query?.motivo || 'Desligamento';
     
     // Obter dados do funcionário para garantir snapshot histórico imutável
     const { data: func } = await supabase.from('funcionarios').select('*').eq('id', id).maybeSingle();
     if (func) {
+        // Desvincular equipamentos que estavam em posse dele e disponibilizá-los
+        await supabase.from('equipamentos')
+            .update({ status: 'DISPONIVEL', funcionarioId: null })
+            .eq('funcionarioId', id);
+
         const { data: histList } = await supabase.from('historico').select('*').eq('funcionarioId', id);
         if (histList && histList.length > 0) {
             for (const h of histList) {
-                if (!h.funcionarioSnapshot) {
-                    const snap = JSON.stringify({
-                        id: func.id,
-                        nome: func.nome,
-                        funcao: func.funcao || 'Não Informado',
-                        setor: func.setor || null
-                    });
-                    await supabase.from('historico').update({ funcionarioSnapshot: snap }).eq('id', h.id);
+                let snapObj = h.funcionarioSnapshot;
+                if (typeof snapObj === 'string') {
+                    try { snapObj = JSON.parse(snapObj); } catch(e) { snapObj = {}; }
                 }
+                snapObj = snapObj || {};
+
+                const updatedSnap = {
+                    id: func.id,
+                    nome: func.nome,
+                    funcao: func.funcao || 'Não Informado',
+                    setor: func.setor || null,
+                    ...snapObj,
+                    desligado: true,
+                    motivoExclusao: motivo
+                };
+                await supabase.from('historico').update({ funcionarioSnapshot: updatedSnap }).eq('id', h.id);
             }
         }
     }

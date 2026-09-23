@@ -25,7 +25,7 @@
   },
   {
     "id": "setor-7",
-    "nome": "EQUIPE TÉCNICA"
+    "nome": "TÉCNICOS DE SUPORTE"
   },
   {
     "id": "setor-8",
@@ -38,10 +38,6 @@
   {
     "id": "setor-10",
     "nome": "GESTÃO DE FORNECEDORES"
-  },
-  {
-    "id": "setor-11",
-    "nome": "Geral"
   },
   {
     "id": "setor-12",

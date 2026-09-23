@@ -1,5 +1,16 @@
 // js/ui.js
 
+const escapeHtml = (str) => {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+};
+window.escapeHtml = escapeHtml;
+
 // === MODAL SYSTEM ===
 const showModal = (contentOrTitle, bodyContent = null) => {
     const modalContainer = document.getElementById('modal-container');
