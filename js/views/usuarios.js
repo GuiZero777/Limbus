@@ -109,6 +109,9 @@ const carregarListaUsuarios = async () => {
             if (perfil === 'admin') {
                 return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Administrador</span>`;
             }
+            if (perfil === 'viewer') {
+                return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">Viewer</span>`;
+            }
             return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Operador</span>`;
         };
 
@@ -195,6 +198,7 @@ const abrirModalUsuario = (usuarioParaEditar = null) => {
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Perfil de Acesso</label>
                             <select id="input-user-perfil" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                                 <option value="operador" ${usuarioParaEditar?.perfil === 'operador' ? 'selected' : ''}>Operador</option>
+                                <option value="viewer" ${usuarioParaEditar?.perfil === 'viewer' ? 'selected' : ''}>Viewer (Somente Leitura)</option>
                                 <option value="admin" ${usuarioParaEditar?.perfil === 'admin' ? 'selected' : ''}>Administrador</option>
                             </select>
                         </div>

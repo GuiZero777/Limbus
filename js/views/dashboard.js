@@ -2,6 +2,7 @@
 
 const renderDashboard = (container, headerActions) => {
     headerActions.innerHTML = '';
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
 
     const funcionarios = getFuncionarios();
     const fncs = funcionarios.length;
@@ -93,7 +94,7 @@ const renderDashboard = (container, headerActions) => {
                 <p class="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">${totalSetores}</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Departamentos ativos</p>
                 <button onclick="navigate('setores')" class="mt-4 text-xs text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
-                    Gerenciar <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
+                    ${isViewer ? 'Visualizar' : 'Gerenciar'} <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
                 </button>
             </div>
 
@@ -104,9 +105,10 @@ const renderDashboard = (container, headerActions) => {
                 </div>
                 <p class="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">${emps}</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">CNPJs geradores</p>
+                ${!isViewer ? `
                 <button onclick="navigate('empresas')" class="mt-4 text-xs text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
                     Gerenciar <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
-                </button>
+                </button>` : '<div class="mt-4 h-5"></div>'}
             </div>
 
             <div class="stat-card stagger-4" style="opacity:0; animation: fade-in-up 0.4s ease forwards 180ms">
@@ -132,7 +134,7 @@ const renderDashboard = (container, headerActions) => {
                     <div class="progress-bar-container"><div class="progress-bar-fill" style="width: ${usagePercent}%"></div></div>
                 </div>` : ''}
                 <button onclick="navigate('equipamentos')" class="mt-3 text-xs text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
-                    Gerenciar <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
+                    ${isViewer ? 'Visualizar' : 'Gerenciar'} <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
                 </button>
             </div>
         </div>
@@ -177,7 +179,7 @@ const renderDashboard = (container, headerActions) => {
                 </div>
                 <div class="pt-4 mt-2 border-t border-slate-100 dark:border-slate-700/50">
                     <button onclick="navigate('setores')" class="text-xs text-indigo-500 hover:text-indigo-400 font-semibold inline-flex items-center gap-1 group transition-colors">
-                        Gerenciar todos os setores <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
+                        ${isViewer ? 'Ver todos os setores' : 'Gerenciar todos os setores'} <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1"></i>
                     </button>
                 </div>
             </div>

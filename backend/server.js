@@ -20,6 +20,27 @@ app.use(express.json());
 // Serve o frontend estático a partir da raiz do projeto
 app.use(express.static(path.join(__dirname, '..')));
 
+// Middleware de proteção de escrita para usuários com perfil 'viewer' (somente leitura)
+app.use((req, res, next) => {
+    const writeMethods = ['POST', 'PUT', 'DELETE', 'PATCH'];
+    if (writeMethods.includes(req.method)) {
+        if (req.path === '/api/auth/login' || req.path === '/api/auth/alterar-senha') {
+            return next();
+        }
+        const authHeader = req.headers['authorization'];
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const token = authHeader.slice(7);
+            const payload = verifyToken(token);
+            if (payload && payload.perfil === 'viewer') {
+                return res.status(403).json({
+                    error: 'Acesso negado: usuários com perfil Viewer possuem permissão apenas para visualização de dados.'
+                });
+            }
+        }
+    }
+    next();
+});
+
 const generateId = () => crypto.randomUUID();
 
 // =============================================================
@@ -686,7 +707,7 @@ app.post('/api/usuarios', authMiddleware('admin'), handle(async (req, res) => {
         usuario: usuario.trim().toLowerCase(),
         senha_hash: hashPassword(senha),
         cargo: (cargo || 'Operador de TI').trim(),
-        perfil: perfil === 'admin' ? 'admin' : 'operador',
+        perfil: (perfil === 'admin' || perfil === 'viewer') ? perfil : 'operador',
         ativo: true,
         created_at: new Date().toISOString()
     };
@@ -717,7 +738,7 @@ app.put('/api/usuarios/:id', authMiddleware('admin'), handle(async (req, res) =>
 
     if (nome) target.nome = nome.trim();
     if (cargo) target.cargo = cargo.trim();
-    if (perfil) target.perfil = perfil === 'admin' ? 'admin' : 'operador';
+    if (perfil) target.perfil = (perfil === 'admin' || perfil === 'viewer') ? perfil : 'operador';
     if (ativo !== undefined) target.ativo = Boolean(ativo);
     if (nova_senha && nova_senha.trim().length >= 4) {
         target.senha_hash = hashPassword(nova_senha.trim());

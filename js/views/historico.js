@@ -2,6 +2,7 @@
 
 // --- Histórico Geral ---
 const renderHistoricoGeral = (container, headerActions, filters = {}) => {
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
     headerActions.innerHTML = `
         <div class="flex items-center gap-2">
             <button id="btn-print-historico" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3.5 py-2 rounded-lg font-medium transition-colors shadow-xs inline-flex items-center gap-2 text-sm">
@@ -9,9 +10,10 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                 <span class="hidden sm:inline">Imprimir Relatório</span>
                 <span class="sm:hidden">Imprimir</span>
             </button>
+            ${!isViewer ? `
             <button id="btn-clear-historico" class="bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 px-3 py-2 rounded-lg font-medium transition-colors shadow-xs inline-flex items-center gap-2 border border-red-200 dark:border-red-800 text-sm" title="Apagar todo o histórico">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
+            </button>` : ''}
         </div>
     `;
 
@@ -157,7 +159,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                         <th class="py-3.5 px-6 font-semibold">Tipo</th>
                         <th class="py-3.5 px-6 font-semibold">Funcionário</th>
                         <th class="py-3.5 px-6 font-semibold">Equipamentos / Itens</th>
-                        <th class="py-3.5 px-6 font-semibold text-right">Ações</th>
+                        ${!isViewer ? '<th class="py-3.5 px-6 font-semibold text-right">Ações</th>' : ''}
                     </tr>
                 </thead>
                 <tbody>
@@ -166,7 +168,7 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
     if (agrupadoHistorico.length === 0) {
         tableHTML += `
             <tr>
-                <td colspan="5" class="py-8 text-center text-slate-500 dark:text-slate-400">
+                <td colspan="${isViewer ? '4' : '5'}" class="py-8 text-center text-slate-500 dark:text-slate-400">
                     Nenhum registro encontrado no histórico.
                 </td>
             </tr>
@@ -266,11 +268,12 @@ const renderHistoricoGeral = (container, headerActions, filters = {}) => {
                     <td class="py-4 px-6">
                         ${eqpContent}
                     </td>
+                    ${!isViewer ? `
                     <td class="py-4 px-6 text-right">
                         <button ${deleteDataAttr} class="btn-delete-hist text-slate-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors" title="Remover esta entrada">
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
-                    </td>
+                    </td>` : ''}
                 </tr>
              `;
         });

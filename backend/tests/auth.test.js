@@ -110,5 +110,44 @@ describe('Autenticação e Gestão de Usuários', () => {
                 .set('Authorization', `Bearer ${adminToken}`);
             expect(res.status).toBe(204);
         });
+
+        it('deve cadastrar um usuário com perfil viewer e bloquear ações de escrita', async () => {
+            const resCreate = await request(app)
+                .post('/api/usuarios')
+                .set('Authorization', `Bearer ${adminToken}`)
+                .send({
+                    nome: 'Visualizador Teste',
+                    usuario: 'viewer.teste',
+                    senha: 'viewer123',
+                    cargo: 'Auditor',
+                    perfil: 'viewer'
+                });
+
+            expect(resCreate.status).toBe(201);
+            expect(resCreate.body.perfil).toBe('viewer');
+            const viewerId = resCreate.body.id;
+
+            // Login como viewer
+            const resLogin = await request(app)
+                .post('/api/auth/login')
+                .send({ usuario: 'viewer.teste', senha: 'viewer123' });
+            expect(resLogin.status).toBe(200);
+            expect(resLogin.body.user.perfil).toBe('viewer');
+            const viewerToken = resLogin.body.token;
+
+            // Tentativa de escrita como viewer deve ser bloqueada com 403
+            const resWrite = await request(app)
+                .post('/api/setores')
+                .set('Authorization', `Bearer ${viewerToken}`)
+                .send({ nome: 'Setor Proibido' });
+            expect(resWrite.status).toBe(403);
+            expect(resWrite.body.error).toMatch(/perfil Viewer/i);
+
+            // Limpa o usuário de teste
+            await request(app)
+                .delete(`/api/usuarios/${viewerId}`)
+                .set('Authorization', `Bearer ${adminToken}`);
+        });
     });
 });
+

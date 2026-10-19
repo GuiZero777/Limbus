@@ -1,7 +1,8 @@
 // js/views/funcionarios.js
 
 const renderFuncionarios = (container, headerActions, params = {}) => {
-    headerActions.innerHTML = `
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
+    headerActions.innerHTML = isViewer ? '' : `
         <div class="flex items-center gap-2">
             <button id="btn-import-func" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 hover:dark:bg-emerald-900/50 px-3.5 py-2 rounded-lg font-medium transition-colors border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 text-sm">
                 <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
@@ -71,14 +72,14 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                             <th class="py-3 px-4 font-semibold hidden md:table-cell">Função</th>
                             <th class="py-3 px-4 font-semibold text-center whitespace-nowrap hidden lg:table-cell">Admissão</th>
                             <th class="py-3 px-4 font-semibold text-center whitespace-nowrap">Status</th>
-                            <th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>
+                            ${!isViewer ? '<th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
         `;
 
         if (funcionarios.length === 0) {
-            tableHTML += `<tr><td colspan="6" class="py-8 text-center text-slate-500 dark:text-slate-400">Nenhum funcionário encontrado.</td></tr>`;
+            tableHTML += `<tr><td colspan="${isViewer ? '5' : '6'}" class="py-8 text-center text-slate-500 dark:text-slate-400">Nenhum funcionário encontrado.</td></tr>`;
         } else {
             funcionarios.forEach(fnc => {
                 const eqps = equipamentos.filter(eq => eq.funcionarioId === fnc.id && eq.status === 'EM_USO');
@@ -101,6 +102,7 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.funcao}</td>
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 text-center whitespace-nowrap hidden lg:table-cell">${formatInputDate(fnc.dataAdmissao)}</td>
                         <td class="py-3.5 px-4 text-center whitespace-nowrap">${statusBadge}</td>
+                        ${!isViewer ? `
                         <td class="py-3.5 px-4 text-right whitespace-nowrap">
                             <div class="flex items-center justify-end gap-1" onclick="event.stopPropagation()">
                                 <button data-id="${fnc.id}" class="btn-gerar text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 p-2 rounded hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors" title="Gerar Termo de Entrega">
@@ -113,7 +115,7 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </div>
-                        </td>
+                        </td>` : ''}
                     </tr>
                 `;
             });
@@ -168,11 +170,11 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
     document.getElementById('search-func')?.addEventListener('input', debounce((e) => renderTable(e.target.value), 300));
     document.getElementById('sort-func')?.addEventListener('change', () => renderTable(document.getElementById('search-func')?.value || ''));
 
-    document.getElementById('btn-add-func').addEventListener('click', () => {
+    document.getElementById('btn-add-func')?.addEventListener('click', () => {
         renderFuncionarioForm();
     });
 
-    document.getElementById('btn-import-func').addEventListener('click', () => {
+    document.getElementById('btn-import-func')?.addEventListener('click', () => {
         renderFuncionarioImport();
     });
 
@@ -758,6 +760,7 @@ const renderFuncionarioImport = () => {
 
 // --- Perfil do Funcionário (Histórico & Devolução) ---
 window.renderFuncionarioPerfil = (id) => {
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
     const funcionario = getFuncionarioById(id);
     if (!funcionario) return;
     const equipamentos = getEquipamentos();
@@ -935,9 +938,10 @@ window.renderFuncionarioPerfil = (id) => {
                             </div>
                         </div>
                     </div>
+                    ${!isViewer ? `
                     <button data-eqpid="${eqp.id}" class="btn-devolver shrink-0 ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shadow-sm" title="Registrar devolução do equipamento">
                         <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver
-                    </button>
+                    </button>` : ''}
                 </div>
              `).join('');
 
@@ -957,9 +961,10 @@ window.renderFuncionarioPerfil = (id) => {
                             </div>
                         </div>
                     </div>
+                    ${!isViewer ? `
                     <button data-insumoid="${ins.insumoId || ins.id}" data-insumonome="${ins.nome}" data-insumomarca="${ins.marca || ''}" class="btn-devolver-insumo shrink-0 ml-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 hover:border-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shadow-sm" title="Registrar devolução do insumo">
                         <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver
-                    </button>
+                    </button>` : ''}
                 </div>
              `).join('');
 
@@ -990,6 +995,7 @@ window.renderFuncionarioPerfil = (id) => {
                                 <i data-lucide="box" class="w-5 h-5 text-primary"></i>
                                 <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100">Posse Atual</h4>
                             </div>
+                            ${!isViewer ? `
                             <div class="flex items-center gap-2">
                                 <button id="btn-alocar-insumo-perfil" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-2.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1 shadow-2xs" title="Entregar um insumo ou periférico diretamente a este colaborador">
                                     <i data-lucide="plus" class="w-3.5 h-3.5"></i> Alocar Insumo
@@ -999,7 +1005,7 @@ window.renderFuncionarioPerfil = (id) => {
                                     <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Devolver Todos
                                 </button>
                                 ` : ''}
-                            </div>
+                            </div>` : ''}
                         </div>
                         ${posseHTML}
                     </div>

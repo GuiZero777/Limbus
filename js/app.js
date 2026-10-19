@@ -84,6 +84,16 @@ const renderBreadcrumbs = (viewDef, params) => {
 };
 
 const navigate = (viewName, params = {}) => {
+    if (typeof Auth !== 'undefined' && Auth.isViewer()) {
+        const allowedViews = ['dashboard', 'funcionarios', 'equipamentos', 'setores', 'historico', 'insumos'];
+        if (!allowedViews.includes(viewName)) {
+            if (typeof showToast === 'function') {
+                showToast('Acesso restrito: o perfil Viewer não tem permissão para acessar esta área.', 'warning');
+            }
+            viewName = 'dashboard';
+        }
+    }
+
     if (!views[viewName]) return;
 
     currentView = viewName;

@@ -86,20 +86,38 @@ const Auth = {
         return data;
     },
 
+    isViewer() {
+        const user = this.getUser();
+        return user?.perfil === 'viewer';
+    },
+
+    isAdmin() {
+        const user = this.getUser();
+        return user?.perfil === 'admin';
+    },
+
+    canEdit() {
+        return !this.isViewer();
+    },
+
     renderUserInfo() {
         const user = this.getUser();
         const userContainer = document.getElementById('sidebar-user-info');
         if (!userContainer || !user) return;
 
+        const perfilLabel = user.perfil === 'admin'
+            ? 'Administrador'
+            : (user.perfil === 'viewer' ? 'Viewer (Leitura)' : (user.cargo || 'Operador'));
+
         userContainer.innerHTML = `
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 shadow-md">
                 <div class="flex items-center gap-3 overflow-hidden">
-                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-600 to-indigo-400 flex items-center justify-center font-bold text-white shadow-sm flex-shrink-0">
+                    <div class="w-9 h-9 rounded-lg ${user.perfil === 'viewer' ? 'bg-gradient-to-tr from-sky-600 to-sky-400' : 'bg-gradient-to-tr from-indigo-600 to-indigo-400'} flex items-center justify-center font-bold text-white shadow-sm flex-shrink-0">
                         ${(user.nome || user.usuario || 'U').charAt(0).toUpperCase()}
                     </div>
                     <div class="truncate">
                         <p class="text-xs font-semibold text-slate-200 truncate leading-tight">${user.nome || user.usuario}</p>
-                        <p class="text-[11px] text-indigo-400 truncate capitalize">${user.perfil === 'admin' ? 'Administrador' : (user.cargo || 'Operador')}</p>
+                        <p class="text-[11px] ${user.perfil === 'viewer' ? 'text-sky-400' : 'text-indigo-400'} truncate capitalize">${perfilLabel}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-1">
@@ -125,7 +143,15 @@ const Auth = {
             Auth.showChangePasswordModal();
         });
 
-        // Mostra menu de gerenciamento de usuários se for admin
+        // Configuração de visibilidade do menu da Sidebar para perfil Viewer
+        const isViewer = this.isViewer();
+        const empresasNav = document.querySelector('a[data-view="empresas"]');
+        if (empresasNav) empresasNav.style.display = isViewer ? 'none' : 'flex';
+
+        const insumosNav = document.querySelector('a[data-view="insumos"]');
+        if (insumosNav) insumosNav.style.display = 'flex';
+
+        // Mostra menu de gerenciamento de usuários apenas se for admin
         const usuariosNav = document.getElementById('nav-usuarios-container');
         if (usuariosNav) {
             usuariosNav.style.display = user.perfil === 'admin' ? 'block' : 'none';

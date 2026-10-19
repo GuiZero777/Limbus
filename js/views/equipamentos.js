@@ -1,7 +1,8 @@
 // js/views/equipamentos.js
 
 const renderEquipamentos = (container, headerActions, params = {}) => {
-    headerActions.innerHTML = `
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
+    headerActions.innerHTML = isViewer ? '' : `
         <button id="btn-add-equipamento" class="btn-primary flex items-center gap-2 py-2 text-sm">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Novo Equipamento</span>
@@ -76,14 +77,14 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                             <th class="py-3 px-4 font-semibold">Modelo/Marca</th>
                             <th class="py-3 px-4 font-semibold whitespace-nowrap">Serial Number</th>
                             <th class="py-3 px-4 font-semibold text-center whitespace-nowrap">Status</th>
-                            <th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>
+                            ${!isViewer ? '<th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
         `;
 
         if (equipamentos.length === 0) {
-            tableHTML += `<tr><td colspan="6" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum equipamento encontrado.</td></tr>`;
+            tableHTML += `<tr><td colspan="${isViewer ? '5' : '6'}" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum equipamento encontrado.</td></tr>`;
         } else {
             equipamentos.forEach(eqp => {
                 const isDisponivel = eqp.status === 'DISPONIVEL';
@@ -114,6 +115,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                 ${statusBadge}
                             </div>
                         </td>
+                        ${!isViewer ? `
                         <td class="py-3.5 px-4 text-right whitespace-nowrap">
                             <div class="flex items-center justify-end gap-1.5">
                                 ${alocarBtn}
@@ -124,7 +126,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </div>
-                        </td>
+                        </td>` : ''}
                     </tr>
                 `;
             });
@@ -524,7 +526,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         document.querySelector('.btn-cancel').addEventListener('click', hideModal);
     };
 
-    document.getElementById('btn-add-equipamento').addEventListener('click', () => {
+    document.getElementById('btn-add-equipamento')?.addEventListener('click', () => {
         renderEquipamentoForm();
     });
 };

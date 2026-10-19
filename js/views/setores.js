@@ -1,7 +1,8 @@
 // js/views/setores.js
 
 const renderSetores = (container, headerActions, params = {}) => {
-    headerActions.innerHTML = `
+    const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
+    headerActions.innerHTML = isViewer ? '' : `
         <button id="btn-header-novo-setor" class="btn-primary flex items-center gap-2">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Novo Setor</span>
@@ -15,10 +16,11 @@ const renderSetores = (container, headerActions, params = {}) => {
                 <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500"></i>
                 <input type="text" id="search-setor" value="${params.search || ''}" placeholder="Buscar setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
             </div>
+            ${!isViewer ? `
             <button id="btn-novo-setor" class="btn-primary flex items-center justify-center gap-2 sm:hidden">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span>Novo Setor</span>
-            </button>
+            </button>` : ''}
         </div>
         <div id="setores-table-container"></div>
     `;
@@ -76,12 +78,13 @@ const renderSetores = (container, headerActions, params = {}) => {
                                 <button data-name="${setor}" class="btn-view-colabs text-slate-500 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors" title="Ver Colaboradores">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </button>
+                                ${!isViewer ? `
                                 <button data-name="${setor}" class="btn-edit-setor text-indigo-500 hover:text-indigo-700 p-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors" title="Renomear Setor">
                                     <i data-lucide="pencil" class="w-4 h-4"></i>
                                 </button>
                                 <button data-name="${setor}" class="btn-delete-setor text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors" title="Remover Setor">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
+                                </button>` : ''}
                             </div>
                         </td>
                     </tr>
