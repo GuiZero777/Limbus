@@ -373,3 +373,67 @@ const removeInsumo = async (id) => {
     await checkResponse(res, 'Falha ao remover insumo');
     StoreState.insumos = (StoreState.insumos || []).filter(i => i.id !== id);
 };
+
+// --- Sistema de Favoritos (Persistência Local por Usuário) ---
+const Favorites = {
+    getKey() {
+        const user = typeof Auth !== 'undefined' ? Auth.getUser() : null;
+        const identifier = user?.usuario || user?.id || 'default';
+        return `limbus_favorites_${identifier}`;
+    },
+    getAll() {
+        try {
+            const raw = localStorage.getItem(this.getKey());
+            const data = raw ? JSON.parse(raw) : {};
+            return {
+                funcionarios: Array.isArray(data.funcionarios) ? data.funcionarios : [],
+                equipamentos: Array.isArray(data.equipamentos) ? data.equipamentos : []
+            };
+        } catch (e) {
+            return { funcionarios: [], equipamentos: [] };
+        }
+    },
+    isFavorite(type, id) {
+        if (!id) return false;
+        const favs = this.getAll();
+        const list = favs[type] || [];
+        return list.includes(id);
+    },
+    isFuncionario(id) {
+        return this.isFavorite('funcionarios', id);
+    },
+    isEquipamento(id) {
+        return this.isFavorite('equipamentos', id);
+    },
+    toggle(type, id) {
+        if (!id) return false;
+        const favs = this.getAll();
+        if (!Array.isArray(favs[type])) {
+            favs[type] = [];
+        }
+        const index = favs[type].indexOf(id);
+        let added = false;
+        if (index > -1) {
+            favs[type].splice(index, 1);
+            added = false;
+        } else {
+            favs[type].push(id);
+            added = true;
+        }
+        try {
+            localStorage.setItem(this.getKey(), JSON.stringify(favs));
+        } catch (e) {
+            console.error('Erro ao salvar favoritos no localStorage', e);
+        }
+        return added;
+    },
+    toggleFuncionario(id) {
+        return this.toggle('funcionarios', id);
+    },
+    toggleEquipamento(id) {
+        return this.toggle('equipamentos', id);
+    }
+};
+
+window.Favorites = Favorites;
+

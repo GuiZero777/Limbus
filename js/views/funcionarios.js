@@ -18,8 +18,8 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
     // Renderizar a estrutura de filtros locais da página
     container.innerHTML = `
         <div class="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-            <div class="flex flex-1 items-center gap-3 max-w-lg">
-                <div class="relative flex-1">
+            <div class="flex flex-1 flex-wrap items-center gap-3 max-w-2xl">
+                <div class="relative flex-1 min-w-[220px]">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
                     <input type="text" id="search-func" value="${params.search || ''}" placeholder="Buscar funcionário por nome, cargo ou setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
                 </div>
@@ -28,6 +28,11 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                     <option value="ZA">Ordem Alfabética (Z-A)</option>
                     <option value="NEWEST">Mais Recentes</option>
                 </select>
+                <button type="button" id="btn-filter-fav-func" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-amber-500 hover:border-amber-300 dark:hover:border-amber-600/50 transition-colors shrink-0 shadow-2xs" title="Filtrar apenas favoritos">
+                    <i data-lucide="star" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Apenas Favoritos</span>
+                    <span class="sm:hidden">Favoritos</span>
+                </button>
             </div>
         </div>
         <div id="funcionarios-table-container"></div>
@@ -38,12 +43,19 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
     const tableContainer = document.getElementById('funcionarios-table-container');
     const searchInput = document.getElementById('search-func');
     const sortSelect = document.getElementById('sort-func');
+    const btnFilterFav = document.getElementById('btn-filter-fav-func');
+    let onlyFavorites = false;
 
     const renderTable = (filterText = '') => {
         const sortMode = sortSelect?.value || 'AZ';
-        let funcionarios = getFuncionarios();
+        let funcionarios = [...getFuncionarios()];
 
-        // Sort
+        // 1. Filtro "Apenas Favoritos"
+        if (onlyFavorites && typeof Favorites !== 'undefined') {
+            funcionarios = funcionarios.filter(f => Favorites.isFuncionario(f.id));
+        }
+
+        // 2. Ordenação Base
         if (sortMode === 'NEWEST') {
             funcionarios.sort((a, b) => (b.dataAdmissao || '').localeCompare(a.dataAdmissao || ''));
         } else if (sortMode === 'AZ') {
@@ -52,12 +64,20 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
             funcionarios.sort((a, b) => b.nome.localeCompare(a.nome));
         }
 
+        // 3. Filtro por Texto ou Float de Favoritos no Topo quando nada pesquisado
         if (filterText) {
             funcionarios = funcionarios.filter(f =>
                 f.nome.toLowerCase().includes(filterText.toLowerCase()) ||
                 f.funcao.toLowerCase().includes(filterText.toLowerCase()) ||
                 (f.setor || '').toLowerCase().includes(filterText.toLowerCase())
             );
+        } else if (typeof Favorites !== 'undefined') {
+            // Quando NÃO estiver com nada pesquisado, os favoritados aparecem logo no topo!
+            funcionarios.sort((a, b) => {
+                const favA = Favorites.isFuncionario(a.id) ? 1 : 0;
+                const favB = Favorites.isFuncionario(b.id) ? 1 : 0;
+                return favB - favA;
+            });
         }
 
         const equipamentos = getEquipamentos();
@@ -67,6 +87,7 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
                 <table class="w-full text-left border-collapse min-w-[760px]">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
+                            <th class="py-3 px-2 w-10 text-center" title="Favoritos"><i data-lucide="star" class="w-3.5 h-3.5 mx-auto text-slate-400"></i></th>
                             <th class="py-3 px-4 font-semibold">Nome</th>
                             <th class="py-3 px-4 font-semibold hidden md:table-cell">Setor</th>
                             <th class="py-3 px-4 font-semibold hidden md:table-cell">Função</th>
@@ -79,10 +100,12 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
         `;
 
         if (funcionarios.length === 0) {
-            tableHTML += `<tr><td colspan="${isViewer ? '5' : '6'}" class="py-8 text-center text-slate-500 dark:text-slate-400">Nenhum funcionário encontrado.</td></tr>`;
+            const emptyMsg = onlyFavorites ? 'Nenhum funcionário favoritado ainda.' : 'Nenhum funcionário encontrado.';
+            tableHTML += `<tr><td colspan="${isViewer ? '6' : '7'}" class="py-8 text-center text-slate-500 dark:text-slate-400">${emptyMsg}</td></tr>`;
         } else {
             funcionarios.forEach(fnc => {
                 const eqps = equipamentos.filter(eq => eq.funcionarioId === fnc.id && eq.status === 'EM_USO');
+                const isFav = typeof Favorites !== 'undefined' && Favorites.isFuncionario(fnc.id);
                 let statusBadge = '';
                 if (eqps.length === 0) {
                     statusBadge = '<span class="inline-flex items-center text-xs text-slate-500 bg-slate-100 dark:bg-slate-700/60 dark:text-slate-400 px-3 py-1 rounded-full font-medium whitespace-nowrap">Sem itens</span>';
@@ -97,6 +120,11 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
 
                 tableHTML += `
                     <tr class="row-funcionario border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer" data-id="${fnc.id}">
+                        <td class="py-3.5 px-2 text-center" onclick="event.stopPropagation()">
+                            <button type="button" data-id="${fnc.id}" data-name="${fnc.nome}" data-type="funcionario" class="btn-star-fav ${isFav ? 'is-fav' : ''}" title="${isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                                <i data-lucide="star" class="w-4 h-4"></i>
+                            </button>
+                        </td>
                         <td class="py-3.5 px-4 font-semibold text-slate-800 dark:text-slate-100">${fnc.nome}</td>
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.setor || '<span class="text-slate-400 dark:text-slate-500 italic">Não Informado</span>'}</td>
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 hidden md:table-cell">${fnc.funcao}</td>
@@ -125,6 +153,31 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
         tableContainer.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
+
+        // Clique na Estrelinha de Favorito
+        document.querySelectorAll('.btn-star-fav').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.dataset.id;
+                const name = btn.dataset.name || 'Colaborador';
+                const wasFav = btn.classList.contains('is-fav');
+                const nowFav = !wasFav;
+
+                if (typeof Favorites !== 'undefined') {
+                    Favorites.toggleFuncionario(id);
+                }
+
+                btn.classList.toggle('is-fav', nowFav);
+                btn.title = nowFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
+
+                showToast(
+                    nowFav ? `"${name}" adicionado aos favoritos!` : `"${name}" removido dos favoritos.`,
+                    nowFav ? 'success' : 'info'
+                );
+                // NOTA: O item NÃO se move ou desaparece aqui.
+                // O usuário especificou: "Caso eu desfavorite algo também essa coisa só vai sumir dali depois que eu pesquisar ou mudar de aba."
+            });
+        });
 
         // Clicar na linha abre o perfil
         document.querySelectorAll('.row-funcionario').forEach(row => {
@@ -169,6 +222,27 @@ const renderFuncionarios = (container, headerActions, params = {}) => {
 
     document.getElementById('search-func')?.addEventListener('input', debounce((e) => renderTable(e.target.value), 300));
     document.getElementById('sort-func')?.addEventListener('change', () => renderTable(document.getElementById('search-func')?.value || ''));
+
+    // Botão de filtro "Apenas Favoritos"
+    btnFilterFav?.addEventListener('click', () => {
+        onlyFavorites = !onlyFavorites;
+        if (onlyFavorites) {
+            btnFilterFav.classList.add('bg-amber-50', 'dark:bg-amber-950/40', 'text-amber-600', 'dark:text-amber-400', 'border-amber-300', 'dark:border-amber-700/60', 'font-semibold');
+            btnFilterFav.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+            const star = btnFilterFav.querySelector('svg') || btnFilterFav.querySelector('i');
+            if (star) {
+                star.classList.add('fill-amber-500', 'text-amber-500');
+            }
+        } else {
+            btnFilterFav.classList.remove('bg-amber-50', 'dark:bg-amber-950/40', 'text-amber-600', 'dark:text-amber-400', 'border-amber-300', 'dark:border-amber-700/60', 'font-semibold');
+            btnFilterFav.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+            const star = btnFilterFav.querySelector('svg') || btnFilterFav.querySelector('i');
+            if (star) {
+                star.classList.remove('fill-amber-500', 'text-amber-500');
+            }
+        }
+        renderTable(document.getElementById('search-func')?.value || '');
+    });
 
     document.getElementById('btn-add-func')?.addEventListener('click', () => {
         renderFuncionarioForm();

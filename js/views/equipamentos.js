@@ -27,6 +27,11 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                     <option value="AZ">Ordem Alfabética (A-Z)</option>
                     <option value="ZA">Ordem Alfabética (Z-A)</option>
                 </select>
+                <button type="button" id="btn-filter-fav-equip" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-amber-500 hover:border-amber-300 dark:hover:border-amber-600/50 transition-colors shrink-0 shadow-2xs" title="Filtrar apenas favoritos">
+                    <i data-lucide="star" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Apenas Favoritos</span>
+                    <span class="sm:hidden">Favoritos</span>
+                </button>
             </div>
         </div>
         <div id="equipamentos-table-container"></div>
@@ -35,15 +40,22 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
     if (window.lucide) window.lucide.createIcons();
 
     const tableContainer = document.getElementById('equipamentos-table-container');
+    const btnFilterFav = document.getElementById('btn-filter-fav-equip');
+    let onlyFavorites = false;
 
     const renderTable = () => {
         const filterText = document.getElementById('search-equip')?.value.toLowerCase() || '';
         const statusFilter = document.getElementById('filter-status-equip')?.value || 'ALL';
         const sortMode = document.getElementById('sort-equip')?.value || 'NEWEST';
 
-        let equipamentos = getEquipamentos();
+        let equipamentos = [...getEquipamentos()];
 
-        // Sort First
+        // 1. Filtro "Apenas Favoritos"
+        if (onlyFavorites && typeof Favorites !== 'undefined') {
+            equipamentos = equipamentos.filter(eqp => Favorites.isEquipamento(eqp.id));
+        }
+
+        // 2. Ordenação Base
         if (sortMode === 'NEWEST') {
             equipamentos.reverse();
         } else if (sortMode === 'AZ') {
@@ -52,7 +64,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
             equipamentos.sort((a, b) => b.descricao.localeCompare(a.descricao));
         }
 
-        // Filter by Text
+        // 3. Filtro por Texto ou Float de Favoritos no Topo quando nada pesquisado
         if (filterText) {
             equipamentos = equipamentos.filter(eqp =>
                 eqp.descricao.toLowerCase().includes(filterText) ||
@@ -60,9 +72,16 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                 (eqp.patrimonio || '').toLowerCase().includes(filterText) ||
                 (eqp.serialNumber || '').toLowerCase().includes(filterText)
             );
+        } else if (typeof Favorites !== 'undefined') {
+            // Quando NÃO estiver com nada pesquisado, os favoritados aparecem logo no topo!
+            equipamentos.sort((a, b) => {
+                const favA = Favorites.isEquipamento(a.id) ? 1 : 0;
+                const favB = Favorites.isEquipamento(b.id) ? 1 : 0;
+                return favB - favA;
+            });
         }
 
-        // Filter by Status
+        // 4. Filtro por Status
         if (statusFilter !== 'ALL') {
             equipamentos = equipamentos.filter(eqp => eqp.status === statusFilter);
         }
@@ -72,6 +91,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                 <table class="w-full text-left border-collapse min-w-[780px]">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
+                            <th class="py-3 px-2 w-10 text-center" title="Favoritos"><i data-lucide="star" class="w-3.5 h-3.5 mx-auto text-slate-400"></i></th>
                             <th class="py-3 px-4 font-semibold whitespace-nowrap">Patrimônio</th>
                             <th class="py-3 px-4 font-semibold">Descrição</th>
                             <th class="py-3 px-4 font-semibold">Modelo/Marca</th>
@@ -84,9 +104,11 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         `;
 
         if (equipamentos.length === 0) {
-            tableHTML += `<tr><td colspan="${isViewer ? '5' : '6'}" class="py-6 text-center text-slate-500 dark:text-slate-400">Nenhum equipamento encontrado.</td></tr>`;
+            const emptyMsg = onlyFavorites ? 'Nenhum equipamento favoritado ainda.' : 'Nenhum equipamento encontrado.';
+            tableHTML += `<tr><td colspan="${isViewer ? '6' : '7'}" class="py-6 text-center text-slate-500 dark:text-slate-400">${emptyMsg}</td></tr>`;
         } else {
             equipamentos.forEach(eqp => {
+                const isFav = typeof Favorites !== 'undefined' && Favorites.isEquipamento(eqp.id);
                 const isDisponivel = eqp.status === 'DISPONIVEL';
                 const statusBadge = isDisponivel
                     ? `<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span> Disponível</span>`
@@ -102,6 +124,11 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
 
                 tableHTML += `
                     <tr data-eqpid="${eqp.id}" class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                        <td class="py-3.5 px-2 text-center" onclick="event.stopPropagation()">
+                            <button type="button" data-id="${eqp.id}" data-name="${eqp.descricao} ${eqp.modeloMarca || ''}" data-type="equipamento" class="btn-star-fav ${isFav ? 'is-fav' : ''}" title="${isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                                <i data-lucide="star" class="w-4 h-4"></i>
+                            </button>
+                        </td>
                         <td class="py-3.5 px-4 font-semibold text-indigo-600 dark:text-indigo-400 whitespace-nowrap">${eqp.patrimonio || 'Sem Patr.'}</td>
                         <td class="py-3.5 px-4 font-medium text-slate-800 dark:text-slate-100">
                             <span>${eqp.descricao}</span>
@@ -136,6 +163,31 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         tableContainer.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
+
+        // Clique na Estrelinha de Favorito
+        document.querySelectorAll('.btn-star-fav').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.dataset.id;
+                const name = btn.dataset.name || 'Equipamento';
+                const wasFav = btn.classList.contains('is-fav');
+                const nowFav = !wasFav;
+
+                if (typeof Favorites !== 'undefined') {
+                    Favorites.toggleEquipamento(id);
+                }
+
+                btn.classList.toggle('is-fav', nowFav);
+                btn.title = nowFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
+
+                showToast(
+                    nowFav ? `"${name}" adicionado aos favoritos!` : `"${name}" removido dos favoritos.`,
+                    nowFav ? 'success' : 'info'
+                );
+                // NOTA: O item NÃO se move ou desaparece aqui.
+                // O usuário especificou: "Caso eu desfavorite algo também essa coisa só vai sumir dali depois que eu pesquisar ou mudar de aba."
+            });
+        });
 
         document.querySelectorAll('.btn-delete-equip').forEach(btn => {
             btn.addEventListener('click', async (e) => {
@@ -279,6 +331,27 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
     document.getElementById('search-equip')?.addEventListener('input', debounce(renderTable, 300));
     document.getElementById('filter-status-equip')?.addEventListener('change', renderTable);
     document.getElementById('sort-equip')?.addEventListener('change', renderTable);
+
+    // Botão de filtro "Apenas Favoritos"
+    btnFilterFav?.addEventListener('click', () => {
+        onlyFavorites = !onlyFavorites;
+        if (onlyFavorites) {
+            btnFilterFav.classList.add('bg-amber-50', 'dark:bg-amber-950/40', 'text-amber-600', 'dark:text-amber-400', 'border-amber-300', 'dark:border-amber-700/60', 'font-semibold');
+            btnFilterFav.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+            const star = btnFilterFav.querySelector('svg') || btnFilterFav.querySelector('i');
+            if (star) {
+                star.classList.add('fill-amber-500', 'text-amber-500');
+            }
+        } else {
+            btnFilterFav.classList.remove('bg-amber-50', 'dark:bg-amber-950/40', 'text-amber-600', 'dark:text-amber-400', 'border-amber-300', 'dark:border-amber-700/60', 'font-semibold');
+            btnFilterFav.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+            const star = btnFilterFav.querySelector('svg') || btnFilterFav.querySelector('i');
+            if (star) {
+                star.classList.remove('fill-amber-500', 'text-amber-500');
+            }
+        }
+        renderTable();
+    });
 
     if (params.highlightId) {
         setTimeout(() => {
