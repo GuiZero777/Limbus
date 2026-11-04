@@ -259,7 +259,8 @@ const clearHistorico = async () => {
 const getSetores = () => {
     const fromSetoresTable = (StoreState.setores || []).map(s => typeof s === 'string' ? s : s.nome).filter(Boolean);
     const fromFuncionarios = (StoreState.funcionarios || []).map(f => f.setor).filter(Boolean);
-    return [...new Set([...fromSetoresTable, ...fromFuncionarios])].sort();
+    const fromEquipamentos = (StoreState.equipamentos || []).map(e => e.setor).filter(Boolean);
+    return [...new Set([...fromSetoresTable, ...fromFuncionarios, ...fromEquipamentos])].sort();
 };
 
 const addSetor = async (nome) => {
@@ -296,6 +297,12 @@ const editSetor = async (oldName, newName) => {
             f.setor = newName;
         }
     });
+
+    (StoreState.equipamentos || []).forEach(e => {
+        if (e.setor === oldName) {
+            e.setor = newName;
+        }
+    });
 };
 
 const removeSetor = async (name) => {
@@ -312,6 +319,12 @@ const removeSetor = async (name) => {
     StoreState.funcionarios.forEach(f => {
         if (f.setor === name) {
             f.setor = null;
+        }
+    });
+
+    (StoreState.equipamentos || []).forEach(e => {
+        if (e.setor === name) {
+            e.setor = null;
         }
     });
 };

@@ -2,6 +2,7 @@
 
 const renderEquipamentos = (container, headerActions, params = {}) => {
     const isViewer = typeof Auth !== 'undefined' && Auth.isViewer();
+    const setoresList = typeof getSetores === 'function' ? getSetores() : [];
     headerActions.innerHTML = isViewer ? '' : `
         <button id="btn-add-equipamento" class="btn-primary flex items-center gap-2 py-2 text-sm">
             <i data-lucide="plus" class="w-4 h-4"></i>
@@ -15,8 +16,12 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
             <div class="flex flex-wrap items-center gap-3 flex-1">
                 <div class="relative flex-1 min-w-[220px] max-w-md">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                    <input type="text" id="search-equip" value="${params.search || ''}" placeholder="Buscar por patrimônio, serial, modelo..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                    <input type="text" id="search-equip" value="${params.search || ''}" placeholder="Buscar por patrimônio, serial, modelo, setor..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
                 </div>
+                <select id="filter-setor-equip" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
+                    <option value="ALL">Todos os Setores</option>
+                    ${setoresList.map(s => `<option value="${s}" ${params.setor === s ? 'selected' : ''}>${s}</option>`).join('')}
+                </select>
                 <select id="filter-status-equip" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100">
                     <option value="ALL">Todos os Status</option>
                     <option value="DISPONIVEL">Disponíveis</option>
@@ -46,6 +51,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
     const renderTable = () => {
         const filterText = document.getElementById('search-equip')?.value.toLowerCase() || '';
         const statusFilter = document.getElementById('filter-status-equip')?.value || 'ALL';
+        const setorFilter = document.getElementById('filter-setor-equip')?.value || 'ALL';
         const sortMode = document.getElementById('sort-equip')?.value || 'NEWEST';
 
         let equipamentos = [...getEquipamentos()];
@@ -70,7 +76,8 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                 eqp.descricao.toLowerCase().includes(filterText) ||
                 eqp.modeloMarca.toLowerCase().includes(filterText) ||
                 (eqp.patrimonio || '').toLowerCase().includes(filterText) ||
-                (eqp.serialNumber || '').toLowerCase().includes(filterText)
+                (eqp.serialNumber || '').toLowerCase().includes(filterText) ||
+                (eqp.setor || '').toLowerCase().includes(filterText)
             );
         } else if (typeof Favorites !== 'undefined') {
             // Quando NÃO estiver com nada pesquisado, os favoritados aparecem logo no topo!
@@ -86,15 +93,21 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
             equipamentos = equipamentos.filter(eqp => eqp.status === statusFilter);
         }
 
+        // 5. Filtro por Setor
+        if (setorFilter !== 'ALL') {
+            equipamentos = equipamentos.filter(eqp => (eqp.setor || '') === setorFilter);
+        }
+
         let tableHTML = `
             <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-[780px]">
+                <table class="w-full text-left border-collapse min-w-[840px]">
                     <thead>
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
                             <th class="py-3 px-2 w-10 text-center" title="Favoritos"><i data-lucide="star" class="w-3.5 h-3.5 mx-auto text-slate-400"></i></th>
                             <th class="py-3 px-4 font-semibold whitespace-nowrap">Patrimônio</th>
                             <th class="py-3 px-4 font-semibold">Descrição</th>
                             <th class="py-3 px-4 font-semibold">Modelo/Marca</th>
+                            <th class="py-3 px-4 font-semibold whitespace-nowrap">Setor</th>
                             <th class="py-3 px-4 font-semibold whitespace-nowrap">Serial Number</th>
                             <th class="py-3 px-4 font-semibold text-center whitespace-nowrap">Status</th>
                             ${!isViewer ? '<th class="py-3 px-4 font-semibold text-right whitespace-nowrap">Ações</th>' : ''}
@@ -105,7 +118,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
 
         if (equipamentos.length === 0) {
             const emptyMsg = onlyFavorites ? 'Nenhum equipamento favoritado ainda.' : 'Nenhum equipamento encontrado.';
-            tableHTML += `<tr><td colspan="${isViewer ? '6' : '7'}" class="py-6 text-center text-slate-500 dark:text-slate-400">${emptyMsg}</td></tr>`;
+            tableHTML += `<tr><td colspan="${isViewer ? '7' : '8'}" class="py-6 text-center text-slate-500 dark:text-slate-400">${emptyMsg}</td></tr>`;
         } else {
             equipamentos.forEach(eqp => {
                 const isFav = typeof Favorites !== 'undefined' && Favorites.isEquipamento(eqp.id);
@@ -135,6 +148,14 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                             ${eqp.observacoes ? `<span class="block text-xs text-slate-400 italic mt-0.5" title="${eqp.observacoes}">${eqp.observacoes}</span>` : ''}
                         </td>
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300">${eqp.modeloMarca}</td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            ${eqp.setor ? `
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-700/50">
+                                    <i data-lucide="folder" class="w-3 h-3 text-indigo-500 shrink-0"></i>
+                                    <span>${eqp.setor}</span>
+                                </span>
+                            ` : `<span class="text-xs text-slate-400 dark:text-slate-500 italic">Sem Setor</span>`}
+                        </td>
                         <td class="py-3.5 px-4 text-slate-600 dark:text-slate-300 font-mono text-xs whitespace-nowrap">${eqp.serialNumber || 'Sem Serial'}</td>
                         <td class="py-3.5 px-4 text-center whitespace-nowrap">
                             <div class="flex flex-col items-center justify-center gap-1">
@@ -160,6 +181,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         }
 
         tableHTML += `</tbody></table></div>`;
+        tableContainer.innerHTML = tableHTML;
         tableContainer.innerHTML = tableHTML;
 
         if (window.lucide) window.lucide.createIcons();
@@ -308,6 +330,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                 id: allocatedEqp.id,
                                 descricao: allocatedEqp.descricao,
                                 modeloMarca: allocatedEqp.modeloMarca,
+                                setor: allocatedEqp.setor || null,
                                 patrimonio: allocatedEqp.patrimonio || null,
                                 serialNumber: allocatedEqp.serialNumber || null
                             } : null,
@@ -329,6 +352,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
     renderTable();
 
     document.getElementById('search-equip')?.addEventListener('input', debounce(renderTable, 300));
+    document.getElementById('filter-setor-equip')?.addEventListener('change', renderTable);
     document.getElementById('filter-status-equip')?.addEventListener('change', renderTable);
     document.getElementById('sort-equip')?.addEventListener('change', renderTable);
 
@@ -367,7 +391,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
     }
 
     const renderEquipamentoForm = (id = null) => {
-        let eqp = { descricao: '', modeloMarca: '', patrimonio: '', serialNumber: '', observacoes: '', funcionarioId: null };
+        let eqp = { descricao: '', modeloMarca: '', patrimonio: '', serialNumber: '', observacoes: '', funcionarioId: null, setor: '' };
         let isEdit = false;
 
         if (id) {
@@ -379,6 +403,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
         }
 
         const title = isEdit ? 'Editar Equipamento' : 'Novo Equipamento';
+        const currentSetores = typeof getSetores === 'function' ? getSetores() : [];
         const formHTML = `
             <div class="p-6">
                 <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">${title}</h3>
@@ -397,9 +422,18 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Descrição</label>
                         <input type="text" name="descricao" value="${eqp.descricao}" required placeholder="Ex: Notebook, Celular, Monitor" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Modelo / Marca</label>
-                        <input type="text" name="modeloMarca" value="${eqp.modeloMarca}" required placeholder="Ex: Dell Inspiron 15" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Modelo / Marca</label>
+                            <input type="text" name="modeloMarca" value="${eqp.modeloMarca}" required placeholder="Ex: Dell Inspiron 15" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Setor do Equipamento</label>
+                            <select name="setor" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
+                                <option value="">Sem setor definido</option>
+                                ${currentSetores.map(s => `<option value="${s}" ${(eqp.setor || '') === s ? 'selected' : ''}>${s}</option>`).join('')}
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Responsável (Proprietário)</label>
@@ -517,6 +551,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
             const data = {
                 descricao: formData.get('descricao'),
                 modeloMarca: formData.get('modeloMarca'),
+                setor: formData.get('setor') || null,
                 patrimonio: formData.get('patrimonio') || null,
                 serialNumber: formData.get('serialNumber') || null,
                 observacoes: formData.get('observacoes') || null,
@@ -544,7 +579,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                     setor: prevFunc.setor || null
                                 } : null,
                                 equipamentoId: id,
-                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, setor: data.setor, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                                 data: todayStr
                             });
                         }
@@ -561,7 +596,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                     setor: nextFunc.setor || null
                                 } : null,
                                 equipamentoId: id,
-                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                                equipamentoSnapshot: { id, descricao: data.descricao, modeloMarca: data.modeloMarca, setor: data.setor, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                                 data: todayStr
                             });
                         }
@@ -584,7 +619,7 @@ const renderEquipamentos = (container, headerActions, params = {}) => {
                                 setor: nextFunc.setor || null
                             } : null,
                             equipamentoId: newEqp.id,
-                            equipamentoSnapshot: { id: newEqp.id, descricao: data.descricao, modeloMarca: data.modeloMarca, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
+                            equipamentoSnapshot: { id: newEqp.id, descricao: data.descricao, modeloMarca: data.modeloMarca, setor: data.setor, patrimonio: data.patrimonio, serialNumber: data.serialNumber },
                             data: todayStr
                         });
                     }

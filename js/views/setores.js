@@ -32,6 +32,7 @@ const renderSetores = (container, headerActions, params = {}) => {
 
     const renderTable = (filterText = '') => {
         const funcionarios = getFuncionarios();
+        const equipamentos = typeof getEquipamentos === 'function' ? getEquipamentos() : [];
         // Obter todos os setores cadastrados de forma independente
         const setores = getSetores();
         
@@ -48,6 +49,7 @@ const renderSetores = (container, headerActions, params = {}) => {
                         <tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
                             <th class="py-3.5 px-6 font-semibold">Nome do Setor</th>
                             <th class="py-3.5 px-6 font-semibold">Colaboradores</th>
+                            <th class="py-3.5 px-6 font-semibold">Equipamentos</th>
                             <th class="py-3.5 px-6 font-semibold text-right">Ações</th>
                         </tr>
                     </thead>
@@ -55,27 +57,34 @@ const renderSetores = (container, headerActions, params = {}) => {
         `;
 
         if (filtered.length === 0) {
-            tableHTML += `<tr><td colspan="3" class="py-8 text-center text-slate-500 dark:text-slate-400">Nenhum setor encontrado.</td></tr>`;
+            tableHTML += `<tr><td colspan="4" class="py-8 text-center text-slate-500 dark:text-slate-400">Nenhum setor encontrado.</td></tr>`;
         } else {
             filtered.forEach(setor => {
-                const count = funcionarios.filter(f => f.setor === setor).length;
+                const countColabs = funcionarios.filter(f => f.setor === setor).length;
+                const countEquips = equipamentos.filter(e => e.setor === setor).length;
                 tableHTML += `
                     <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                         <td class="py-4 px-6 font-medium text-slate-800 dark:text-slate-100">
-                            <button data-name="${setor}" class="btn-view-colabs text-left hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold flex items-center gap-2 transition-colors" title="Clique para ver os colaboradores">
+                            <button data-name="${setor}" data-tab="colaboradores" class="btn-view-setor text-left hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold flex items-center gap-2 transition-colors" title="Clique para ver detalhes do setor">
                                 <i data-lucide="folder" class="w-4 h-4 text-indigo-500"></i>
                                 <span>${setor}</span>
                             </button>
                         </td>
                         <td class="py-4 px-6 text-slate-600 dark:text-slate-300">
-                            <button data-name="${setor}" class="btn-view-colabs inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-400 dark:hover:bg-indigo-900/50 transition-all cursor-pointer shadow-sm" title="Ver colaboradores vinculados">
+                            <button data-name="${setor}" data-tab="colaboradores" class="btn-view-setor inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-400 dark:hover:bg-indigo-900/50 transition-all cursor-pointer shadow-sm" title="Ver colaboradores vinculados">
                                 <i data-lucide="users" class="w-3.5 h-3.5"></i>
-                                <span>${count} ${count === 1 ? 'colaborador' : 'colaboradores'}</span>
+                                <span>${countColabs} ${countColabs === 1 ? 'colaborador' : 'colaboradores'}</span>
+                            </button>
+                        </td>
+                        <td class="py-4 px-6 text-slate-600 dark:text-slate-300">
+                            <button data-name="${setor}" data-tab="equipamentos" class="btn-view-setor inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 transition-all cursor-pointer shadow-sm" title="Ver equipamentos vinculados">
+                                <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
+                                <span>${countEquips} ${countEquips === 1 ? 'equipamento' : 'equipamentos'}</span>
                             </button>
                         </td>
                         <td class="py-4 px-6 text-right">
                             <div class="flex justify-end gap-1.5">
-                                <button data-name="${setor}" class="btn-view-colabs text-slate-500 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors" title="Ver Colaboradores">
+                                <button data-name="${setor}" data-tab="colaboradores" class="btn-view-setor text-slate-500 hover:text-indigo-600 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors" title="Ver Detalhes do Setor">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </button>
                                 ${!isViewer ? `
@@ -178,16 +187,18 @@ const renderSetores = (container, headerActions, params = {}) => {
         setTimeout(() => input.focus(), 50);
     };
 
-    const abrirModalVerColaboradores = (setorName) => {
+    const abrirModalVerSetor = (setorName, initialTab = 'colaboradores') => {
         const funcionarios = getFuncionarios();
+        const equipamentos = typeof getEquipamentos === 'function' ? getEquipamentos() : [];
         const colabs = funcionarios.filter(f => f.setor === setorName);
+        const equips = equipamentos.filter(e => e.setor === setorName);
 
         const overlay = document.createElement('div');
         overlay.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4';
 
-        let contentHTML = '';
+        let colabsHTML = '';
         if (colabs.length === 0) {
-            contentHTML = `
+            colabsHTML = `
                 <div class="py-8 px-4 text-center">
                     <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center mx-auto mb-3 text-slate-400">
                         <i data-lucide="user-x" class="w-6 h-6"></i>
@@ -197,7 +208,7 @@ const renderSetores = (container, headerActions, params = {}) => {
                 </div>
             `;
         } else {
-            contentHTML = `
+            colabsHTML = `
                 <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/50 pr-1">
                     ${colabs.map(c => `
                         <div class="py-2.5 px-3 rounded-xl hover:bg-indigo-50/70 dark:hover:bg-slate-700/60 transition-all cursor-pointer flex items-center justify-between gap-4 group colab-row-item" data-funcid="${c.id}" title="Clique para ver o perfil completo de ${c.nome}">
@@ -206,7 +217,7 @@ const renderSetores = (container, headerActions, params = {}) => {
                                     ${c.nome.substring(0, 2).toUpperCase()}
                                 </div>
                                 <div class="min-w-0">
-                                    <div class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex items-center gap-1.5 truncate">
+                                    <div class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5 truncate">
                                         <span class="truncate">${c.nome}</span>
                                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-indigo-500 shrink-0"></i>
                                     </div>
@@ -222,27 +233,101 @@ const renderSetores = (container, headerActions, params = {}) => {
             `;
         }
 
+        let equipsHTML = '';
+        if (equips.length === 0) {
+            equipsHTML = `
+                <div class="py-8 px-4 text-center">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center mx-auto mb-3 text-slate-400">
+                        <i data-lucide="laptop" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-300">Nenhum equipamento vinculado a este setor.</p>
+                    <p class="text-xs text-slate-400 mt-1">Ao cadastrar ou editar um equipamento, selecione este setor para associá-lo.</p>
+                </div>
+            `;
+        } else {
+            equipsHTML = `
+                <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/50 pr-1">
+                    ${equips.map(eq => {
+                        const isDisp = eq.status === 'DISPONIVEL';
+                        let responsavelText = 'Disponível';
+                        if (!isDisp) {
+                            const resp = funcionarios.find(f => f.id === eq.funcionarioId);
+                            responsavelText = resp ? `Em uso: ${resp.nome.split(' ')[0]}` : 'Em Uso';
+                        }
+                        return `
+                        <div class="py-2.5 px-3 rounded-xl hover:bg-emerald-50/70 dark:hover:bg-slate-700/60 transition-all cursor-pointer flex items-center justify-between gap-4 group equip-row-item" data-eqpid="${eq.id}" data-search="${eq.patrimonio || eq.serialNumber || eq.descricao}" title="Clique para abrir na Gestão de Equipamentos">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                                    <i data-lucide="laptop" class="w-4 h-4"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex items-center gap-1.5 truncate">
+                                        ${eq.patrimonio ? `<span class="px-1.5 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">#${eq.patrimonio}</span>` : ''}
+                                        <span class="truncate">${eq.descricao}</span>
+                                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-500 shrink-0"></i>
+                                    </div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400 truncate">
+                                        ${eq.modeloMarca || 'Modelo não informado'}${eq.serialNumber ? ` &bull; S/N: ${eq.serialNumber}` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                ${isDisp ? `
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
+                                        Disponível
+                                    </span>
+                                ` : `
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300" title="${responsavelText}">
+                                        ${responsavelText}
+                                    </span>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
         overlay.innerHTML = `
             <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-full max-w-lg p-6 transform scale-95 opacity-0 transition-all duration-200 modal-box">
-                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex items-center justify-between pb-4 mb-3 border-b border-slate-100 dark:border-slate-700">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <i data-lucide="folder" class="w-5 h-5"></i>
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${setorName}</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">${colabs.length} ${colabs.length === 1 ? 'colaborador vinculado' : 'colaboradores vinculados'} &bull; <span class="text-indigo-600 dark:text-indigo-400">Clique para abrir perfil</span></p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">${colabs.length} colaborador(es) &bull; ${equips.length} equipamento(s)</p>
                         </div>
                     </div>
-                    <button type="button" id="btn-fechar-modal-colabs-x" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                    <button type="button" id="btn-fechar-modal-setor-x" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
+
+                <!-- Tabs -->
+                <div class="flex border-b border-slate-200 dark:border-slate-700 mb-4">
+                    <button type="button" id="tab-btn-colabs" class="tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all cursor-pointer">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                        <span>Colaboradores (${colabs.length})</span>
+                    </button>
+                    <button type="button" id="tab-btn-equips" class="tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all cursor-pointer">
+                        <i data-lucide="laptop" class="w-4 h-4"></i>
+                        <span>Equipamentos (${equips.length})</span>
+                    </button>
+                </div>
                 
-                ${contentHTML}
+                <!-- Tab Panes -->
+                <div id="tab-pane-colabs" class="tab-pane">
+                    ${colabsHTML}
+                </div>
+                <div id="tab-pane-equips" class="tab-pane hidden">
+                    ${equipsHTML}
+                </div>
                 
                 <div class="flex justify-end pt-4 mt-4 border-t border-slate-100 dark:border-slate-700">
-                    <button type="button" id="btn-fechar-modal-colabs" class="btn-primary">Fechar</button>
+                    <button type="button" id="btn-fechar-modal-setor" class="btn-primary">Fechar</button>
                 </div>
             </div>
         `;
@@ -264,8 +349,32 @@ const renderSetores = (container, headerActions, params = {}) => {
             }, 200);
         };
 
-        overlay.querySelector('#btn-fechar-modal-colabs').addEventListener('click', fechar);
-        overlay.querySelector('#btn-fechar-modal-colabs-x').addEventListener('click', fechar);
+        overlay.querySelector('#btn-fechar-modal-setor').addEventListener('click', fechar);
+        overlay.querySelector('#btn-fechar-modal-setor-x').addEventListener('click', fechar);
+
+        // Tab Switching
+        const tabColabs = overlay.querySelector('#tab-btn-colabs');
+        const tabEquips = overlay.querySelector('#tab-btn-equips');
+        const paneColabs = overlay.querySelector('#tab-pane-colabs');
+        const paneEquips = overlay.querySelector('#tab-pane-equips');
+
+        const switchTab = (tab) => {
+            if (tab === 'equipamentos') {
+                tabEquips.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 cursor-pointer';
+                tabColabs.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 cursor-pointer';
+                paneColabs.classList.add('hidden');
+                paneEquips.classList.remove('hidden');
+            } else {
+                tabColabs.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 cursor-pointer';
+                tabEquips.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 cursor-pointer';
+                paneEquips.classList.add('hidden');
+                paneColabs.classList.remove('hidden');
+            }
+        };
+
+        tabColabs.addEventListener('click', () => switchTab('colaboradores'));
+        tabEquips.addEventListener('click', () => switchTab('equipamentos'));
+        switchTab(initialTab);
 
         // Click no colaborador -> Ir para Funcionários e abrir perfil
         overlay.querySelectorAll('.colab-row-item').forEach(item => {
@@ -275,14 +384,27 @@ const renderSetores = (container, headerActions, params = {}) => {
                 navigate('funcionarios', { funcId, openProfile: true });
             });
         });
+
+        // Click no equipamento -> Ir para Equipamentos e destacar
+        overlay.querySelectorAll('.equip-row-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const eqpId = e.currentTarget.dataset.eqpid;
+                const search = e.currentTarget.dataset.search;
+                fechar();
+                navigate('equipamentos', { search, highlightId: eqpId });
+            });
+        });
     };
 
+    const abrirModalVerColaboradores = (setorName) => abrirModalVerSetor(setorName, 'colaboradores');
+
     const bindTableEvents = () => {
-        // Evento de Ver Colaboradores
-        document.querySelectorAll('.btn-view-colabs').forEach(btn => {
+        // Evento de Ver Setor (Colaboradores ou Equipamentos)
+        document.querySelectorAll('.btn-view-setor').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const name = e.currentTarget.dataset.name;
-                abrirModalVerColaboradores(name);
+                const tab = e.currentTarget.dataset.tab || 'colaboradores';
+                abrirModalVerSetor(name, tab);
             });
         });
 
@@ -296,7 +418,7 @@ const renderSetores = (container, headerActions, params = {}) => {
                 overlay.innerHTML = `
                     <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 transform scale-95 opacity-0 transition-all duration-200 modal-box">
                         <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-3">Renomear Setor</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Digite o novo nome para o setor <strong>"${oldName}"</strong>. Isso atualizará o setor de todos os colaboradores vinculados.</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Digite o novo nome para o setor <strong>"${oldName}"</strong>. Isso atualizará o setor de todos os colaboradores e equipamentos vinculados.</p>
                         
                         <div class="mb-5">
                             <input type="text" id="input-edit-setor-nome" value="${oldName}" placeholder="Ex: Tecnologia" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:text-slate-100 dark:bg-slate-900">
@@ -363,7 +485,7 @@ const renderSetores = (container, headerActions, params = {}) => {
         document.querySelectorAll('.btn-delete-setor').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const name = e.currentTarget.dataset.name;
-                const ok = await showConfirm(`Tem certeza que deseja remover o setor "${name}"? Os colaboradores vinculados a ele ficarão sem setor.`, {
+                const ok = await showConfirm(`Tem certeza que deseja remover o setor "${name}"? Os colaboradores e equipamentos vinculados a ele ficarão sem setor definido.`, {
                     title: 'Remover Setor',
                     type: 'danger',
                     confirmText: 'Remover'
@@ -395,7 +517,7 @@ const renderSetores = (container, headerActions, params = {}) => {
 
     if (params.openColabs && params.setorName) {
         setTimeout(() => {
-            abrirModalVerColaboradores(params.setorName);
+            abrirModalVerSetor(params.setorName, params.tab || 'colaboradores');
         }, 150);
     }
 };

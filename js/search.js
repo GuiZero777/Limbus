@@ -180,9 +180,10 @@
                 const modelNorm = normalizeText(eqp.modeloMarca || '');
                 const patrNorm = normalizeText(eqp.patrimonio || '');
                 const snNorm = normalizeText(eqp.serialNumber || '');
+                const setorNorm = normalizeText(eqp.setor || '');
                 const obsNorm = normalizeText(eqp.observacoes || '');
 
-                if (!query || descNorm.includes(query) || modelNorm.includes(query) || patrNorm.includes(query) || snNorm.includes(query) || obsNorm.includes(query)) {
+                if (!query || descNorm.includes(query) || modelNorm.includes(query) || patrNorm.includes(query) || snNorm.includes(query) || setorNorm.includes(query) || obsNorm.includes(query)) {
                     const isDisponivel = eqp.status === 'DISPONIVEL';
                     let statusLabel = 'Disponível';
                     if (!isDisponivel) {
@@ -190,11 +191,12 @@
                         statusLabel = func ? `Em uso: ${func.nome.split(' ')[0]}` : 'Em Uso';
                     }
 
+                    const setorSuffix = eqp.setor ? ` • Setor: ${eqp.setor}` : '';
                     equipResults.push({
                         type: 'EQUIPAMENTO',
                         id: eqp.id,
                         title: `${eqp.descricao}${eqp.modeloMarca ? ' - ' + eqp.modeloMarca : ''}`,
-                        subtitle: `Patr: ${eqp.patrimonio || 'S/ Patr.'} ${eqp.serialNumber ? '• S/N: ' + eqp.serialNumber : ''}`,
+                        subtitle: `Patr: ${eqp.patrimonio || 'S/ Patr.'} ${eqp.serialNumber ? '• S/N: ' + eqp.serialNumber : ''}${setorSuffix}`,
                         icon: 'laptop',
                         badge: statusLabel,
                         badgeClass: isDisponivel
@@ -215,13 +217,14 @@
                 const setorNorm = normalizeText(s);
                 if (!query || setorNorm.includes(query)) {
                     const colabsCount = funcionarios.filter(f => (f.setor || '').toUpperCase() === s.toUpperCase()).length;
+                    const equipsCount = equipamentos.filter(e => (e.setor || '').toUpperCase() === s.toUpperCase()).length;
                     setorResults.push({
                         type: 'SETOR',
                         id: s,
                         title: s,
-                        subtitle: `Departamento com ${colabsCount} ${colabsCount === 1 ? 'colaborador vinculado' : 'colaboradores vinculados'}`,
+                        subtitle: `${colabsCount} colaborador(es) • ${equipsCount} equipamento(s)`,
                         icon: 'folder',
-                        badge: `${colabsCount} colab(s)`,
+                        badge: `${colabsCount} colabs / ${equipsCount} equips`,
                         badgeClass: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-800',
                         run: () => navigate('setores', { search: s, openColabs: true, setorName: s })
                     });

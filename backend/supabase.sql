@@ -34,6 +34,7 @@ CREATE TABLE equipamentos (
     patrimonio TEXT,
     "serialNumber" TEXT,
     observacoes TEXT,
+    setor TEXT,
     FOREIGN KEY ("funcionarioId") REFERENCES funcionarios(id) ON DELETE SET NULL
 );
 

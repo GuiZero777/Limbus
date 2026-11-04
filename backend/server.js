@@ -317,6 +317,15 @@ app.put('/api/setores/:oldName', handle(async (req, res) => {
         .update({ setor: newName })
         .eq('setor', oldName);
 
+    // Atualiza todos os equipamentos com oldName para newName
+    try {
+        await supabase.from('equipamentos')
+            .update({ setor: newName })
+            .eq('setor', oldName);
+    } catch (e) {
+        console.warn('[Database] Não foi possível atualizar setor em equipamentos:', e.message);
+    }
+
     if (error) throw error;
     res.json({ oldName, newName });
 }));
@@ -333,6 +342,15 @@ app.delete('/api/setores/:name', handle(async (req, res) => {
     const { error } = await supabase.from('funcionarios')
         .update({ setor: null })
         .eq('setor', name);
+
+    // Remove o setor dos equipamentos associados
+    try {
+        await supabase.from('equipamentos')
+            .update({ setor: null })
+            .eq('setor', name);
+    } catch (e) {
+        console.warn('[Database] Não foi possível remover setor em equipamentos:', e.message);
+    }
 
     if (error) throw error;
     res.status(204).send();
@@ -404,14 +422,24 @@ app.post('/api/equipamentos', handle(async (req, res) => {
     const patrimonio   = req.body.patrimonio ? str(req.body.patrimonio, 'patrimonio', { max: 50 }) : null;
     const serialNumber = req.body.serialNumber ? str(req.body.serialNumber, 'serialNumber', { max: 100 }) : null;
     const observacoes  = req.body.observacoes ? str(req.body.observacoes, 'observacoes', { max: 1000 }) : null;
+    const setor        = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
 
     const id = generateId();
-    const { error } = await supabase.from('equipamentos').insert([{
-        id, descricao, modeloMarca, status: 'DISPONIVEL', 'funcionarioId': null, patrimonio, serialNumber, observacoes
-    }]);
+    const insertObj = {
+        id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null, patrimonio, serialNumber, observacoes, setor
+    };
+
+    let { error } = await supabase.from('equipamentos').insert([insertObj]);
+    if (error && error.code === '42703') {
+        console.warn('[Database] Coluna setor ainda não criada em equipamentos no Supabase. Inserindo sem setor.');
+        const fallbackObj = { ...insertObj };
+        delete fallbackObj.setor;
+        const resRetry = await supabase.from('equipamentos').insert([fallbackObj]);
+        error = resRetry.error;
+    }
 
     if (error) throw error;
-    res.status(201).json({ id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null, patrimonio, serialNumber, observacoes });
+    res.status(201).json({ id, descricao, modeloMarca, status: 'DISPONIVEL', funcionarioId: null, patrimonio, serialNumber, observacoes, setor });
 }));
 
 app.put('/api/equipamentos/:id', handle(async (req, res) => {
@@ -430,12 +458,27 @@ app.put('/api/equipamentos/:id', handle(async (req, res) => {
     if (req.body.patrimonio !== undefined) updateObj.patrimonio = req.body.patrimonio ? str(req.body.patrimonio, 'patrimonio', { max: 50 }) : null;
     if (req.body.serialNumber !== undefined) updateObj.serialNumber = req.body.serialNumber ? str(req.body.serialNumber, 'serialNumber', { max: 100 }) : null;
     if (req.body.observacoes !== undefined) updateObj.observacoes = req.body.observacoes ? str(req.body.observacoes, 'observacoes', { max: 1000 }) : null;
+    if (req.body.setor !== undefined) updateObj.setor = req.body.setor ? str(req.body.setor, 'setor', { max: 100 }) : null;
 
-    const { data, error } = await supabase.from('equipamentos')
+    let { data, error } = await supabase.from('equipamentos')
         .update(updateObj)
         .eq('id', id)
         .select()
         .maybeSingle();
+
+    if (error && error.code === '42703' && 'setor' in updateObj) {
+        console.warn('[Database] Coluna setor ainda não criada em equipamentos no Supabase. Atualizando sem setor.');
+        const fallbackObj = { ...updateObj };
+        delete fallbackObj.setor;
+        const resRetry = await supabase.from('equipamentos')
+            .update(fallbackObj)
+            .eq('id', id)
+            .select()
+            .maybeSingle();
+        data = resRetry.data;
+        error = resRetry.error;
+        if (data) data.setor = updateObj.setor;
+    }
 
     if (error) {
         if (error.code === '23503') throw new ValidationError('funcionarioId não corresponde a um funcionário existente');

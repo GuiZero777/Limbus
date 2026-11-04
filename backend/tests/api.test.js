@@ -298,6 +298,7 @@ describe('Funcionários', () => {
             await request(app).post('/api/setores').send({ nome: 'TI' });
             const f1Res = await criarFuncionario({ nome: 'F1', setor: 'TI' });
             const f2Res = await criarFuncionario({ nome: 'F2', setor: 'TI' });
+            const eqpRes = await criarEquipamento({ descricao: 'Notebook Dev', setor: 'TI' });
 
             const res = await request(app).put('/api/setores/TI').send({ newName: 'Tecnologia' });
             expect(res.status).toBe(200);
@@ -312,6 +313,11 @@ describe('Funcionários', () => {
             expect(updated1.setor).toBe('Tecnologia');
             expect(updated2.setor).toBe('Tecnologia');
 
+            // Verificar se os equipamentos foram atualizados
+            const eqpListRes = await request(app).get('/api/equipamentos');
+            const updatedEqp = eqpListRes.body.find(e => e.id === eqpRes.body.id);
+            expect(updatedEqp.setor).toBe('Tecnologia');
+
             // Verificar se a tabela de setores foi atualizada
             const setRes = await request(app).get('/api/setores');
             expect(setRes.body.find(s => s.nome === 'Tecnologia')).toBeDefined();
@@ -320,6 +326,7 @@ describe('Funcionários', () => {
         it('remove um setor da tabela de setores e de todos os funcionários associados', async () => {
             await request(app).post('/api/setores').send({ nome: 'Marketing' });
             const fRes = await criarFuncionario({ nome: 'F3', setor: 'Marketing' });
+            const eqpRes = await criarEquipamento({ descricao: 'Tablet Mkt', setor: 'Marketing' });
 
             const res = await request(app).delete('/api/setores/Marketing');
             expect(res.status).toBe(204);
@@ -329,6 +336,11 @@ describe('Funcionários', () => {
             const list = listRes.body;
             const updated = list.find(f => f.id === fRes.body.id);
             expect(updated.setor).toBeNull();
+
+            // Verificar se o equipamento foi desassociado
+            const eqpListRes = await request(app).get('/api/equipamentos');
+            const updatedEqp = eqpListRes.body.find(e => e.id === eqpRes.body.id);
+            expect(updatedEqp.setor).toBeNull();
 
             // Verificar se foi removido da tabela de setores
             const setRes = await request(app).get('/api/setores');
@@ -372,9 +384,29 @@ describe('Equipamentos', () => {
             expect(res.body.serialNumber).toBe('XYZ789');
             expect(res.body.observacoes).toBe('Garantia até 2027');
         });
+
+        it('cria equipamento com setor', async () => {
+            const res = await criarEquipamento({
+                descricao: 'Monitor LG',
+                modeloMarca: '24MK430',
+                setor: 'TI'
+            });
+            expect(res.status).toBe(201);
+            expect(res.body.setor).toBe('TI');
+        });
     });
 
     describe('PUT /api/equipamentos/:id', () => {
+        it('atualiza o setor do equipamento', async () => {
+            const { body: eqp } = await criarEquipamento({ setor: 'Financeiro' });
+            expect(eqp.setor).toBe('Financeiro');
+
+            const res = await request(app).put(`/api/equipamentos/${eqp.id}`).send({
+                setor: 'Controladoria'
+            });
+            expect(res.status).toBe(200);
+            expect(res.body.setor).toBe('Controladoria');
+        });
         it('aloca equipamento para funcionário existente', async () => {
             const { body: eqp }  = await criarEquipamento();
             const { body: func } = await criarFuncionario();
